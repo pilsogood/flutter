@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:example/menu/CustomAppBar.dart";
+import "package:examples/menu/CustomAppBar.dart";
 
 class CustomAppMenu extends StatelessWidget {
   @override

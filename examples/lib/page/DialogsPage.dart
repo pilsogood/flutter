@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:example/dialogs/Dialogs.dart";
+import "package:examples/dialogs/Dialogs.dart";
 
 class DialogsPage extends StatelessWidget {
   final Dialogs dialogs = new Dialogs();

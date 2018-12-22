@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 
-import "package:example/main.dart";
-import "package:example/page/second.dart";
-import "package:example/page/LoaderPage.dart";
-import "package:example/page/DialogsPage.dart";
-import "package:example/grid/GridViewPage.dart";
-import "package:example/grid/ListViewPage.dart";
+import "package:examples/main.dart";
+import "package:examples/page/second.dart";
+import "package:examples/page/LoaderPage.dart";
+import "package:examples/page/DialogsPage.dart";
+import "package:examples/grid/GridViewPage.dart";
+import "package:examples/grid/ListViewPage.dart";
 
 final routes = {
   '/home': (BuildContext context) => MyApp(),

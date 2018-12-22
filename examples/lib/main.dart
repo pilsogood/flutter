@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:example/routes/Routes.dart';
-import 'package:example/list/Category.dart';
+import 'package:examples/routes/Routes.dart';
+import 'package:examples/list/Category.dart';
 
 void main() => runApp(MyApp());
 
