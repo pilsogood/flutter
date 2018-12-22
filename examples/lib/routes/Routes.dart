@@ -1,75 +1,75 @@
 import "package:flutter/material.dart";
 
-import "package:example/main.dart";
+import "package:examples/main.dart";
 
-import "package:example/custom/Custom.dart";
-import "package:example/custom/CustomAppMenu.dart";
+import "package:examples/custom/Custom.dart";
+import "package:examples/custom/CustomAppMenu.dart";
 
-import "package:example/layouts/Rows.dart";
-import "package:example/layouts/Columns.dart";
-import "package:example/layouts/Containers.dart";
+import "package:examples/layouts/Rows.dart";
+import "package:examples/layouts/Columns.dart";
+import "package:examples/layouts/Containers.dart";
 
-import "package:example/page/second.dart";
-import "package:example/page/LoaderPage.dart";
-import "package:example/page/DialogsPage.dart";
-import "package:example/grid/GridViewPage.dart";
-import "package:example/grid/ListViewPage.dart";
+import "package:examples/page/second.dart";
+import "package:examples/page/LoaderPage.dart";
+import "package:examples/page/DialogsPage.dart";
+import "package:examples/grid/GridViewPage.dart";
+import "package:examples/grid/ListViewPage.dart";
 
 // widgets
-import "package:example/widgets/basic/FlutterLogoEx.dart";
-import "package:example/widgets/basic/TextEx.dart";
+import "package:examples/widgets/basic/FlutterLogoEx.dart";
+import "package:examples/widgets/basic/TextEx.dart";
 
-import "package:example/widgets/assets/IconEx.dart";
-import "package:example/widgets/assets/ImageEx.dart";
+import "package:examples/widgets/assets/IconEx.dart";
+import "package:examples/widgets/assets/ImageEx.dart";
 
-import "package:example/widgets/button/CardEx.dart";
-import "package:example/widgets/button/DropdownButtonEx.dart";
-import "package:example/widgets/button/FlatButtonEx.dart";
-import "package:example/widgets/button/FloatingActionButtonEx.dart";
-import "package:example/widgets/button/IconButtonEx.dart";
-import "package:example/widgets/button/PopupMenuButtonEx.dart";
-import "package:example/widgets/button/RaisedButtonEx.dart";
+import "package:examples/widgets/button/CardEx.dart";
+import "package:examples/widgets/button/DropdownButtonEx.dart";
+import "package:examples/widgets/button/FlatButtonEx.dart";
+import "package:examples/widgets/button/FloatingActionButtonEx.dart";
+import "package:examples/widgets/button/IconButtonEx.dart";
+import "package:examples/widgets/button/PopupMenuButtonEx.dart";
+import "package:examples/widgets/button/RaisedButtonEx.dart";
 
-import "package:example/widgets/input/CheckboxEx.dart";
-import "package:example/widgets/input/RadioEx.dart";
-import "package:example/widgets/input/SliderEx.dart";
-import "package:example/widgets/input/SwitchEx.dart";
-import "package:example/widgets/input/TextFieldEx.dart";
+import "package:examples/widgets/input/CheckboxEx.dart";
+import "package:examples/widgets/input/RadioEx.dart";
+import "package:examples/widgets/input/SliderEx.dart";
+import "package:examples/widgets/input/SwitchEx.dart";
+import "package:examples/widgets/input/TextFieldEx.dart";
 
 
-import "package:example/widgets/layout/ColumnEx.dart";
-import "package:example/widgets/layout/RowEx.dart";
-import "package:example/widgets/layout/ContainerEx.dart";
-import "package:example/widgets/layout/StackEx.dart";
+import "package:examples/widgets/layout/ColumnEx.dart";
+import "package:examples/widgets/layout/RowEx.dart";
+import "package:examples/widgets/layout/ContainerEx.dart";
+import "package:examples/widgets/layout/StackEx.dart";
 
-import "package:example/widgets/layout/AlignEx.dart";
-import "package:example/widgets/layout/CenterEx.dart";
-import "package:example/widgets/layout/DividerEx.dart";
-import "package:example/widgets/layout/ExpandedEx.dart";
-import "package:example/widgets/layout/FractionallySizedBoxEx.dart";
-import "package:example/widgets/layout/FractionalTranslationEx.dart";
-import "package:example/widgets/layout/PaddingEx.dart";
-import "package:example/widgets/layout/PositionedEx.dart";
-import "package:example/widgets/layout/ScaffoldEx.dart";
-import "package:example/widgets/layout/SizedBoxEx.dart";
+import "package:examples/widgets/layout/AlignEx.dart";
+import "package:examples/widgets/layout/CenterEx.dart";
+import "package:examples/widgets/layout/DividerEx.dart";
+import "package:examples/widgets/layout/ExpandedEx.dart";
+import "package:examples/widgets/layout/FractionallySizedBoxEx.dart";
+import "package:examples/widgets/layout/FractionalTranslationEx.dart";
+import "package:examples/widgets/layout/PaddingEx.dart";
+import "package:examples/widgets/layout/PositionedEx.dart";
+import "package:examples/widgets/layout/ScaffoldEx.dart";
+import "package:examples/widgets/layout/SizedBoxEx.dart";
 
-import "package:example/widgets/navigator/AppBarEx.dart";
-import "package:example/widgets/navigator/TabBarEx.dart";
-import "package:example/widgets/navigator/TabBarViewEx.dart";
-import "package:example/widgets/navigator/BottomNavigationBarEx.dart";
-import "package:example/widgets/navigator/BottomNavigationBarItemEx.dart";
+import "package:examples/widgets/navigator/AppBarEx.dart";
+import "package:examples/widgets/navigator/TabBarEx.dart";
+import "package:examples/widgets/navigator/TabBarViewEx.dart";
+import "package:examples/widgets/navigator/BottomNavigationBarEx.dart";
+import "package:examples/widgets/navigator/BottomNavigationBarItemEx.dart";
 
-import "package:example/widgets/styling/ClipOvalEx.dart";
-import "package:example/widgets/styling/LinearGradientEx.dart";
-import "package:example/widgets/styling/OpacityEx.dart";
-import "package:example/widgets/styling/RadialGradientEx.dart";
-import "package:example/widgets/styling/RotatedBoxEx.dart";
-import "package:example/widgets/styling/ThemeEx.dart";
+import "package:examples/widgets/styling/ClipOvalEx.dart";
+import "package:examples/widgets/styling/LinearGradientEx.dart";
+import "package:examples/widgets/styling/OpacityEx.dart";
+import "package:examples/widgets/styling/RadialGradientEx.dart";
+import "package:examples/widgets/styling/RotatedBoxEx.dart";
+import "package:examples/widgets/styling/ThemeEx.dart";
 
-import "package:example/widgets/view/GridViewCountEx.dart";
-import "package:example/widgets/view/GridViewExtentEx.dart";
-import "package:example/widgets/view/ListViewEx.dart";
-import "package:example/widgets/view/SingleChildScrollViewEx.dart";
+import "package:examples/widgets/view/GridViewCountEx.dart";
+import "package:examples/widgets/view/GridViewExtentEx.dart";
+import "package:examples/widgets/view/ListViewEx.dart";
+import "package:examples/widgets/view/SingleChildScrollViewEx.dart";
 
 
 final routes = {

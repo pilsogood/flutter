@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:example/loader/Loader.dart";
+import "package:examples/loader/Loader.dart";
 
 class LoaderPage extends StatelessWidget {
   @override
