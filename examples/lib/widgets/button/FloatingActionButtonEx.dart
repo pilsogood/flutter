@@ -5,14 +5,18 @@ class FloatingActionButtonEx extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text("First APP"),
+        title: new Text("FloatingActionButton Example"),
       ),
       body: Center(
-        child: RaisedButton( 
-          child: Text('Next page'),
-          onPressed: () => Navigator.pushNamed(context, '/second'),
-        ),
-      )
+          child: Text('FloatingActionButton Example'),
+      ),
+      floatingActionButton: new FloatingActionButton(
+        child: const Icon(Icons.add_call),
+        onPressed: () =>  _onClicked()
+      ),
     );
+  }
+  void _onClicked() {
+    print('click');
   }
 }

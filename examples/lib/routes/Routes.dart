@@ -19,8 +19,8 @@ import "package:examples/grid/ListViewPage.dart";
 import "package:examples/widgets/basic/FlutterLogoEx.dart";
 import "package:examples/widgets/basic/TextEx.dart";
 
-import "package:examples/widgets/assets/IconEx.dart";
-import "package:examples/widgets/assets/ImageEx.dart";
+import "package:examples/widgets/basic/IconEx.dart";
+import "package:examples/widgets/basic/ImageEx.dart";
 
 import "package:examples/widgets/button/CardEx.dart";
 import "package:examples/widgets/button/DropdownButtonEx.dart";
@@ -51,6 +51,7 @@ import "package:examples/widgets/layout/FractionalTranslationEx.dart";
 import "package:examples/widgets/layout/PaddingEx.dart";
 import "package:examples/widgets/layout/PositionedEx.dart";
 import "package:examples/widgets/layout/ScaffoldEx.dart";
+
 import "package:examples/widgets/layout/MaterialAppEx.dart";
 import "package:examples/widgets/layout/SizedBoxEx.dart";
 
@@ -113,7 +114,7 @@ final routes = {
   '/textfield': (BuildContext context) => TextFieldEx(),
 
   '/stack': (BuildContext context) => StackEx(),
-  '/scafford': (BuildContext context) => ScaffoldEx(),
+  '/scafford': (BuildContext context) => ScaffoldEx(title: "Scaffold Example"),
   '/materialapp': (BuildContext context) => MaterialAppEx(),
 
   '/sizedbox': (BuildContext context) => SizedBoxEx(),

@@ -5,14 +5,26 @@ class FlatButtonEx extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text("First APP"),
+        title: const Text("FlatButton Example"),
       ),
       body: Center(
-        child: RaisedButton( 
-          child: Text('Next page'),
-          onPressed: () => Navigator.pushNamed(context, '/second'),
+        child: FlatButton( 
+          key:null,
+          color: Colors.indigo,
+          child: Text('Next page',
+            style: const TextStyle(
+              fontSize: 20.0,
+              color: const Color(0xFFFFFFFFF),
+              fontWeight: FontWeight.w900,
+              fontFamily: "Roboto"
+            )
+          ),
+          onPressed: () => buttonPressed(),
         ),
       )
     );
+  }
+  void buttonPressed(){
+    print('click');
   }
 }

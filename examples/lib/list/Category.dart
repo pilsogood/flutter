@@ -42,6 +42,15 @@ class Category extends StatelessWidget {
         ),
       body: Column(
         children: <Widget>[
+          new TitleText('Init'),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              new Raised("MaterialApp","/materialapp"),
+              new Raised("Scaffold","/scafford"),
+            ],
+          ),
+
           new TitleText('Basic'),
           Row(
             mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
@@ -52,6 +61,7 @@ class Category extends StatelessWidget {
               new Raised("Card","/card"),
             ],
           ),
+          new TitleText('Buttons'),
           Row(
             mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -78,13 +88,7 @@ class Category extends StatelessWidget {
               new Raised("Switch","/switch"),
             ],
           ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              new Raised("MaterialApp","/materialapp"),
-              new Raised("Scaffold","/scafford"),
-            ],
-          ),
+
           Row(
             mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
             children: <Widget>[
