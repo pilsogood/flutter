@@ -9,8 +9,7 @@ class _TextFieldEx extends State<TextFieldEx> {
   String _value = '';
   
   void _onChanged(String value) { setState((){_value = "Changed:" +  value;});}
-  void _onSubmit(String value) { setState((){_value = "Sumit:" + value;});}
-  void _submit(String value) { print("Sumit:" + value);}
+  void _onSubmit(String value) { setState((){_value = "Sumit:" + value; myController.text = '';});}
 
   @override
   void dispose() {
@@ -27,7 +26,7 @@ class _TextFieldEx extends State<TextFieldEx> {
       body: Center(
         child: new Column(
           children: <Widget>[
-            Text('Value = ${_value}'),
+            Text('${_value}'),
             TextField(
               controller: myController,
               decoration: new InputDecoration(
