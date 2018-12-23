@@ -5,12 +5,18 @@ class TextEx extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text("First APP"),
+        title: new Text("Text Examples"),
       ),
       body: Center(
-        child: RaisedButton( 
-          child: Text('Next page'),
-          onPressed: () => Navigator.pushNamed(context, '/second'),
+        child: 
+        Text(
+          "I'm Text ",
+          style: new TextStyle(
+            fontFamily: "Roboto",
+            fontSize: 15.0,
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+          )
         ),
       )
     );

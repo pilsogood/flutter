@@ -5,14 +5,9 @@ class ScaffoldEx extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text("First APP"),
+        title: new Text("Scaffold Example"),
       ),
-      body: Center(
-        child: RaisedButton( 
-          child: Text('Next page'),
-          onPressed: () => Navigator.pushNamed(context, '/second'),
-        ),
-      )
+      body: new Text('Scaffold page'),
     );
   }
 }

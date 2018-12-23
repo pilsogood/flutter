@@ -51,6 +51,7 @@ import "package:examples/widgets/layout/FractionalTranslationEx.dart";
 import "package:examples/widgets/layout/PaddingEx.dart";
 import "package:examples/widgets/layout/PositionedEx.dart";
 import "package:examples/widgets/layout/ScaffoldEx.dart";
+import "package:examples/widgets/layout/MaterialAppEx.dart";
 import "package:examples/widgets/layout/SizedBoxEx.dart";
 
 import "package:examples/widgets/navigator/AppBarEx.dart";
@@ -113,6 +114,8 @@ final routes = {
 
   '/stack': (BuildContext context) => StackEx(),
   '/scafford': (BuildContext context) => ScaffoldEx(),
+  '/materialapp': (BuildContext context) => MaterialAppEx(),
+
   '/sizedbox': (BuildContext context) => SizedBoxEx(),
   '/row': (BuildContext context) => RowEx(),
   '/column': (BuildContext context) => ColumnEx(),
