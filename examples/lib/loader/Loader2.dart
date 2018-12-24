@@ -31,20 +31,14 @@ class _LoaderPage extends State<LoaderPage> with SingleTickerProviderStateMixin 
   @override
   void initState(){
     super.initState();
-    //vsync make sure that no unecessary resource are used by our device
     controller = new AnimationController(duration: new Duration(seconds: 5), vsync: this);
-    //curve is used to define how our animation behaves
     animation = new CurvedAnimation(parent: controller, curve: Curves.bounceOut);
     animation.addListener((){
-      //we call setState everytime when the animation value changes
       this.setState(() {});
     });
     animation.addStatusListener((AnimationStatus status){
     });
-    /*to start the animation we use this but it shows animation
-    only once i.e you have to restart app again n again*/
     //controller.forward(); /
-    //use controller.repeat() to repeat your animation
     controller.repeat();
   }
 

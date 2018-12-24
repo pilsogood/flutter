@@ -80,6 +80,7 @@ import "package:examples/widgets/navigator/SlidingMenu1Ex.dart";
 import "package:examples/widgets/navigator/SlidingMenu2Ex.dart";
 
 import "package:examples/widgets/request/httpRequest.dart";
+import "package:examples/widgets/request/jsonStorage.dart";
 
 
 final routes = {
@@ -161,6 +162,7 @@ final routes = {
   '/slidingmenu2': (BuildContext context) => SlidingMenu2Ex(),
 
   '/httprequest': (BuildContext context) => HttpRequest(),
+  '/jsonstorage': (BuildContext context) => JsonStorage(),
 
   '/loader1': (BuildContext context) => Loader(),
   '/loader2': (BuildContext context) => Loader2(),
