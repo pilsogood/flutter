@@ -1,12 +1,26 @@
 import "package:flutter/material.dart";
 import "dart:math";
 
-class Loader extends StatefulWidget {
+class Loader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: new Text("Loader Example"),
+      ),
+      body: Center(
+        child: LoaderPage()
+      )
+    );
+  }
+}
+
+class LoaderPage extends StatefulWidget {
   @override
   _LoaderState createState() => _LoaderState();
 }
 
-class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
+class _LoaderState extends State<LoaderPage> with SingleTickerProviderStateMixin {
 
   AnimationController controller;
   Animation<double> animation_rotation;

@@ -10,7 +10,10 @@ import "package:examples/layouts/Columns.dart";
 import "package:examples/layouts/Containers.dart";
 
 import "package:examples/page/second.dart";
-import "package:examples/page/LoaderPage.dart";
+
+import "package:examples/loader/Loader.dart";
+import "package:examples/loader/Loader2.dart";
+
 import "package:examples/page/DialogsPage.dart";
 import "package:examples/grid/GridViewPage.dart";
 import "package:examples/grid/ListViewPage.dart";
@@ -73,6 +76,11 @@ import "package:examples/widgets/view/GridViewExtentEx.dart";
 import "package:examples/widgets/view/ListViewEx.dart";
 import "package:examples/widgets/view/SingleChildScrollViewEx.dart";
 
+import "package:examples/widgets/navigator/SlidingMenu1Ex.dart";
+import "package:examples/widgets/navigator/SlidingMenu2Ex.dart";
+
+import "package:examples/widgets/request/httpRequest.dart";
+
 
 final routes = {
   '/home': (BuildContext context) => MyApp(),
@@ -86,7 +94,7 @@ final routes = {
   
   '/first': (BuildContext context) => DialogsPage(),
   '/second': (BuildContext context) => SecondPage(),
-  '/loader': (BuildContext context) => LoaderPage(),
+  '/loader': (BuildContext context) => Loader(),
   '/dialogs': (BuildContext context) => DialogsPage(),
   '/gridview': (BuildContext context) => GridViewPage(),
   '/listview2': (BuildContext context) => ListViewPage(),
@@ -149,4 +157,11 @@ final routes = {
   '/listview': (BuildContext context) => ListViewEx(),
   '/singlechildscrollview': (BuildContext context) => SingleChildScrollViewEx(),
 
+  '/slidingmenu1': (BuildContext context) => SlidingMenu1Ex(),
+  '/slidingmenu2': (BuildContext context) => SlidingMenu2Ex(),
+
+  '/httprequest': (BuildContext context) => HttpRequest(),
+
+  '/loader1': (BuildContext context) => Loader(),
+  '/loader2': (BuildContext context) => Loader2(),
 };

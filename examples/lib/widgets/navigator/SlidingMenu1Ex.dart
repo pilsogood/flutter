@@ -1,12 +1,12 @@
 import "package:flutter/material.dart";
 import "package:examples/widgets/input/listviewPage/otherPage.dart";
 
-class SliderEx extends StatefulWidget {
+class SlidingMenu1Ex extends StatefulWidget {
   @override
-  _SliderEx createState() => _SliderEx();
+  _SlidingMenu1Ex createState() => _SlidingMenu1Ex();
 }
 
-class _SliderEx extends State<SliderEx> {
+class _SlidingMenu1Ex extends State<SlidingMenu1Ex> {
 
   String mainImage = "https://www.tripgrida.com/img/profile/1_1448624008.jpg";
   String otherImage = "https://www.tripgrida.com/img/profile/261_1444676018.jpg";
