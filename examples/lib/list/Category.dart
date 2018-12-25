@@ -49,7 +49,7 @@ class Category extends StatelessWidget {
           //      makeRaisedButton(context,"Card","/card"),
           //   ],
           // ),
-          // makeTitle('Buttons'),
+          makeTitle('Buttons'),
           // Row(
           //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
           //   children: <Widget>[
@@ -58,14 +58,28 @@ class Category extends StatelessWidget {
           //      makeRaisedButton(context,"PopupMenu","/popupmenubutton"),
           //   ],
           // ),
-          // Row(
-          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-          //   children: <Widget>[
-          //      makeRaisedButton(context,"RaisedButton","/raisedbutton"),
-          //      makeRaisedButton(context,"FlatButton","/flatbutton"),
-          //      makeRaisedButton(context,"FloatingActionButton","/flatactionbutton"),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              makeRaisedButton(context,"Switch","/switch"),
+               makeRaisedButton(context,"Slider","/slider"),
+               makeRaisedButton(context,"DatePicker","/datepicker"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+               makeRaisedButton(context,"RaisedButton","/raisedbutton"),
+               makeRaisedButton(context,"FlatButton","/flatbutton"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+               makeRaisedButton(context,"FloatingActionButton","/flatactionbutton"),
+               makeRaisedButton(context,"FloatingActionButtonCenter","/flatactionbuttoncenter"),
+            ],
+          ),
           makeTitle('Basic'),
           Row(
             mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
@@ -121,48 +135,49 @@ class Category extends StatelessWidget {
             children: <Widget>[
                makeRaisedButton(context,"AppBar","/appbar"),
                makeRaisedButton(context,"TabBar","/tabbar"),
+               makeRaisedButton(context,"ChangingIcon","/changingicon"),
             ],
           ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"BottomNavigationBar","/bottomnavigationbar"),
-               makeRaisedButton(context,"BottomNavigationBarItem","/bottomnavigationbaritem"),
-            ],
-          ),
-          makeTitle('Request'),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"HttpRequest","/httprequest"),
-               makeRaisedButton(context,"JsonStorage","/jsonstorage"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"ClipOval","/clipoval"),
-               makeRaisedButton(context,"LinearGradient","/lineargradient"),
-               makeRaisedButton(context,"Opacity","/opacity"),
-               makeRaisedButton(context,"RadialGradient","/radialgradient"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"RotatedBox","/listview"),
-               makeRaisedButton(context,"Theme","/singlechildscrollview"),
-               makeRaisedButton(context,"GridViewCount","/gridviewcount"),
-               makeRaisedButton(context,"GridViewExtent","/gridviewextent"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"ListViewEx","/listview"),
-               makeRaisedButton(context,"SingleChildScrollViewEx","/singlechildscrollview"),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"BottomNavigationBar","/bottomnavigationbar"),
+          //      makeRaisedButton(context,"BottomNavigationBarItem","/bottomnavigationbaritem"),
+          //   ],
+          // ),
+          // makeTitle('Request'),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"HttpRequest","/httprequest"),
+          //      makeRaisedButton(context,"JsonStorage","/jsonstorage"),
+          //   ],
+          // ),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"ClipOval","/clipoval"),
+          //      makeRaisedButton(context,"LinearGradient","/lineargradient"),
+          //      makeRaisedButton(context,"Opacity","/opacity"),
+          //      makeRaisedButton(context,"RadialGradient","/radialgradient"),
+          //   ],
+          // ),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"RotatedBox","/listview"),
+          //      makeRaisedButton(context,"Theme","/singlechildscrollview"),
+          //      makeRaisedButton(context,"GridViewCount","/gridviewcount"),
+          //      makeRaisedButton(context,"GridViewExtent","/gridviewextent"),
+          //   ],
+          // ),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"ListViewEx","/listview"),
+          //      makeRaisedButton(context,"SingleChildScrollViewEx","/singlechildscrollview"),
+          //   ],
+          // ),
         ]
       ),
     );

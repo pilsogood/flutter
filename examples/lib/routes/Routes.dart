@@ -29,6 +29,8 @@ import "package:examples/widgets/button/CardEx.dart";
 import "package:examples/widgets/button/DropdownButtonEx.dart";
 import "package:examples/widgets/button/FlatButtonEx.dart";
 import "package:examples/widgets/button/FloatingActionButtonEx.dart";
+import "package:examples/widgets/button/FloatingActionButtonCenterEx.dart";
+
 import "package:examples/widgets/button/IconButtonEx.dart";
 import "package:examples/widgets/button/PopupMenuButtonEx.dart";
 import "package:examples/widgets/button/RaisedButtonEx.dart";
@@ -38,7 +40,7 @@ import "package:examples/widgets/input/RadioEx.dart";
 import "package:examples/widgets/input/SliderEx.dart";
 import "package:examples/widgets/input/SwitchEx.dart";
 import "package:examples/widgets/input/TextFieldEx.dart";
-
+import "package:examples/widgets/input/DatePickerEx.dart";
 
 import "package:examples/widgets/layout/ColumnEx.dart";
 import "package:examples/widgets/layout/RowEx.dart";
@@ -63,6 +65,7 @@ import "package:examples/widgets/navigator/TabBarEx.dart";
 import "package:examples/widgets/navigator/TabBarViewEx.dart";
 import "package:examples/widgets/navigator/BottomNavigationBarEx.dart";
 import "package:examples/widgets/navigator/BottomNavigationBarItemEx.dart";
+import "package:examples/widgets/navigator/ChangingIconEx.dart";
 
 import "package:examples/widgets/styling/ClipOvalEx.dart";
 import "package:examples/widgets/styling/LinearGradientEx.dart";
@@ -112,6 +115,7 @@ final routes = {
   '/dropdownbutton': (BuildContext context) => DropdownButtonEx(),
   '/flatbutton': (BuildContext context) => FlatButtonEx(),
   '/flatactionbutton': (BuildContext context) => FloatingActionButtonEx(),
+  '/flatactionbuttoncenter': (BuildContext context) => FloatingActionButtonCenterEx(),
   '/iconbutton': (BuildContext context) => IconButtonEx(),
   '/popupmenubutton': (BuildContext context) => PopupMenuButtonEx(),
   '/raisedbutton': (BuildContext context) => RaisedButtonEx(),
@@ -121,6 +125,7 @@ final routes = {
   '/slider': (BuildContext context) => SliderEx(),
   '/switch': (BuildContext context) => SwitchEx(),
   '/textfield': (BuildContext context) => TextFieldEx(),
+  '/datepicker': (BuildContext context) => DatePickerEx(),
 
   '/stack': (BuildContext context) => StackEx(),
   '/scafford': (BuildContext context) => ScaffoldEx(title: "Scaffold Example"),
@@ -145,6 +150,7 @@ final routes = {
   '/bottomnavigationbaritem': (BuildContext context) => BottomNavigationBarItemEx(),
   '/tabbarview': (BuildContext context) => TabBarViewEx(),
   '/tabbar': (BuildContext context) => TabBarEx(),
+  '/changingicon': (BuildContext context) => ChangingIconEx(),
 
   '/clipoval': (BuildContext context) => ClipOvalEx(),
   '/lineargradient': (BuildContext context) => LinearGradientEx(),
