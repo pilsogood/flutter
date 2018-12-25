@@ -28,7 +28,7 @@ class _AppStatus extends State<FloatingActionButtonEx> {
           )
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: _onClicked,
+          onPressed:  _onClicked,
           mini: false,
           child: new Text("Click!")
         ),
