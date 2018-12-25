@@ -34,6 +34,7 @@ import "package:examples/widgets/button/FloatingActionButtonCenterEx.dart";
 import "package:examples/widgets/button/IconButtonEx.dart";
 import "package:examples/widgets/button/PopupMenuButtonEx.dart";
 import "package:examples/widgets/button/RaisedButtonEx.dart";
+import "package:examples/widgets/button/FooterButtonEx.dart";
 
 import "package:examples/widgets/input/CheckboxEx.dart";
 import "package:examples/widgets/input/RadioEx.dart";
@@ -64,8 +65,10 @@ import "package:examples/widgets/navigator/AppBarEx.dart";
 import "package:examples/widgets/navigator/TabBarEx.dart";
 import "package:examples/widgets/navigator/TabBarViewEx.dart";
 import "package:examples/widgets/navigator/BottomNavigationBarEx.dart";
+import "package:examples/widgets/navigator/BottomSheetsEx.dart";
 import "package:examples/widgets/navigator/BottomNavigationBarItemEx.dart";
 import "package:examples/widgets/navigator/ChangingIconEx.dart";
+import "package:examples/widgets/navigator/SnackBarEx.dart";
 
 import "package:examples/widgets/styling/ClipOvalEx.dart";
 import "package:examples/widgets/styling/LinearGradientEx.dart";
@@ -78,12 +81,17 @@ import "package:examples/widgets/view/GridViewCountEx.dart";
 import "package:examples/widgets/view/GridViewExtentEx.dart";
 import "package:examples/widgets/view/ListViewEx.dart";
 import "package:examples/widgets/view/SingleChildScrollViewEx.dart";
+import "package:examples/widgets/view/HorizontalListViewEx.dart";
 
 import "package:examples/widgets/navigator/SlidingMenu1Ex.dart";
 import "package:examples/widgets/navigator/SlidingMenu2Ex.dart";
 
 import "package:examples/widgets/request/httpRequest.dart";
 import "package:examples/widgets/request/jsonStorage.dart";
+
+
+import "package:examples/widgets/dialogs/AlertDialogEx.dart";
+import "package:examples/widgets/dialogs/SimpleDialogEx.dart";
 
 
 final routes = {
@@ -119,6 +127,7 @@ final routes = {
   '/iconbutton': (BuildContext context) => IconButtonEx(),
   '/popupmenubutton': (BuildContext context) => PopupMenuButtonEx(),
   '/raisedbutton': (BuildContext context) => RaisedButtonEx(),
+  '/footerbutton': (BuildContext context) => FooterButtonEx(),
 
   '/checkbox': (BuildContext context) => CheckboxEx(),
   '/radio': (BuildContext context) => RadioEx(),
@@ -144,13 +153,15 @@ final routes = {
   '/container': (BuildContext context) => ContainerEx(),
   '/center': (BuildContext context) => CenterEx(),
 
-
   '/appbar': (BuildContext context) => AppBarEx(),
   '/bottomnavigationbar': (BuildContext context) => BottomNavigationBarEx(),
+  '/bottomsheets': (BuildContext context) => BottomSheetsEx(),
   '/bottomnavigationbaritem': (BuildContext context) => BottomNavigationBarItemEx(),
   '/tabbarview': (BuildContext context) => TabBarViewEx(),
   '/tabbar': (BuildContext context) => TabBarEx(),
   '/changingicon': (BuildContext context) => ChangingIconEx(),
+
+  '/snackbar': (BuildContext context) => SnackBarEx(),
 
   '/clipoval': (BuildContext context) => ClipOvalEx(),
   '/lineargradient': (BuildContext context) => LinearGradientEx(),
@@ -163,6 +174,7 @@ final routes = {
   '/gridviewextent': (BuildContext context) => GridViewExtentEx(),
   '/listview': (BuildContext context) => ListViewEx(),
   '/singlechildscrollview': (BuildContext context) => SingleChildScrollViewEx(),
+  '/horizontallistview': (BuildContext context) => HorizontalListViewEx(),
 
   '/slidingmenu1': (BuildContext context) => SlidingMenu1Ex(),
   '/slidingmenu2': (BuildContext context) => SlidingMenu2Ex(),
@@ -172,4 +184,8 @@ final routes = {
 
   '/loader1': (BuildContext context) => Loader(),
   '/loader2': (BuildContext context) => Loader2(),
+
+
+  '/alertdialog': (BuildContext context) => AlertDialogEx(),
+  '/simpledialog': (BuildContext context) => SimpleDialogEx(),
 };

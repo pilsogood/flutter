@@ -71,6 +71,7 @@ class Category extends StatelessWidget {
             children: <Widget>[
                makeRaisedButton(context,"RaisedButton","/raisedbutton"),
                makeRaisedButton(context,"FlatButton","/flatbutton"),
+               makeRaisedButton(context,"FooterButton","/footerbutton"),
             ],
           ),
           Row(
@@ -138,13 +139,15 @@ class Category extends StatelessWidget {
                makeRaisedButton(context,"ChangingIcon","/changingicon"),
             ],
           ),
-          // Row(
-          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-          //   children: <Widget>[
-          //      makeRaisedButton(context,"BottomNavigationBar","/bottomnavigationbar"),
-          //      makeRaisedButton(context,"BottomNavigationBarItem","/bottomnavigationbaritem"),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+               makeRaisedButton(context,"BottomNavigationBar","/bottomnavigationbar"),
+              //  makeRaisedButton(context,"BottomNavigationBarItem","/bottomnavigationbaritem"),
+               makeRaisedButton(context,"BottomSheets","/bottomsheets"),
+               makeRaisedButton(context,"SnackBar","/snackbar"),
+            ],
+          ),
           // makeTitle('Request'),
           // Row(
           //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
@@ -162,15 +165,16 @@ class Category extends StatelessWidget {
           //      makeRaisedButton(context,"RadialGradient","/radialgradient"),
           //   ],
           // ),
-          // Row(
-          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-          //   children: <Widget>[
-          //      makeRaisedButton(context,"RotatedBox","/listview"),
-          //      makeRaisedButton(context,"Theme","/singlechildscrollview"),
-          //      makeRaisedButton(context,"GridViewCount","/gridviewcount"),
-          //      makeRaisedButton(context,"GridViewExtent","/gridviewextent"),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              //  makeRaisedButton(context,"RotatedBox","/listview"),
+              //  makeRaisedButton(context,"Theme","/singlechildscrollview"),
+              //  makeRaisedButton(context,"GridViewCount","/gridviewcount"),
+              //  makeRaisedButton(context,"GridViewExtent","/gridviewextent"),
+               makeRaisedButton(context,"HorizontalListViewEx","/horizontallistview"),
+            ],
+          ),
           // Row(
           //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
           //   children: <Widget>[
@@ -178,6 +182,15 @@ class Category extends StatelessWidget {
           //      makeRaisedButton(context,"SingleChildScrollViewEx","/singlechildscrollview"),
           //   ],
           // ),
+
+          makeTitle('Dialogs'),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+               makeRaisedButton(context,"AlertDialog","/alertdialog"),
+               makeRaisedButton(context,"SimpleDialog","/simpledialog"),
+            ],
+          ),
         ]
       ),
     );
