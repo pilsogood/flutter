@@ -5,50 +5,40 @@ import 'dart:convert';
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
-class ListViewMapEx extends StatefulWidget {
+class ListViewWithMapEx extends StatefulWidget {
   @override
   _ListViewExt createState() => _ListViewExt();
 }
 
-class _ListViewExt extends State<ListViewMapEx> {
+class _ListViewExt extends State<ListViewWithMapEx> {
 
-  String httpUrl = "https://api.tripgrida.com/api/test/m";
-  List data; 
-
-  Future<String> getData() async {
-    http.Response response = await http.get(
-      Uri.encodeFull(httpUrl),
-      headers: {
-        "Accept": "application/json"
-      }
-    );
-
-    this.setState((){
-        data = json.decode(response.body);
-    });
-
-    return "success!";    
-  }
-
-  @override
-  void initState() {
-    this.getData();
-  }
+  List _pets = ['dogs', 'cats', 'horses', 'fish'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("ListView Example"), 
+        title: new Text("ListView with Darts List Example"), 
         backgroundColor:Colors.deepOrange
       ),
-      body: new ListView.builder(
-        itemCount: data == null ? 0 :data.length,
-        itemBuilder: (BuildContext context, int index) {
-          return new Card(
-            child: new Text(data[index]['name']),
-          );
-        },
+      body: new Container(
+        child: new Column(
+          children: <Widget>[
+            new Text('Pets'),
+            new Expanded(
+              child: new ListView.builder(
+                itemCount: _pets.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return new Row(
+                    children: <Widget>[
+                      new Text(_pets.elementAt(index)),
+                    ],
+                  );
+                },
+              )
+            )
+          ],
+        )
       )
     );
   }

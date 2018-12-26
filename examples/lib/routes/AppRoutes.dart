@@ -98,12 +98,14 @@ import "package:examples/widgets/dialogs/SimpleDialogEx.dart";
 import "package:examples/widgets/view/ChatEx.dart";
 import "package:examples/widgets/view/MapEx.dart";
 
+
 // app class 
 import "package:examples/app/Intro.dart";
 
 final routes = {
   '/intro': (BuildContext context) => Intro(),
   
+
   '/home': (BuildContext context) => MyApp(),
   
   '/custom': (BuildContext context) => Custom(),
@@ -203,5 +205,5 @@ final routes = {
 
   '/chat': (BuildContext context) => ChatEx(),
   '/map': (BuildContext context) => MapEx(),
-
+  
 };

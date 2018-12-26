@@ -1,55 +1,65 @@
 
-import 'dart:async';
-import 'dart:convert';
-
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
-class ListViewListEx extends StatefulWidget {
+import "dart:async";
+import "dart:convert";
+import "dart:io";
+
+class ListViewWithListEx extends StatefulWidget {
   @override
   _ListViewExt createState() => _ListViewExt();
 }
 
-class _ListViewExt extends State<ListViewListEx> {
+class _ListViewExt extends State<ListViewWithListEx> {
 
-  String httpUrl = "https://api.tripgrida.com/api/test/m";
-  List data; 
+  Map _countries = new Map();
 
-  Future<String> getData() async {
-    http.Response response = await http.get(
-      Uri.encodeFull(httpUrl),
-      headers: {
-        "Accept": "application/json"
-      }
-    );
+  void _getData() async {
+    var url = 'http://country.io/names.json';
+    var response = await http.get(url);
 
-    this.setState((){
-        data = json.decode(response.body);
-    });
-
-    return "success!";    
+    if(response.statusCode == 200) {
+      setState(() {
+        _countries = json.decode(response.body);
+        print("Loaded : ${_countries.length} countries");        
+      });
+    }
   }
 
-  @override
+  @override 
   void initState() {
-    this.getData();
+    _getData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("ListView Example"), 
+        title: new Text("ListView with Dart MAP Example"), 
         backgroundColor:Colors.deepOrange
       ),
-      body: new ListView.builder(
-        itemCount: data == null ? 0 :data.length,
-        itemBuilder: (BuildContext context, int index) {
-          return new Card(
-            child: new Text(data[index]['name']),
-          );
-        },
-      )
+      body: new Container(
+        child: new Column(
+          children: <Widget>[
+            new Text('Countries'),
+            new Expanded(
+              child: new ListView.builder(
+                itemCount: _countries.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String key = _countries.keys.elementAt(index);
+                  return new Row(
+                    children: <Widget>[
+                      new Text('${key} :'),
+                      new Text(_countries[key]),
+                    ],
+                  );
+                },
+              )
+            )
+          ],
+        )
+      ),
     );
   }
 }
