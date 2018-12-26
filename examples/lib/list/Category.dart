@@ -49,7 +49,7 @@ class Category extends StatelessWidget {
           //      makeRaisedButton(context,"Card","/card"),
           //   ],
           // ),
-          makeTitle('Buttons'),
+          // makeTitle('Buttons'),
           // Row(
           //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
           //   children: <Widget>[
@@ -58,14 +58,14 @@ class Category extends StatelessWidget {
           //      makeRaisedButton(context,"PopupMenu","/popupmenubutton"),
           //   ],
           // ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              makeRaisedButton(context,"Switch","/switch"),
-               makeRaisedButton(context,"Slider","/slider"),
-               makeRaisedButton(context,"DatePicker","/datepicker"),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //     makeRaisedButton(context,"Switch","/switch"),
+          //      makeRaisedButton(context,"Slider","/slider"),
+          //      makeRaisedButton(context,"DatePicker","/datepicker"),
+          //   ],
+          // ),
           Row(
             mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -81,22 +81,22 @@ class Category extends StatelessWidget {
                makeRaisedButton(context,"FloatingActionButtonCenter","/flatactionbuttoncenter"),
             ],
           ),
-          makeTitle('Basic'),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"Sliding1","/slidingmenu1"),
-               makeRaisedButton(context,"Sliding2","/slidingmenu2"),
-            ],
-          ),
-          makeTitle('Loader'),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"Loader1","/loader1"),
-               makeRaisedButton(context,"Loade2","/loader2"),
-            ],
-          ),
+          // makeTitle('Basic'),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"Sliding1","/slidingmenu1"),
+          //      makeRaisedButton(context,"Sliding2","/slidingmenu2"),
+          //   ],
+          // ),
+          // makeTitle('Loader'),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"Loader1","/loader1"),
+          //      makeRaisedButton(context,"Loade2","/loader2"),
+          //   ],
+          // ),
           // Row(
           //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
           //   children: <Widget>[
@@ -123,14 +123,14 @@ class Category extends StatelessWidget {
           //      makeRaisedButton(context,"FractionallySizedBox","/fractionallysizedbox"),
           //   ],
           // ),
-          // Row(
-          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-          //   children: <Widget>[
-          //      makeRaisedButton(context,"Expanded","/expanded"),
-          //      makeRaisedButton(context,"Divider","/divider"),
-          //      makeRaisedButton(context,"Center","/center"),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+               makeRaisedButton(context,"Expanded","/expanded"),
+               makeRaisedButton(context,"Divider","/divider"),
+               makeRaisedButton(context,"Center","/center"),
+            ],
+          ),
           Row(
             mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
             children: <Widget>[

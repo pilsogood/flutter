@@ -17,12 +17,9 @@ class _AppStatus extends State<ExpandedEx> {
           child: new Column(
             children: <Widget>[
               new Text("Image from assets: "),
-              new Image.asset("assets/images/dog.jpeg"),
+              new Image.asset("/assets/images/dog.jpeg"),
               new Text("Image from network: "),
-              // new Image.network("https://www.tripgrida.com/img/profile/1_1448624008.jpg"),
-              new Expanded(
-                child: new Image.network("https://www.tripgrida.com/img/profile/1_1448624008.jpg")
-                )
+              new Expanded(child: new Image.network("https://static.makeuseof.com/wp-content/uploads/2012/10/flutter-logo.jpg"))
             ],
           ),
         )
