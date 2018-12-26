@@ -100,10 +100,12 @@ import "package:examples/widgets/view/MapEx.dart";
 
 // app class 
 import "package:examples/app/Intro.dart";
+import "package:examples/app/Tr.dart";
 
 final routes = {
   '/intro': (BuildContext context) => Intro(),
-  
+  '/tr': (BuildContext context) => Tr(),
+
   '/home': (BuildContext context) => MyApp(),
   
   '/custom': (BuildContext context) => Custom(),

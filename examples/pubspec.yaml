@@ -26,7 +26,8 @@ dependencies:
   flutter_image: ^1.0.0
 
   splashscreen:
-
+  image_picker: ^0.4.10
+  tflite:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -56,6 +57,8 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/dog.jpeg
+    - assets/Label.txt
+    - assets/mobilenet_v1_1.0_224.tflite
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

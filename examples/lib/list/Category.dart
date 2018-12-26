@@ -38,6 +38,7 @@ class Category extends StatelessWidget {
             mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
             children: <Widget>[
                makeRaisedButton(context,"App","/intro"),
+               makeRaisedButton(context,"Tr","/tr"),
             ],
           ),
           // makeTitle('Init'),
