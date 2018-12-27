@@ -41,6 +41,15 @@ class Category extends StatelessWidget {
                makeRaisedButton(context,"Tr","/tr"),
             ],
           ),
+
+          makeTitle('Effects'),
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+               makeRaisedButton(context,"Typing","/typing"),
+               makeRaisedButton(context,"Fade","/fade"),
+            ],
+          ),
           // makeTitle('Init'),
           // Row(
           //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
@@ -175,43 +184,43 @@ class Category extends StatelessWidget {
           //      makeRaisedButton(context,"RadialGradient","/radialgradient"),
           //   ],
           // ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
               //  makeRaisedButton(context,"RotatedBox","/listview"),
               //  makeRaisedButton(context,"Theme","/singlechildscrollview"),
               //  makeRaisedButton(context,"GridViewCount","/gridviewcount"),
               //  makeRaisedButton(context,"GridViewExtent","/gridviewextent"),
-               makeRaisedButton(context,"HorizontalListViewEx","/horizontallistview"),
-               makeRaisedButton(context,"HorizontalListViewFullEx","/horizontallistviewfull"),
-                makeRaisedButton(context,"ListViewEx","/listview"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"ListViewWithListEx","/listviewwithlist"),
-               makeRaisedButton(context,"ListViewWithMapEx","/listviewwithmap"),
+              //  makeRaisedButton(context,"HorizontalListViewEx","/horizontallistview"),
+              //  makeRaisedButton(context,"HorizontalListViewFullEx","/horizontallistviewfull"),
+              //   makeRaisedButton(context,"ListViewEx","/listview"),
+          //   ],
+          // ),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"ListViewWithListEx","/listviewwithlist"),
+          //      makeRaisedButton(context,"ListViewWithMapEx","/listviewwithmap"),
           //      makeRaisedButton(context,"SingleChildScrollViewEx","/singlechildscrollview"),
-            ],
-          ),
+          //   ],
+          // ),
 
-          makeTitle('Dialogs'),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"AlertDialog","/alertdialog"),
-               makeRaisedButton(context,"SimpleDialog","/simpledialog"),
-            ],
-          ),
-          makeTitle('Chat'),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"Chat","/chat"),
-               makeRaisedButton(context,"Map","/map"),
-            ],
-          ),
+          // makeTitle('Dialogs'),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"AlertDialog","/alertdialog"),
+          //      makeRaisedButton(context,"SimpleDialog","/simpledialog"),
+          //   ],
+          // ),
+          // makeTitle('Chat'),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"Chat","/chat"),
+          //      makeRaisedButton(context,"Map","/map"),
+          //   ],
+          // ),
         ]
       ),
       )

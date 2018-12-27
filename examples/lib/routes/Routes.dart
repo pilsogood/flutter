@@ -102,9 +102,16 @@ import "package:examples/widgets/view/MapEx.dart";
 import "package:examples/app/Intro.dart";
 import "package:examples/app/Tr.dart";
 
+// effect 
+import "package:examples/effect/TypingEx.dart";
+import "package:examples/effect/FadeEx.dart";
+
 final routes = {
   '/intro': (BuildContext context) => Intro(),
   '/tr': (BuildContext context) => Tr(),
+
+  '/typing': (BuildContext context) => TypingEx(),
+  '/fade': (BuildContext context) => FadeEx(),
 
   '/home': (BuildContext context) => MyApp(),
   
