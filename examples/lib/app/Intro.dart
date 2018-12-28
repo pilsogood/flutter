@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:splashscreen/splashscreen.dart';
+import 'package:examples/app/ProfilePage.dart';
 
 class Intro extends StatefulWidget {
   @override
@@ -30,19 +31,25 @@ class _AppStatus extends State<Intro> {
       padding: const EdgeInsets.all(0.0),
       alignment: Alignment.center,
       decoration: new BoxDecoration(
-        gradient: new LinearGradient(colors: [gradientStart, gradientEnd],
-            begin: const FractionalOffset(0.5, 0.5),
-            end: const FractionalOffset(0.0, 0.0),
-            stops: [0.0,1.0],
-            tileMode: TileMode.clamp
-          ),
+            color: const Color(0xff7c94b6),
+            gradient: new LinearGradient(colors: [gradientStart, gradientEnd],
+                begin: const FractionalOffset(0.5, 0.0),
+                end: const FractionalOffset(0.0, 0.5),
+                stops: [0.0,1.0],
+                tileMode: TileMode.clamp
+            ),
+            image : new DecorationImage(
+              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+              image: new AssetImage('assets/images/intro-bg-3.jpg'),
+              fit: BoxFit.cover
+            ),
         ),
         child: new Center(
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-                new Image.network('https://www.tripgrida.com/img/logo/logo_white.png', 
+                new Image.asset('assets/images/tripgrida-logo.png', 
                   fit: BoxFit.cover, 
                   alignment: Alignment.center, 
                   width: logoWidth * 0.45
@@ -180,7 +187,7 @@ class CheckUser extends StatelessWidget {
       padding: const EdgeInsets.all(0.0),
       alignment: Alignment.center,
       child: SplashScreen(
-      seconds: 5, 
+      seconds: 1, 
       navigateAfterSeconds: new AfterSplash(),
       title: 
         new Text('Welcome to TRIPGRIDA',
@@ -209,12 +216,16 @@ class AfterSplash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-          title: new Text('welcome'),
-          automaticallyImplyLeading: false,
-      ),
+      // appBar: AppBar(
+      //     title: new Text('welcome'),
+      //     automaticallyImplyLeading: false,
+      // ),
       body: new Container(
          decoration: new BoxDecoration(
+            image : new DecorationImage(
+              image: new AssetImage('assets/images/intro-bg-2.jpg'),
+              fit: BoxFit.cover
+            ),
             gradient: new LinearGradient(colors: [gradientStart, gradientEnd],
                 begin: const FractionalOffset(0.5, 0.0),
                 end: const FractionalOffset(0.0, 0.5),
@@ -225,14 +236,6 @@ class AfterSplash extends StatelessWidget {
         child: new Center(
           child: new Column (
             children: <Widget>[
-              new Text(
-                  "Succeeded!",
-                  style: new TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: Colors.white
-                  )
-              ),
               new  Text(
                   'Hello Gradients!',
                    style: new TextStyle(
@@ -240,6 +243,14 @@ class AfterSplash extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     foreground: Paint()..shader = linearGradient
                   ),
+              ),
+              new FlatButton(
+                child: new Text('Profile Page',
+                style: new TextStyle(
+                  color: Colors.white
+                )
+                ),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ProfilePage())),
               )
             ],
           )
