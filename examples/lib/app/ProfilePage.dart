@@ -86,11 +86,17 @@ class CustomAppBar extends StatelessWidget {
       decoration: new BoxDecoration(
         border: new Border.all(width: 0.0, color: Colors.transparent),
         // shape: BoxShape.circle,
-        color: Colors.teal,
+        color: const Color(0xff7c94b6),
+        image: new DecorationImage(
+          colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+          image: new AssetImage('assets/images/intro-bg-21.jpg'),
+          fit: BoxFit.cover,
+          alignment: Alignment(1.0, 0.0),
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.grey,
-            offset: Offset(0.0, 0.0),
+            offset: Offset(0.0, -10.0),
             blurRadius: 20.0,
           ),
        ],

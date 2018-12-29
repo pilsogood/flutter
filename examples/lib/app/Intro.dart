@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:splashscreen/splashscreen.dart';
 import 'package:examples/app/ProfilePage.dart';
+import 'package:examples/app/ContentsPage.dart';
 
 class Intro extends StatefulWidget {
   @override
@@ -244,14 +245,27 @@ class AfterSplash extends StatelessWidget {
                     foreground: Paint()..shader = linearGradient
                   ),
               ),
-              new FlatButton(
-                child: new Text('Profile Page',
-                style: new TextStyle(
-                  color: Colors.white
-                )
-                ),
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ProfilePage())),
-              )
+              new Row(
+                children: <Widget>[
+                  new FlatButton(
+                    child: new Text('Profile Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ProfilePage())),
+                  ),
+                  new FlatButton(
+                    child: new Text('Contents Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ContentsPage())),
+                  ),
+                ],
+              ),
+              
             ],
           )
           
