@@ -108,6 +108,9 @@ import "package:examples/effect/FadeEx.dart";
 
 final routes = {
   '/intro': (BuildContext context) => Intro(),
+  // '/intro': (BuildContext context) => Intro(),
+  // '/intro': (BuildContext context) => Intro(),
+
   '/tr': (BuildContext context) => Tr(),
 
   '/typing': (BuildContext context) => TypingEx(),

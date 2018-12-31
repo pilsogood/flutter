@@ -1,6 +1,10 @@
 import "package:flutter/material.dart";
 
-class Category extends StatelessWidget {
+class Category extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+class _AppState extends State<Category> {
 
   Widget makeTitle(title) {
     return new Row(
@@ -23,6 +27,49 @@ class Category extends StatelessWidget {
     );
   }
 
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//           title: new Text("Examples"),
+//         ),
+//       body: 
+//       new Container(
+//         child: new Center(
+//           child: new Column(
+//             children: <Widget>[
+//               new Text('${jsonStringMap["name"]}'),
+//               new FlatButton(
+//                 child: new Text('sssd'),
+//                 onPressed: () => _loadToJson,
+//               )
+          
+//             ],
+//           )
+          
+          
+//         )
+//       )
+//     //   new GridView.builder(
+//     //     itemCount: _pets.length,
+//     //     gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+//     //     crossAxisCount: (MediaQuery.of(context).orientation == Orientation.portrait) ? 2 : 3),
+//     //     itemBuilder: (BuildContext context, int index) {
+//     //       return new GridTile(
+//     //         child: new Card(
+//     //           color: Colors.blue.shade200,
+//     //           child: new Center(
+//     //             child: new Text('tile $index ${_pets.elementAt(index)}'),
+//     //           )
+//     //         ),
+//     //      );
+//     //   }
+//     // ),
+//   );
+// }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +81,23 @@ class Category extends StatelessWidget {
         children: <Widget>[
 
           makeTitle('App'),
+          // Container(
+          //   child: 
+          //    new GridView.count(
+          //       crossAxisCount: 4,
+          //       children: new List<Widget>.generate(16, (index) {
+          //         return new GridTile(
+          //           child: new Card(
+          //             color: Colors.blue.shade200,
+          //             child: new Center(
+          //               child: new Text('tile $index'),
+          //             )
+          //           ),
+          //         );
+          //       }),
+          //     ),
+          // ),
+
           Row(
             mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -42,14 +106,14 @@ class Category extends StatelessWidget {
             ],
           ),
 
-          makeTitle('Effects'),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-               makeRaisedButton(context,"Typing","/typing"),
-               makeRaisedButton(context,"Fade","/fade"),
-            ],
-          ),
+          // makeTitle('Effects'),
+          // Row(
+          //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+          //   children: <Widget>[
+          //      makeRaisedButton(context,"Typing","/typing"),
+          //      makeRaisedButton(context,"Fade","/fade"),
+          //   ],
+          // ),
           // makeTitle('Init'),
           // Row(
           //   mainAxisAlignment:  MainAxisAlignment.spaceEvenly,

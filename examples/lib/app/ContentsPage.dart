@@ -23,13 +23,14 @@ class _AppStatus extends State<ContentsPage> {
     return new Scaffold(
       body:  new Container(
         constraints: new BoxConstraints.expand(),
-          color: new Color(0xFF736AB7),
+          color: new Color(0xFFFFFFFF),
           child: new Stack(
           children: <Widget>[
             _getBackground(),
             _getGradient(),
-            _getContent(),
-            // _getToolbar(context),
+            // _getContent(),
+            _getHorizontalList(),
+            _getVerricalList(),
           ],
         )
       )
@@ -40,24 +41,28 @@ class _AppStatus extends State<ContentsPage> {
 
 Container _getBackground() {
   return new Container(
-    child: new Image.asset('assets/images/intro-bg-2.jpg',
+    decoration: new BoxDecoration(
+      shape: BoxShape.rectangle,
+      borderRadius: new BorderRadius.circular(20.0),
+    ),
+    child: new Image.asset('assets/images/intro-bg-3.jpg',
       fit: BoxFit.cover,
       alignment: Alignment(0.0, 1.0),
-      height: 300.0
+      height: 300.0,
     ),
-    constraints: new BoxConstraints.expand(height: 300.0),
+    constraints: new BoxConstraints.expand(height: 230.0),
   );
 }
 
 Container _getGradient() {
   return new Container(
-    margin: new EdgeInsets.only(top: 200.0),
+    margin: new EdgeInsets.only(top: 120.0),
     height:110.0,
     decoration: new BoxDecoration(
       gradient: new LinearGradient(
         colors: <Color> [
-          new Color(0x00736AB7),
-          new Color(0xFF736AB7),
+          new Color(0x00FFFFFF),
+          new Color(0xFFFFFFFF),
         ],
         stops: [0.0, 0.9],
         begin: const FractionalOffset(0.0, 0.0),
@@ -69,11 +74,12 @@ Container _getGradient() {
 
 Widget _getContent() {
   return new ListView(
-    padding: new EdgeInsets.fromLTRB(0.0, 200.0, 0.0, 32.0),
+    padding: new EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 32.0),
     children: <Widget>[
         
         new Container(
           padding: new EdgeInsets.symmetric(horizontal: 32.0),
+          // color: Colors.white,
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -100,69 +106,92 @@ class Separator extends StatelessWidget {
 
 final planetCard = new Container(
        child: new Container(
-        //  child: new Column(
-        //    children: <Widget>[
-        //      new Text('test'),
-        //    ],
-        //  ),
+         child: new Column(
+           children: <Widget>[
+             new Text('test'),
+           ],
+         ),
        ),
-       height: 180.0,
-      //  margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-       margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+       width: 280.0,
+      //  height: 150.0,
+       margin: new EdgeInsets.fromLTRB(30.0, 20.0, 0.0, 20.0),
+      //  padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
        decoration: new BoxDecoration(
-         color: new Color(0xFF333366),
+         color: new Color(0xFFFFFFFF),
          shape: BoxShape.rectangle,
          borderRadius: new BorderRadius.circular(20.0),
          boxShadow: <BoxShadow>[
            new BoxShadow(
-             color: Colors.black12,
+             color: new Color(0xFFF8E1FE),
              blurRadius: 10.0,
              offset: new Offset(0.0, 10.0),
            ),
         ],
-      ),
-    );
-
-// Container _getToolbar() {}
+    ),
+  );
 
 
-// class PlanetSummary extends StatelessWidget {
-//   final Planet planet;
-//   final bool horizontal;
 
-//   PlanetSummary(this.planet, {this.horizontal = true});
-//   PlanetSummary.vertical(this.planet): horizontal = false;
+Widget _getHorizontalList() {
+  return Container(
+    margin: new EdgeInsets.only(top: 120.0),
+    padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+    height: 200.0,
+    child: new ListView(
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
+        planetCard,
+        planetCard,
+        planetCard,
+        planetCard,
+      ],
+    )
+  );
+}
 
-//   @override 
-//   Widget build(BuildContext context) {
 
-//     final planetThimbnail = new Container(
-//       margin: new EdgeInsets.symmetric(
-//         vertical: 16.0
-//       ),
-//       alignment: horizontal ? FractionalOffset.centerLeft : FractionalOffset.center ,
-//       child: new Hero(
-//         tag: "Planet-hero-${planet.id}",
-//         child: new Image(
-//           image: new AssetImage(planet.image),
-//           height: 92.0,
-//           width: 92.0,
-//         ),
-//       )
-//     );
 
-//     Widget _planetValue({String value, String image}) {
-//       return new Container(
-//         child: new Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: <Widget>[
-//             new Image.asset(image, height:12.0),
-//             new Container(width: 8.0),
-//             new Text(planet.gravity, style: Style.regularTextStyle)
-//           ],
-//         )
-//       );
-//     }
+final planetCard2 = new Container(
+       child: new Container(
+         child: new Column(
+           children: <Widget>[
+             new Text('test'),
+           ],
+         ),
+       ),
+       width: 280.0,
+       height: 80.0,
+      //  height: 150.0,
+       margin: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
+      //  padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+       decoration: new BoxDecoration(
+         color: new Color(0xFFFFFFFF),
+         shape: BoxShape.rectangle,
+         borderRadius: new BorderRadius.circular(20.0),
+         boxShadow: <BoxShadow>[
+           new BoxShadow(
+             color: new Color(0xFFF8E1FE),
+             blurRadius: 10.0,
+             offset: new Offset(0.0, 10.0),
+           ),
+        ],
+    ),
+  );
 
-//   }
-// }
+
+Widget _getVerricalList() {
+  return Container(
+      margin: new EdgeInsets.only(top: 280.0),
+    padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+    // height: 200.0,
+    child: new ListView(
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        planetCard2,
+        planetCard2,
+        planetCard2,
+        planetCard2,
+      ],
+    )
+  );
+}
