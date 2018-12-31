@@ -2,6 +2,9 @@ import "package:flutter/material.dart";
 import 'package:splashscreen/splashscreen.dart';
 import 'package:examples/app/ProfilePage.dart';
 import 'package:examples/app/ContentsPage.dart';
+import 'package:examples/app/SliderPage.dart';
+import 'package:examples/app/StickyListPage.dart';
+
 
 class Intro extends StatefulWidget {
   @override
@@ -263,9 +266,29 @@ class AfterSplash extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ContentsPage())),
                   ),
+                  new FlatButton(
+                    child: new Text('Slider Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new SliderPage())),
+                  ),
                 ],
               ),
-              
+              new Row(
+                children: <Widget>[
+                  
+                  new FlatButton(
+                    child: new Text('StickyList Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new StickyListPage())),
+                  ),
+                ],
+              ),
             ],
           )
           

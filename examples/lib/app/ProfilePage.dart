@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:splashscreen/splashscreen.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -18,48 +18,22 @@ class _AppStatus extends State<ProfilePage> {
   final userId = TextEditingController();
   final userPassword = TextEditingController();
 
+  @override 
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
-      // appBar: AppBar(
-      //     title: new Text('welcome'),
-      //     automaticallyImplyLeading: false,
-      // ),
       body:  new Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-                new CustomAppBar('test'),
-                // new Container(
-                //     padding: const EdgeInsets.all(0.0),
-                //     alignment: Alignment.center,
-                //     decoration: new BoxDecoration(
-                //           color: const Color(0xff7c94b6),
-                //           gradient: new LinearGradient(colors: [gradientStart, gradientEnd],
-                //               begin: const FractionalOffset(0.5, 0.0),
-                //               end: const FractionalOffset(0.0, 0.5),
-                //               stops: [0.0,1.0],
-                //               tileMode: TileMode.clamp
-                //           ),
-                //           image : new DecorationImage(
-                //             colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
-                //             image: new AssetImage('assets/images/intro-bg-3.jpg'),
-                //             fit: BoxFit.cover
-                //           ),
-                //       ),
-                //       child: new Center(
-                //         child: new Column(
-                //           mainAxisAlignment: MainAxisAlignment.start,
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: <Widget>[
-                //           ],
-                //         ),
-                //       )
-                //     )
-            ],
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          // new CustomAppBar('test'),              
+          _peoplesSample()
+        ],
       )
-      
     );
   }
 }
@@ -68,7 +42,7 @@ class _AppStatus extends State<ProfilePage> {
 class CustomAppBar extends StatelessWidget {
 
   final String title;
-  final double barHeight = 150.0; // change this for different heights 
+  final double barHeight = 280.0; // change this for different heights 
 
   CustomAppBar(this.title);
 
@@ -84,14 +58,14 @@ class CustomAppBar extends StatelessWidget {
       height: statusbarHeight + barHeight,
       // color: Colors.teal,
       decoration: new BoxDecoration(
-        border: new Border.all(width: 0.0, color: Colors.transparent),
+        border: new Border.all(width: 1.0, color: Colors.transparent),
         // shape: BoxShape.circle,
         color: const Color(0xff7c94b6),
         image: new DecorationImage(
-          colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-          image: new AssetImage('assets/images/intro-bg-21.jpg'),
+          colorFilter: new ColorFilter.mode(Colors.black38.withOpacity(0.5), BlendMode.srcATop),
+          image: new AssetImage('assets/images/intro-bg-18.jpg'),
           fit: BoxFit.cover,
-          alignment: Alignment(1.0, 0.0),
+          alignment: Alignment(0.0, 1.0),
         ),
         boxShadow: <BoxShadow>[
           BoxShadow(
@@ -101,12 +75,197 @@ class CustomAppBar extends StatelessWidget {
           ),
        ],
       ),
-      child: new Center(
-        child: new Text(
-          title,
-          style: new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+      child: 
+      new Stack(
+        children: <Widget>[
+            // Center(child: CircularProgressIndicator()),
+            // Center(
+            //   child: FadeInImage.memoryNetwork(
+            //     placeholder: kTransparentImage,
+            //     image:
+            //         'https://www.tripgrida.com/img/profile/1_1448624008.jpg',
+            //     width:80.0, 
+            //     height: 80.0
+            //   ),
+            // ),
+
+            //  Center(
+            //   child: new ClipRRect(
+            //     borderRadius: new BorderRadius.circular(100.0),
+            //     clipBehavior: Clip.hardEdge,
+            //     child: Image.network(
+            //       'https://www.tripgrida.com/img/profile/1_1448624008.jpg',
+            //       height: 85.0,
+            //       width: 85.0,
+            //     ),
+            //   ),
+            // ),
+
+            // Center(
+            //   child: FadeInImage.assetNetwork(
+            //     placeholder: 'assets/loading/loading1.gif',
+            //     image:
+            //         'https://www.tripgrida.com/img/profile/1_1448624008.jpg',
+            //     width:80.0, 
+            //     height: 80.0
+            //   ),
+            // ),
+
+            // new Center(
+            //   child: new Container(
+            //     width: 100.0,
+            //     height: 100.0,
+            //     decoration: new BoxDecoration(
+            //       shape: BoxShape.circle,
+            //       image: new DecorationImage(
+            //         fit: BoxFit.cover,
+            //         image: new NetworkImage("https://www.tripgrida.com/img/profile/1_1448624008.jpg")
+            //       ),
+            //       boxShadow: <BoxShadow>[
+            //           BoxShadow(
+            //             color: Colors.black12,
+            //             offset: Offset(0.0, 0.0),
+            //             blurRadius: 8.0,
+            //           ),
+            //       ],
+            //   )),
+            // ),
+             
+             Center(
+              child: new ClipRRect(
+                borderRadius: new BorderRadius.circular(100.0),
+                clipBehavior: Clip.hardEdge,
+                child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _profileImage(),
+                    new Padding(
+                      padding: new EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0)
+                    ),
+                    // new SizedBox(
+                    //   width: 200.0,
+                    //   height: 300.0,
+                    // ),
+                    new Text('@Seungpil Choi', 
+                    style: new TextStyle(
+                      fontStyle: FontStyle.italic, 
+                      fontSize: 17.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    )
+                  )
+                  ],
+                )
+                
+              ),
+            ),
+            //  Center(child:  _profile(),),
+
+        new Center(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Center(
+            //   child: FadeInImage.assetNetwork(
+            //     placeholder: 'assets/loading/loading1.gif',
+            //     image:
+            //         'https://www.tripgrida.com/img/profile/1_1448624008.jpg',
+            //     width:80.0, 
+            //     height: 80.0
+            //   ),
+            // ),
+
+            // Center(
+            //   child: 
+            //   Image.network('https://www.tripgrida.com/img/profile/1_1448624008.jpg', scale: 2.0, width:80.0, height: 80.0)
+            // ),
+            // new Text(
+            //   title,
+            //   style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+            // ),
+          ],
         ),
       ),
+        ]
+    ),
     );
   }
+}
+
+Widget _peoples() {
+  return new ListView.builder(
+    itemCount: 100,
+    itemBuilder: (BuildContext context, i) {
+      return new ListTile(
+        title: new Text('Name'),
+        subtitle: new Text('subname'),
+        leading: new CircleAvatar(
+          backgroundImage:
+            new NetworkImage("https://www.tripgrida.com/img/profile/1_1448624008.jpg"),
+          )
+       );
+     }
+    );
+  }
+
+
+Widget _peoplesSample() {
+  return new ListView(
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.map),
+          title: Text('Map'),
+        ),
+        ListTile(
+          leading: Icon(Icons.photo_album),
+          title: Text('Album'),
+        ),
+        ListTile(
+          leading: Icon(Icons.phone),
+          title: Text('Phone'),
+        ),
+      ],
+    );
+  }
+
+Widget _profile() {
+  return Material(
+    elevation: 5.0,
+    shape: CircleBorder(),
+    color: Colors.transparent,
+    child: Ink.image(
+      // image: AssetImage('assets/profile_default.jpg'),
+      image: NetworkImage("https://www.tripgrida.com/img/profile/1_1448624008.jpg"),
+      fit: BoxFit.cover,
+      width: 95.0,
+      height: 95.0,
+      child: InkWell(
+        onTap: () {},
+        child: null,
+      ),
+    ),
+  );
+}
+
+Widget _profileImage() {
+  return new Center(
+    child: new Container(
+      width: 100.0,
+      height: 100.0,
+      decoration: new BoxDecoration(
+        shape: BoxShape.circle,
+        image: new DecorationImage(
+          fit: BoxFit.cover,
+          image: new NetworkImage("https://www.tripgrida.com/img/profile/1_1448624008.jpg")
+        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(0.0, 0.0),
+            blurRadius: 8.0,
+            ),
+        ],
+      )
+    ),
+  );
 }
