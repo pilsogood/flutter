@@ -47,12 +47,16 @@ class _AppStatus extends State<ProfilePage> {
   Widget build(BuildContext context) {
     
     screenWidth = MediaQuery.of(context).size.width;
-
+    
     return new Scaffold(
       body:  
+      SafeArea(
+        top:false,
+        bottom:true,
+        child: 
       new Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           // new CustomAppBar('test'),              
           new Flexible(
@@ -60,6 +64,7 @@ class _AppStatus extends State<ProfilePage> {
             child: _testMenu(controller,200.0)
           ) 
         ],
+      ),
       )
     );
   }
@@ -300,8 +305,7 @@ Widget _profileImage() {
 
 Widget _testMenu(controller,appBarHeight )  {
 
-return SafeArea(
-    child: CustomScrollView(
+return CustomScrollView(
       controller: controller,
       slivers: <Widget>[
         
@@ -375,13 +379,13 @@ return SafeArea(
         //   return ListTile(title: Text("Flutter / $index"));
         // }))
       ],
-    ),
   );
 }
 
 Widget _peoplesList() {
   return new SliverList(
     delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+      
       return new ListTile(
         title: new Text('Name'),
         subtitle: new Text('subname'),

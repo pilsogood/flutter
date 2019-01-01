@@ -4,7 +4,7 @@ import 'package:examples/app/ProfilePage.dart';
 import 'package:examples/app/ContentsPage.dart';
 import 'package:examples/app/SliderPage.dart';
 import 'package:examples/app/StickyListPage.dart';
-
+import 'package:examples/app/SettingsPage.dart';
 
 class Intro extends StatefulWidget {
   @override
@@ -286,6 +286,15 @@ class AfterSplash extends StatelessWidget {
                     )
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new StickyListPage())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('Settings Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new SettingsPage())),
                   ),
                 ],
               ),
