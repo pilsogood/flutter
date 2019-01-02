@@ -6,6 +6,10 @@ import 'package:examples/app/SliderPage.dart';
 import 'package:examples/app/StickyListPage.dart';
 import 'package:examples/app/SettingsPage.dart';
 import 'package:examples/app/CarouselPage.dart';
+import 'package:examples/app/TabPage.dart';
+import 'package:examples/app/MapPage.dart';
+import 'package:examples/app/PulsePage.dart';
+
 
 class Intro extends StatefulWidget {
   @override
@@ -307,6 +311,35 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new CarouselPage())),
                   ),
 
+                ],
+              ),
+              new Row(
+                children: <Widget>[
+                  
+                  new FlatButton(
+                    child: new Text('Tab Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new TabPage())),
+                  ),
+                  new FlatButton(
+                    child: new Text('Map Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new MapPage())),
+                  ),
+                  new FlatButton(
+                    child: new Text('Pulse Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new PulsePage())),
+                  ),
                 ],
               ),
             ],
