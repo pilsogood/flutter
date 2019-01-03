@@ -3,17 +3,59 @@ import "package:flutter_map/flutter_map.dart";
 import 'package:latlong/latlong.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+import 'package:examples/app/MapSearchPage.dart';
+
 class MapPage extends StatefulWidget {
   @override
   _AppStatus createState() => _AppStatus();
 }
 
+class Menu {
+  const Menu({this.category, this.title, this.icon});
+  final String category;
+  final String title;
+  final IconData icon;
+}
+
+const List<Menu> menus = const <Menu> [
+  const Menu(category: "search", title: "검색", icon: Icons.search),
+  const Menu(category: "poi", title: "장소", icon: Icons.security),
+];
+
 class _AppStatus extends State<MapPage> {
+ 
+  void _clicked(Menu menu) {
+    setState(() {
+      print("$menu");
+    });
+  }
+
+  void _link(Menu menu) {
+    switch(menu.category) {
+      case 'search' :
+          Navigator.push(context, MaterialPageRoute(builder: (context) => new MapSearchPage()));
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: new Text("Map Example"),
+        actions: <Widget> [
+          PopupMenuButton<Menu>(
+            onSelected: _link,
+            itemBuilder: (BuildContext context) {
+                return menus.map((Menu menu) {
+                  return PopupMenuItem(
+                    value: menu,
+                    child: Text(menu.title),
+                  );
+                }).toList();
+            },
+          )
+        ]
       ),
       body: 
       new Container(
@@ -21,7 +63,7 @@ class _AppStatus extends State<MapPage> {
           children: <Widget>[
             new FlutterMap(
               options: new MapOptions(
-                center: new LatLng(51.5, -0.09),
+                center: new LatLng(37.5556933, 126.8826586),
                 zoom: 13.0,
               ),
               layers: [
@@ -35,8 +77,8 @@ class _AppStatus extends State<MapPage> {
                 ),
                 new MarkerLayerOptions(
                   markers: [
-                    _marker(51.5, -0.09),
-                    _marker(51.6, -0.19),
+                    _marker(37.5556933, 126.8826586),
+                    _marker(37.5656933, 126.8726586),
                   ],
                 ),
               ],
@@ -44,21 +86,37 @@ class _AppStatus extends State<MapPage> {
             new Container(
               alignment: Alignment.topLeft,
               margin: EdgeInsets.fromLTRB(0.0,
-              MediaQuery.of(context).size.height * .60,0.0,0.0,),
+              MediaQuery.of(context).size.height * .55,0.0,0.0,),
               // padding: EdgeInsets.all(10),
               // color: Colors.white,
               // height: 180.0,
 
               child: 
               new Container(
-                height: 150.0,
+                height: 170.0,
                 // width: 175.0,
                     child:
                     new Swiper(
                           itemBuilder: (BuildContext context, int index) {
-                            return new Image.network(
-                              "http://via.placeholder.com/288x188",
-                              fit: BoxFit.fill,
+                            return  new Container(
+                                // margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 50.0),
+                                child: new DecoratedBox(
+                                  decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: new BorderRadius.circular(20.0),
+                                  boxShadow: <BoxShadow>[
+                                    new BoxShadow(
+                                      color: new Color(0xFFF8E1FE),
+                                      blurRadius: 10.0,
+                                      offset: new Offset(0.0, 5.0),
+                                    ),
+                                  ],
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/images/intro-bg-5.jpg"),
+                                    fit: BoxFit.fill,
+                                  )
+                                ),
+                            ),
                             );
                           },
                           itemCount: 10,
