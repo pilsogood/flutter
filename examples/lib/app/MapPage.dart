@@ -4,6 +4,7 @@ import 'package:latlong/latlong.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:examples/app/MapSearchPage.dart';
+import 'package:examples/app/PoiListPage.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -34,6 +35,9 @@ class _AppStatus extends State<MapPage> {
     switch(menu.category) {
       case 'search' :
           Navigator.push(context, MaterialPageRoute(builder: (context) => new MapSearchPage()));
+        break;
+      case 'poi' :
+          Navigator.push(context, MaterialPageRoute(builder: (context) => new PoiListPage()));
         break;
     }
   }
@@ -134,12 +138,12 @@ class _AppStatus extends State<MapPage> {
 
 Marker _marker(lat, lng) {
   return new Marker(
-              width: 45.0,
-              height: 45.0,
-              point: new LatLng(lat, lng),
-              builder: (ctx) =>
-              new Container(
-                child: new Image(image: AssetImage('assets/images/marker.png')),
-              ),
-            );
+    width: 45.0,
+    height: 45.0,
+    point: new LatLng(lat, lng),
+    builder: (ctx) =>
+    new Container(
+      child: new Image(image: AssetImage('assets/images/marker2.png')),
+    ),
+  );
 }
