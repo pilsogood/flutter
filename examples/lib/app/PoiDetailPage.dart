@@ -2,6 +2,7 @@ import 'package:examples/app/PoiListPage.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'dart:ui';
+import 'dart:io';
 import "package:flutter_map/flutter_map.dart";
 import 'package:latlong/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -74,16 +75,7 @@ class _AppStatus extends State<PoiDetailPage> {
                 controller: controller,
                 slivers: <Widget>[
                     _topBar(),
-                    // _contents(widget.getDb),
-                    // _peoplesList(),
                     _contents(),
-                    // new Container(
-                    //   child: new ListView(
-                    //   children: <Widget>[
-                    //       // _getHorizontalList(),
-                    //     ],
-                    //   ),
-                    // ),
                     // _infoBox(),
                     // _optionBox(),
                     // _menuBox(),
@@ -132,6 +124,7 @@ Widget _contents() {
         _hr(),
         _mapBox(),
         _hr(),
+        _recommendPoiBox(),
       ],
     )
     ]
@@ -378,22 +371,84 @@ Widget _mapBox()  {
                   new Padding(padding:EdgeInsets.all(5)),
                   new InkWell(
                     child: Text("https://www.tripgrida.com"),
-                    onTap: () async {
-                      if (await canLaunch("url")) {
-                        await launch("url");
-                      }
+                    onTap: () {
+                      // _openMap(37.5556933, 126.8826586);
+                      _launchWeb("https://www.tripgrida.com");
                     }
                   )
                 ],
               )
-            )
-          
+            ),
+            
+            new Padding(padding: EdgeInsets.all(20.0)),
+            new Text("MORE INFO",
+             style: new TextStyle(
+                fontSize: 13.0,
+                color: greyDarkColor,
+                fontWeight: FontWeight.w700
+              ),
+            ),
+            _line(),
+             new Container(
+              child: new Row(
+                children: <Widget>[
+                  new Icon(Icons.credit_card  , size: 12.0, color: Colors.black),
+                  new Padding(padding:EdgeInsets.all(5)),
+                  new Text("US\$200/600"),
+                ],
+              )
+            ),
           ],
         )
       )
     ], 
   );
 }
+
+_launchWeb(urls) async {
+  String url = urls;
+  if (await canLaunch(url)) {
+    await launch(url, forceWebView: true);
+  } else {
+    throw 'Could not launch Maps';
+  }
+}
+
+
+_launchMaps(lat,lng) async {
+  String url = "https://www.google.com/maps/search/?api=1&query=${lat},${lng},17&query_place_id=PLACE_ID";
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch Maps';
+  }
+}
+
+
+_sendMail(nm) async {
+    // Android and iOS
+    String uri = "mailto:$nm?subject=Greetings&body=Hello%20World";
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+    throw 'Could not launch $uri';
+    }
+  }
+
+  _openMap(lat,lng) async {
+    // Android
+    var url = "geo:$lat,$lng";
+    if (Platform.isIOS) {
+      // iOS
+      url = "http://maps.apple.com/?ll=$lat,$lng";
+    }
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 
 Marker _marker(lat, lng) {
   return new Marker(
@@ -428,15 +483,6 @@ Widget _recommendBox()  {
   );
 }
 
-Widget _recommendPoiBox()  {
-  return Container(
-    child: Column(
-      children: <Widget>[
-        
-      ],
-    )
-  );
-}
 
 
 Widget _topBar()  {
@@ -594,8 +640,9 @@ Widget _nearlySpot() {
                 _spotCards(),
                 _spotCards(),
                 _spotCards(),
-            ],
-          ))
+              ],
+            )
+          )
         ],
       )
   );
@@ -692,6 +739,151 @@ Widget _spotCards() {
         ),
       ],
     ),
+  );
+}
+
+
+Widget _recommendPoiBox()  {
+  return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        new Padding(padding: EdgeInsets.all(20.0)),
+        new Text("NEARBY",
+          style: new TextStyle(
+            fontSize: 15.0,
+            color: Colors.black,
+            fontWeight: FontWeight.w900
+          ),
+        ),
+        new Padding(padding: EdgeInsets.all(10.0)),
+        new Column(
+          children: <Widget>[
+              _spotListCards(),
+              _spotListCards(),
+              _spotListCards(),
+              _spotListCards(),
+              _spotListCards(),
+              _spotListCards(),
+              _spotListCards(),
+              _spotListCards(),
+              _spotListCards(),
+              _spotListCards(),
+              
+          ] ,
+        ),
+        new Padding(padding: EdgeInsets.all(10.0)),
+      ],
+  );
+}
+
+
+// Widget _spotListCards() {
+//   return  new Container(
+//     child: new Text("test"),
+//     height: 100.0,
+//     padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+//   );
+// }
+
+Widget _spotListCards() {
+
+  return new GestureDetector(
+    onTap: (){
+     
+    },
+    child: new Container(
+      child: new Column(
+        children: <Widget>[
+        new Row(
+          children: <Widget>[
+            new Padding(
+              padding: EdgeInsets.all(0),
+              child: new Container(
+                margin: EdgeInsets.all(15.0),
+                child: new Container(
+                  width: 80.0,
+                  height: 80.0,
+                  decoration: new BoxDecoration(
+                    borderRadius: new BorderRadius.circular(10.0),
+                    color: Colors.white,
+                    image: new DecorationImage(
+                      image: new NetworkImage( data.image),
+                      fit: BoxFit.cover
+                    ),
+                    boxShadow: [
+                      new BoxShadow(
+                        color: const Color(0xff3C3261),
+                        blurRadius: 10.0,
+                        offset: new Offset(0.0, 5.0)
+                      )
+                    ]
+                    )
+                  ),
+                )
+              ),
+              new Expanded(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(15.0,0.0,15.0,0.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Text(
+                        data.title,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'Arvo',
+                          fontWeight: FontWeight.bold,
+                          color: mainColor
+                        )
+                      ),
+                      new Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: _titleLine()
+                      ),
+                      new Text(
+                        data.description,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontFamily: 'Arvo',
+                          color: mainColor
+                        )),
+                    ],
+                  )
+                )
+              ),
+              new Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  // crossAxisAlignment: CrossAxisAlignment.baseline,
+                  children: <Widget>[
+                    new Icon(Icons.favorite_border)
+                  ],
+                )
+              )
+            ]
+          ),
+          // new Divider(
+          //   color: const Color(0xD2D2E1ff),
+          // ),
+          new Container(
+            width:300.0,
+            height: 0.5,
+            color: lineColor,
+            margin: EdgeInsets.all(5.0),
+          )
+        ]
+      )
+    ),
+  );
+}
+
+Widget _titleLine() {
+  return new Container(
+    width: 80.0,
+    height: 0.8,
+    color: lineColor,
+    margin: EdgeInsets.all(2.0),
   );
 }
 
