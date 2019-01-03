@@ -6,6 +6,13 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:examples/app/MapSearchPage.dart';
 import 'package:examples/app/PoiListPage.dart';
 
+Color gradientStart = Color.fromRGBO(130, 84, 234 , 1); //Change start gradient color here
+Color gradientMiddle = Color.fromRGBO(207, 139, 243 , 1); //Change end gradient color here
+Color gradientEnd = Color.fromRGBO(215, 10, 215 , 1); //Change end gradient color here
+Color mainColor = Color.fromRGBO(130, 84, 234, 1);
+Color shadowColor = Color.fromRGBO(47, 92, 182, 0.2);
+
+
 class MapPage extends StatefulWidget {
   @override
   _AppStatus createState() => _AppStatus();
@@ -88,16 +95,21 @@ class _AppStatus extends State<MapPage> {
               ],
             ),
             new Container(
+              // width:100.0,
+              height: 80.0,
+              child: _topButtons(),
+            ),
+            new Container(
               alignment: Alignment.topLeft,
               margin: EdgeInsets.fromLTRB(0.0,
-              MediaQuery.of(context).size.height * .55,0.0,0.0,),
+              MediaQuery.of(context).size.height * .62,0.0,0.0,),
               // padding: EdgeInsets.all(10),
               // color: Colors.white,
               // height: 180.0,
 
               child: 
               new Container(
-                height: 170.0,
+                height: 150.0,
                 // width: 175.0,
                     child:
                     new Swiper(
@@ -124,8 +136,8 @@ class _AppStatus extends State<MapPage> {
                             );
                           },
                           itemCount: 10,
-                          viewportFraction: 0.7,
-                          scale: 0.9,
+                          viewportFraction: 0.5,
+                          scale: 0.5,
                         ),
                 ),
             )
@@ -147,3 +159,58 @@ Marker _marker(lat, lng) {
     ),
   );
 }
+
+
+
+Widget _topButtons() {
+  return Container(
+      // margin: new EdgeInsets.only(top: 120.0),
+      padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child: new ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          buttons,
+          buttons,
+          buttons,
+          buttons,
+          buttons,
+          buttons,
+          buttons,
+          buttons,
+        ],
+      )
+  );
+}
+
+final buttons = new Container(
+  child: new Container(
+    child: new Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        new Text('test',
+        style: new TextStyle(
+          fontSize: 15.0,
+          fontWeight: FontWeight.bold,
+          color: mainColor
+        )
+        ),
+      ],
+    ),
+  ),
+  width: 80.0,
+  height: 70.0,
+  margin: new EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
+  //  padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+  decoration: new BoxDecoration(
+    color: new Color(0xFFFFFFFF),
+    shape: BoxShape.rectangle,
+    borderRadius: new BorderRadius.circular(10.0),
+    boxShadow: <BoxShadow>[
+      new BoxShadow(
+        color: shadowColor,
+        blurRadius: 10.0,
+        offset: new Offset(0.0, 5.0),
+      ),
+    ],
+  ),
+);
