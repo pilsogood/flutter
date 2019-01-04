@@ -11,6 +11,7 @@ import 'package:examples/app/MapPage.dart';
 import 'package:examples/app/PulsePage.dart';
 import 'package:examples/app/ChatPage.dart';
 import 'package:examples/app/TimelinePage.dart';
+import 'package:examples/app/PlannerPage.dart';
 
 class Intro extends StatefulWidget {
   @override
@@ -364,6 +365,15 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ChatPage())),
                   ),
               
+                  new FlatButton(
+                    child: new Text('Plan Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new PlannerPage())),
+                  ),
+
                 ],
               )
             ],
