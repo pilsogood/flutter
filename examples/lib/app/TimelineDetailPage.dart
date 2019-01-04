@@ -1,24 +1,28 @@
-import 'package:examples/app/PoiListPage.dart';
+
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
-import 'dart:ui';
-import 'dart:io';
+
 import "package:flutter_map/flutter_map.dart";
 import 'package:latlong/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Color gradientStart = Color.fromRGBO(130, 84, 234 , 1); //Change start gradient color here
-Color gradientMiddle = Color.fromRGBO(207, 139, 243 , 1); //Change end gradient color here
-Color gradientEnd = Color.fromRGBO(215, 10, 215 , 1); //Change end gradient color here
+import 'dart:ui';
+import 'dart:io';
+
+import 'package:examples/app/TimelinePage.dart';
+
+Color gradientStart = Color.fromRGBO(130, 84, 234 , 1); 
+Color gradientMiddle = Color.fromRGBO(207, 139, 243 , 1); 
+Color gradientEnd = Color.fromRGBO(215, 10, 215 , 1); 
 Color mainColor = Color.fromRGBO(130, 84, 234, 1);
 Color shadowColor = Color.fromRGBO(47, 92, 182, 0.2);
 Color greyDarkColor = Color.fromRGBO(106, 106, 106, 1);
 Color greyColor = Color.fromRGBO(230, 236, 240, 1);
 
-class PoiDetailPage extends StatefulWidget {
+class TimelineDetailPage extends StatefulWidget {
 
   final Db getDb;
-  PoiDetailPage({Key key, @required this.getDb}) : super(key: key);
+  TimelineDetailPage({Key key, @required this.getDb}) : super(key: key);
 
   @override
   _AppStatus createState() => _AppStatus();
@@ -26,7 +30,7 @@ class PoiDetailPage extends StatefulWidget {
 
 Db data = null;
 double width = 400;
-class _AppStatus extends State<PoiDetailPage> {
+class _AppStatus extends State<TimelineDetailPage> {
 
   final double barHeight = 300.0; 
 
@@ -156,9 +160,6 @@ Widget _infoBox() {
           new Container(
             // alignment: Alignment.topLeft,
             child: new Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
               new Expanded(
                 child: Align(

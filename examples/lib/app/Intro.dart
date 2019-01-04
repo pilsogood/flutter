@@ -9,7 +9,8 @@ import 'package:examples/app/CarouselPage.dart';
 import 'package:examples/app/TabPage.dart';
 import 'package:examples/app/MapPage.dart';
 import 'package:examples/app/PulsePage.dart';
-
+import 'package:examples/app/ChatPage.dart';
+import 'package:examples/app/TimelinePage.dart';
 
 class Intro extends StatefulWidget {
   @override
@@ -342,6 +343,29 @@ class AfterSplash extends StatelessWidget {
                   ),
                 ],
               ),
+              new Row(
+                children: <Widget>[
+                  
+                  new FlatButton(
+                    child: new Text('Timline',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new TimelinePage())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('Chat Page',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ChatPage())),
+                  ),
+              
+                ],
+              )
             ],
           )
           
