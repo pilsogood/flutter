@@ -39,7 +39,7 @@ class _AppStatus extends State<TimelinePage> {
   Widget build(BuildContext c) {
 
     context = c;
-    width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(

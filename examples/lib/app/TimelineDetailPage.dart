@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 
@@ -30,37 +31,17 @@ class TimelineDetailPage extends StatefulWidget {
   @override
   _AppStatus createState() => _AppStatus();
 }
-
-Db data = null;
-double width = 400;
+  Db data;
+  TextEditingController _textController;
 
 class _AppStatus extends State<TimelineDetailPage> {
 
-  final double barHeight = 300.0; 
-
-  final controller = ScrollController();
-  double cWidth = 0.0;
-  double itemHeight = 28.0;
-  double itemsCount = 20;
-  double screenWidth;
+  TextEditingController _textController = new TextEditingController();
+  bool _isComposing = false; // make it true whenever the user is typing in the input field. 
   
   @override
   void initState() {
     super.initState();
-    controller.addListener(onScroll);
-    print(widget.getDb.title);
-    print(widget.getDb.image);
-  }
-
-  onScroll() {
-    setState(() {
-     cWidth = controller.offset * screenWidth / (itemHeight * itemsCount);
-    });
-  }
-
-  @override
-  void dispose() {
-    controller.removeListener(onScroll);
   }
 
   @override
@@ -69,153 +50,619 @@ class _AppStatus extends State<TimelineDetailPage> {
     data = widget.getDb;
     // width = MediaQuery.of(context).size.width;
 
+    List<Widget> _replays = new List<Widget>();
+    _replays.add(_reply());
+    _replays.add(_reply());
+
     return Scaffold(
       appBar: AppBar(
         title: new Text("${data.title}"),
       ),
-      body: new SafeArea(
-        top:false,
-        bottom:true,
-        child: new ListView(
-          children: <Widget>[
-            _infoBox(),
-            _infoBox(),
-            _infoBox(),
-            _infoBox(),
-            _infoBox(),
-            _infoBox(),
-            _infoBox(),
-             
+      body: new Container(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget> [ 
+            new Flexible(
+            // new Expanded(
+              child: new ListView(
+                  // shrinkWrap: true,
+                  children: <Widget>[
+                  _card(),
+                   new Column(children: _replays,),
+                  ]
+              )
+            ),
+            new Divider(height: 1.0),
+            new Container(
+              decoration: new BoxDecoration(
+                color: Theme.of(context).cardColor),
+              child: _buildTextComposer(),
+            ),
           ]
         ),
-      ),
+      )
     );
   }
 }
 
 
-
-
-
-
-
-Widget _infoBox() {
-  return new Container(
-      // margin: EdgeInsets.fromLTRB(10.0,20.0,10.0,20.0),
-      padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,20.0),
-      width: width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new Container(
-            alignment: Alignment.topLeft,
-            child: new Text(
-              "PLAY / PARK",
-              style: new TextStyle(
-                fontSize: 12.0,
-                color: Colors.black
+Widget _buildTextComposer() {
+    return new IconTheme(
+      data: new IconThemeData(color: Theme.of(context).accentColor),
+      child: new Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Row(children: <Widget>[
+            new Flexible(
+              child: new TextField(
+                controller: _textController,
+                onChanged: (String text) {
+                },
+                decoration:
+                    new InputDecoration.collapsed(hintText: "Send a message"),
               ),
             ),
-          ),
-          new Padding(padding: EdgeInsets.all(5.0)),
-          new Container(
-            // alignment: Alignment.topLeft,
+            new Container(
+                margin: new EdgeInsets.symmetric(horizontal: 4.0),
+                child: Theme.of(context).platform == TargetPlatform.iOS
+                    ? new CupertinoButton(
+                        child: new Text("Send"),
+                        onPressed: () => {}
+                      )
+                    : new IconButton(
+                        icon: new Icon(Icons.send),
+                        onPressed: () => {}
+                      )),
+          ]),
+          decoration: Theme.of(context).platform == TargetPlatform.iOS
+              ? new BoxDecoration(
+                  border:
+                      new Border(top: new BorderSide(color: Colors.grey[200])))
+              : null),
+    );
+  }
+
+
+
+Widget _card() {
+  return new Container(
+      child : new Column(
+        children: <Widget>[
+           new Container(
+            padding: EdgeInsets.fromLTRB(35.0,18.0, 0.0, 0.0),
+            alignment: Alignment.topLeft,
             child: new Row(
               children: <Widget>[
-              new Expanded(
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: new Text(
-                    "${data.title} 대한민국대한민국대한민국대한민국대한민국대한민국대한민국대한민국대한민국대한민국대한민국대한민국",
-                    style: new TextStyle(
-                      fontSize: 28.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black
-                    ),
+                new Icon(Icons.favorite,color: Colors.grey,size: 12.0,),
+                new Padding(padding: EdgeInsets.all(2),),
+                new Text("@bill 님이 추천합니다",
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.grey,
                   ),
                 ),
-                flex: 4,
-              ),
-              new Expanded(
-                child: new Stack(
-                  children: <Widget>[
-                    new Align(
-                      alignment: AlignmentDirectional.topEnd,
-                      child:
-                        new RawMaterialButton(
-                          onPressed: () {},
-                          child: new Icon(
-                            Icons.bookmark,
-                            color: Colors.blue,
-                            size: 20.0,
-                          ),
-                          shape: new CircleBorder(),
-                          elevation: 4.0,
-                          fillColor: Colors.white,
-                          padding: const EdgeInsets.all(12.0),
-                      ),
+              ]
+            )
+           ),
+          new Container(
+            padding: EdgeInsets.all(10.0),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Expanded(
+                  flex: 1,
+                  child: new Container(
+                    padding: new EdgeInsets.all(5.0),
+                    child: 
+                    _profileImage(data.profileImage, 55.0, 55.0),
                     ),
-                  ],
                 ),
-                flex: 1,
-              ),
-            ],
-           )
-         ),
-         new Padding(padding: EdgeInsets.all(5.0)),
-         new Container(
-            alignment: Alignment.topLeft,
-            child: new Text(
-              "Top Choice",
-              style: new TextStyle(
-                fontSize: 11.0,
-                color: Colors.black,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w100
-              ),
+                new Expanded(
+                  flex: 4,
+                  child: new Container(
+                    margin: EdgeInsets.fromLTRB(0.0,10.0,10.0,0.0),
+                    // height: 200,
+                    child: new Column(
+                      children: <Widget>[
+                        new Container(
+                          margin: EdgeInsets.fromLTRB(10.0,0.0,0.0,0.0),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new Text("@Seungpil",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold
+                                    )
+                                  ),
+                                  new Padding(padding: EdgeInsets.all(3),),
+                                  new Row(
+                                    children: <Widget>[
+                                      new Icon(Icons.location_on, size: 13.0, color: Colors.black),
+                                      new Padding(padding: EdgeInsets.all(2),),
+                                      new Text("Seoul, Repulic of Korea",
+                                        style: TextStyle(
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.w300,
+                                          color:greyDarkColor
+                                        )
+                                      ),
+                                    ],
+                                  ),
+                                 
+                                ],
+                              ),
+                              new Expanded(
+                                child: new Container(
+                                  alignment: Alignment.topRight,
+                                  child: new InkWell(
+                                    child: new Icon(Icons.settings, size: 18.0, color: Colors.grey),
+                                    onTap: _showBottom
+                                  )
+                                ),
+                                flex: 4,
+                              ),
+                            ],
+                          )
+                        ),
+                      ],
+                    )
+                  ),
+                ),
+              ],
             ),
           ),
+
+          new Container(
+            margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+            padding: new EdgeInsets.all(15.0),
+            child: new Text(
+              "blablablablablablablablablablablablablablablablablablablablablablablabla",
+              style: TextStyle(
+                fontSize: 18.0,
+              ),
+              softWrap: true,
+              overflow: TextOverflow.fade,
+            )
+          ),
+
+          new Container(
+            margin: EdgeInsets.all(10.0),
+            child: new Container(
+              height: 300.0,
+              decoration: new BoxDecoration(
+                color: Colors.white,
+                borderRadius: new BorderRadius.circular(10.0),
+                image : new DecorationImage(
+                  image: new NetworkImage(data.image),
+                  fit: BoxFit.cover,
+                )
+              )
+            ),
+          ),
+          new Divider(),
+          new Container(
+            padding: EdgeInsets.fromLTRB(20.0,5.0, 20.0, 5.0),
+            alignment: Alignment.topLeft,
+            child: new Column(
+              children: <Widget>[
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text("2018년 01월 03일 09:20 오전 에",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.grey,
+                      ),
+                   ),
+                   new Text("Tripgrida for Android",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.blueGrey,
+                      )
+                    ),
+                 ]
+               ),
+               new Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+    
+                    new Text("을 통해 기록",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.grey,
+                      )
+                    ),
+                  ]
+                 )
+              ],
+            ),
+          ),
+          new Divider(),
+          new Container(
+            padding: EdgeInsets.fromLTRB(20.0,5.0, 20.0, 5.0),
+            alignment: Alignment.topLeft,
+            child: new Column(
+              children: <Widget>[
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text("6",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                          new Padding(padding: EdgeInsets.all(2),),
+                          new Text("리트윗",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                       ]
+                    ),
+                    new Padding(padding: EdgeInsets.all(8),),
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new Text("26",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                        ),
+                        new Padding(padding: EdgeInsets.all(2),),
+                        new Text("마음에 들어요",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.grey,
+                            ),
+                         )
+                      ]
+                    ),
+                 ]
+               ),
+              ]
+            )
+          ),
+          new Divider(),
+          new Container(
+            margin: EdgeInsets.all(10.0),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.chat_bubble_outline,
+                        color: Colors.grey,
+                        size: 25.0,
+                      ),
+                    ],
+                  ),
+                  flex: 1,
+                ),
+                new Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.repeat,
+                        color: Colors.grey,
+                        size: 25.0,
+                      ),
+                      new Padding(padding: EdgeInsets.all(2.0),),
+                    ],
+                  ),
+                  flex: 1,
+                ),
+                new Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.favorite_border,
+                        color: Colors.grey,
+                        size: 25.0,
+                      ),
+                      new Padding(padding: EdgeInsets.all(2.0),),
+                    ],
+                  ),
+                  flex: 1,
+                ),
+                new Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.share,
+                        color: Colors.grey,
+                        size: 25.0,
+                      ),
+                    ],
+                  ),
+                  flex: 1,
+                ),
+              ]
+            )
+          ),
+          new Divider(),
+        ]
+      )
+  );
+}
+
+
+
+
+Widget _reply() {
+  return new InkWell(
+    onTap: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => 
+          new TimelineDetailPage(
+            getDb: data
+          )
+        )
+      );
+    },
+    child: new Column(
+      children: <Widget>[
+        new Container(
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Expanded(
+                flex: 1,
+                child: new Container(
+                  padding: new EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
+                  child: 
+                  _profileImage(data.profileImage, 55.0, 55.0),
+                  ),
+              ),
+              new Expanded(
+                flex: 4,
+                child: new Container(
+                  margin: EdgeInsets.fromLTRB(0.0,10.0,10.0,0.0),
+                  // height: 200,
+                  child: new Column(
+                    children: <Widget>[
+                      new Container(
+                        margin: EdgeInsets.fromLTRB(0.0,0.0,0.0,0.0),
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            new Text("@seungpil",
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold
+                              )
+                            ),
+                            // new Text(" · 12분전",
+                            //   style: TextStyle(
+                            //     fontSize: 13.0,
+                            //     fontWeight: FontWeight.w500,
+                            //     color: Colors.grey,
+                            //   )
+                            // ),
+                            new Expanded(
+                              child: new Container(
+                                alignment: Alignment.topRight,
+                                child: new Text(" · 12분전",
+                                   style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey,
+                                  )
+                                ),
+                              ),
+                              flex: 4,
+                            ),
+                          ],
+                        )
+                      ),
+                      new Container(
+                        margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+                        child: new Text(
+                          "blablablablablablablablablablablablablablablablablablablablablablablabla",
+                          style: TextStyle(
+                            fontSize: 15.0,
+                          )
+                        )
+                      ),
+                      new Container(
+                        margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
+                        child: new Container(
+                          height: 180.0,
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: new BorderRadius.circular(10.0),
+                            image : new DecorationImage(
+                              image: new NetworkImage(data.image),
+                              fit: BoxFit.cover,
+                            )
+                          )
+                        ),
+                      ),
+                      new Container(
+                        margin: EdgeInsets.fromLTRB(10.0,5.0,10.0,5.0),
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            new Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.chat_bubble_outline,
+                                    color: Colors.grey,
+                                    size: 15.0,
+                                  ),
+                                ],
+                              ),
+                              flex: 1,
+                            ),
+                            new Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.repeat,
+                                    color: Colors.grey,
+                                    size: 15.0,
+                                  ),
+                                  new Padding(padding: EdgeInsets.all(2.0),),
+                                  new Text("100",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.grey,
+                                    )
+                                  )
+                                ],
+                              ),
+                              flex: 1,
+                            ),
+                            new Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.favorite_border,
+                                    color: Colors.grey,
+                                    size: 15.0,
+                                  ),
+                                  new Padding(padding: EdgeInsets.all(2.0),),
+                                  new Text("23",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.grey,
+                                    )
+                                  )
+                                ],
+                              ),
+                              flex: 1,
+                            ),
+                            new Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.share,
+                                    color: Colors.grey,
+                                    size: 15.0,
+                                  ),
+                                ],
+                              ),
+                              flex: 1,
+                            ),
+                          ]
+                        )
+                      ),
+                    ],
+                  )
+                ),   
+              ),
+            ],
+          )
+        ),
+        new Divider()
       ],
     )
   );
 }
 
-Widget _descriptionBox() {
-  return new Container(
-      // margin: EdgeInsets.fromLTRB(10.0,20.0,10.0,20.0),
-      padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,20.0),
+
+// 라운드 프로필 사진 
+Widget _profileImage(image, width, height) {
+  return new Center(
+    child: new Container(
       width: width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new Container(
-            alignment: Alignment.topLeft,
-            child: new Text(
-              data.description,
-              style: new TextStyle(
-                fontSize: 15.0,
-                color: Colors.black,
-              ),
+      height: height,
+      decoration: new BoxDecoration(
+        shape: BoxShape.circle,
+        image: new DecorationImage(
+          fit: BoxFit.cover,
+          image: new NetworkImage(image)
+        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: shadowColor,
+            offset: Offset(0.0, 0.0),
+            blurRadius: 10.0,
             ),
-          ),
-          new Padding(padding: EdgeInsets.all(10.0)),
-          new Container(
-            alignment: Alignment.topLeft,
-            child: new Text(
-              data.description,
-              style: new TextStyle(
-                fontSize: 12.0,
-                color: Colors.black,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w300
-              ),
-            ),
-          ),
-      ],
-    )
+        ],
+      )
+    ),
   );
+}
+
+void _showBottom() {
+   showModalBottomSheet(context: context,
+     builder: (builder) {
+       return new Column(
+         mainAxisSize: MainAxisSize.min,
+         children: <Widget>[
+           new ListTile(
+             leading: new Icon(Icons.music_note),
+             title: new Text('Music'),
+             onTap: () => {}         
+           ),
+           new ListTile(
+             leading: new Icon(Icons.photo_album),
+             title: new Text('Photos'),
+             onTap: () => {}         
+           ),
+           new ListTile(
+             leading: new Icon(Icons.videocam),
+             title: new Text('Video'),
+             onTap: () => {}          
+           ),
+         ],
+       );
+     }
+   );
 }
 
 
@@ -244,3 +691,4 @@ Widget _line() {
     color: greyColor,
   );
 }
+
