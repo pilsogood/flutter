@@ -9,6 +9,7 @@ Color mainColor = Color.fromRGBO(130, 84, 234, 1);
 Color shadowColor = Color.fromRGBO(47, 92, 182, 0.2);
 Color greyDarkColor = Color.fromRGBO(106, 106, 106, 1);
 Color greyColor = Color.fromRGBO(230, 236, 240, 1);
+Color backgrounGreyColor = Color.fromRGBO(245, 245, 245, 1);
 Color lineColor = const Color(0xD2D2E1ff);
 
 class TimelinePage extends StatefulWidget {
@@ -18,17 +19,19 @@ class TimelinePage extends StatefulWidget {
 
 class Db {
   final int seq;
+  final String profileImage;
   final String image;
   final String title;
   final String description;
 
-  Db(this.seq, this.image, this.title, this.description);
+  Db(this.seq, this.profileImage, this.image, this.title, this.description);
 }
 
 BuildContext context = null;
 
+String profileImage = r"https://www.tripgrida.com/img/profile/1_1448624008.jpg";
 String image = r"https://www.tripgrida.com/img/backgrounds/bg-cover-4.jpg";
-List<Db> data = List.generate(100,(i) => Db(i, image, 'title / $i', 'description $i'));
+List<Db> data = List.generate(100,(i) => Db(i, profileImage, image, 'title / $i', 'description $i'));
 
 class _AppStatus extends State<TimelinePage> {
   
@@ -44,6 +47,7 @@ class _AppStatus extends State<TimelinePage> {
       ),
       body: 
       new Container(
+        color: backgrounGreyColor,
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,22 +66,22 @@ Widget _list(count) {
     child: new ListView.builder(
       itemCount: count,
       itemBuilder: (BuildContext context, i) {
-        return _card(i);
+        return _card2(i);
       }
     )
   );
 }
 
 // 카드형식 위젯
-Widget _card(index) {
+Widget _card1(index) {
   return new InkWell(
     onTap: () {
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => 
-      //     new TimelineDetailPage(
-      //       getDb: data[index]
-      //     )
-      //   )
-      // );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => 
+          new TimelineDetailPage(
+            getDb: data[index]
+          )
+        )
+      );
     },
     child: new Column(
       children: <Widget>[
@@ -90,9 +94,9 @@ Widget _card(index) {
               new Expanded(
                 flex: 1,
                 child: new Container(
-                  padding: new EdgeInsets.fromLTRB(5.0,10.0,5.0,10.0),
+                  padding: new EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
                   child: 
-                  _profileImage(data[index].image, 55.0, 55.0),
+                  _profileImage(data[index].profileImage, 55.0, 55.0),
                   ),
               ),
               new Expanded(
@@ -111,21 +115,27 @@ Widget _card(index) {
                           children: <Widget>[
                             new Text("@seungpil",
                               style: TextStyle(
-                                fontSize: 17.0,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.bold
                               )
                             ),
                             new Text(" · 12분전",
                               style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w300,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.grey,
                               )
                             ),
                             new Expanded(
                               child: new Container(
                                 alignment: Alignment.topRight,
-                                child: new Text("detail"),
+                                child: new Text("MORE",
+                                   style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey,
+                                  )
+                                ),
                               ),
                               flex: 4,
                             ),
@@ -133,13 +143,27 @@ Widget _card(index) {
                         )
                       ),
                       new Container(
-                        margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
+                        margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
                         child: new Text(
                           "blablablablablablablablablablablablablablablablablablablablablablablabla",
                           style: TextStyle(
-                            fontSize: 16.0,
-
-                        ))
+                            fontSize: 15.0,
+                          )
+                        )
+                      ),
+                      new Container(
+                        margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
+                        child: new Container(
+                          height: 180.0,
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: new BorderRadius.circular(10.0),
+                            image : new DecorationImage(
+                              image: new NetworkImage(data[index].image),
+                              fit: BoxFit.cover,
+                            )
+                          )
+                        ),
                       ),
                       new Container(
                         margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
@@ -149,34 +173,72 @@ Widget _card(index) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             new Expanded(
-                              child: new Icon(
-                                Icons.chat_bubble_outline,
-                                color: Colors.grey,
-                                size: 15.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.chat_bubble_outline,
+                                    color: Colors.grey,
+                                    size: 16.0,
+                                  ),
+                                ],
                               ),
                               flex: 1,
                             ),
                             new Expanded(
-                              child: new Icon(
-                                Icons.repeat,
-                                color: Colors.grey,
-                                size: 15.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.repeat,
+                                    color: Colors.grey,
+                                    size: 16.0,
+                                  ),
+                                  new Padding(padding: EdgeInsets.all(2.0),),
+                                  new Text("100",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.grey,
+                                    )
+                                  )
+                                ],
                               ),
                               flex: 1,
                             ),
                             new Expanded(
-                              child: new Icon(
-                                Icons.favorite_border,
-                                color: Colors.grey,
-                                size: 15.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.favorite_border,
+                                    color: Colors.grey,
+                                    size: 16.0,
+                                  ),
+                                  new Padding(padding: EdgeInsets.all(2.0),),
+                                  new Text("23",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.grey,
+                                    )
+                                  )
+                                ],
                               ),
                               flex: 1,
                             ),
                             new Expanded(
-                              child: new Icon(
-                                Icons.share ,
-                                color: Colors.grey,
-                                size: 15.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.share,
+                                    color: Colors.grey,
+                                    size: 16.0,
+                                  ),
+                                ],
                               ),
                               flex: 1,
                             ),
@@ -195,6 +257,229 @@ Widget _card(index) {
     )
   );
 }
+
+
+// 카드형식 위젯
+Widget _card2(index) {
+  return new InkWell(
+    onTap: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => 
+          new TimelineDetailPage(
+            getDb: data[index]
+          )
+        )
+      );
+    },
+    child: new Container(
+      margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+      // padding: EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        borderRadius: new BorderRadius.circular(10.0),
+        color: Colors.white,
+        boxShadow: [
+          new BoxShadow(
+            color: shadowColor,
+            blurRadius: 8.0,
+            offset: new Offset(0.0, 0.0)
+          )
+        ]
+      ),
+      child : new Column(
+        children: <Widget>[
+          new Container(
+            padding: EdgeInsets.all(10.0),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Expanded(
+                  flex: 1,
+                  child: new Container(
+                    padding: new EdgeInsets.all(5.0),
+                    child: 
+                    _profileImage(data[index].profileImage, 55.0, 55.0),
+                    ),
+                ),
+                new Expanded(
+                  flex: 4,
+                  child: new Container(
+                    margin: EdgeInsets.fromLTRB(0.0,10.0,10.0,0.0),
+                    // height: 200,
+                    child: new Column(
+                      children: <Widget>[
+                        new Container(
+                          margin: EdgeInsets.fromLTRB(10.0,0.0,0.0,0.0),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new Text("@Seungpil",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold
+                                    )
+                                  ),
+                                  new Padding(padding: EdgeInsets.all(3),),
+                                  new Row(
+                                    children: <Widget>[
+                                      new Icon(Icons.location_on, size: 13.0, color: Colors.black),
+                                      new Padding(padding: EdgeInsets.all(2),),
+                                      new Text("Seoul, Repulic of Korea",
+                                        style: TextStyle(
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.w300,
+                                          color:greyDarkColor
+                                        )
+                                      ),
+                                    ],
+                                  ),
+                                 
+                                ],
+                              ),
+                              new Expanded(
+                                child: new Container(
+                                  alignment: Alignment.topRight,
+                                  child: new Text("12분전",
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey,
+                                    )
+                                  ),
+                                ),
+                                flex: 4,
+                              ),
+                            ],
+                          )
+                        ),
+                      ],
+                    )
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          new Container(
+            margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+            child: new Container(
+              height: 180.0,
+              decoration: new BoxDecoration(
+                color: Colors.white,
+                // borderRadius: new BorderRadius.circular(10.0),
+                image : new DecorationImage(
+                  image: new NetworkImage(data[index].image),
+                  fit: BoxFit.cover,
+                )
+              )
+            ),
+          ),
+          new Container(
+            margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+            padding: new EdgeInsets.all(10.0),
+            child: new Text(
+              "blablablablablablablablablablablablablablablablablablablablablablablabla",
+              style: TextStyle(
+                fontSize: 15.0,
+              ),
+              softWrap: true,
+              overflow: TextOverflow.fade,
+            )
+          ),
+          new Divider(),
+          new Container(
+            margin: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 20.0),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.chat_bubble_outline,
+                        color: Colors.grey,
+                        size: 16.0,
+                      ),
+                    ],
+                  ),
+                  flex: 1,
+                ),
+                new Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.repeat,
+                        color: Colors.grey,
+                        size: 16.0,
+                      ),
+                      new Padding(padding: EdgeInsets.all(2.0),),
+                      new Text("100",
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.grey,
+                        )
+                      )
+                    ],
+                  ),
+                  flex: 1,
+                ),
+                new Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.favorite_border,
+                        color: Colors.grey,
+                        size: 16.0,
+                      ),
+                      new Padding(padding: EdgeInsets.all(2.0),),
+                      new Text("23",
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.grey,
+                        )
+                      )
+                    ],
+                  ),
+                  flex: 1,
+                ),
+                new Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.share,
+                        color: Colors.grey,
+                        size: 16.0,
+                      ),
+                    ],
+                  ),
+                  flex: 1,
+                ),
+              ]
+            )
+          ),
+        ]
+      )
+    )
+  );
+}
+
 
 // 카드형식 위젯
 Widget _cards(index) {
@@ -317,9 +602,9 @@ Widget _profileImage(image, width, height) {
         ),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black12,
+            color: shadowColor,
             offset: Offset(0.0, 0.0),
-            blurRadius: 8.0,
+            blurRadius: 10.0,
             ),
         ],
       )
