@@ -96,14 +96,20 @@ class _AppStatus extends State<PlannerPage>
         title: new Text("Planner Example"),
       ),
       body: new Container(
-          child: new Column(
-             children: <Widget>[
-              new Expanded(
-                child: _list(),
-              )
-             ]
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            new Flexible(
+              child: new ListView(
+                children: <Widget>[
+                  _list2(),
+              ]
+            ),
           ),
-        ),
+        ]
+       )
+      )
     );
   }
 }
@@ -173,6 +179,87 @@ Widget _list() {
   },
   itemCount: 5,
   );
+}
+
+Widget _list2() {
+  
+  List<Widget> _part = new List<Widget>();
+  _part.add(_parts());
+  _part.add(_parts());
+  _part.add(_parts());
+  _part.add(_parts());
+  _part.add(_parts());
+
+  return new Container(
+    margin: EdgeInsets.all(10.0),
+    decoration: _boxShadow(),
+    child: new Column(
+      children: _part
+    )
+  );
+}
+
+Widget _parts() {
+  return new Stack(
+      children: <Widget>[
+        new Padding(
+          padding: const EdgeInsets.only(left: 100.0, right:5, top: 10),
+            
+            child: new Container(
+              // width: 300.0,
+              // margin: new EdgeInsets.all(20.0),
+              color: Colors.white,
+              child: new Column(
+                children: <Widget>[
+                  _card(),
+                ],
+              ),
+            ),
+          ),
+        new Positioned(
+          top: 0.0,
+          bottom: 0.0,
+          left: 71.5,
+          child: new Container(
+            height: 200.0,
+            width: 2.0,
+            color: timelineLineColor,
+          ),
+        ),
+        new Positioned(
+          top: 27.0,
+          left: 10.0,
+          child: new Text(
+            "1 Hours",
+             style: TextStyle(
+              fontSize: 11.0,
+              color: Colors.grey,
+              ),
+          )
+        ),
+        new Positioned(
+          top: 20.0,
+          left: 60.0,
+          child: new Container(
+            height: 25.0,
+            width: 25.0,
+            decoration: new BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            child: new Container(
+              margin: new EdgeInsets.all(5.0),
+              height: 10.0,
+              width: 10.0,
+              decoration: new BoxDecoration(
+                shape: BoxShape.circle,
+                color: timelineCircleColor
+              ),
+            ),
+          ),
+        )
+      ],
+    );
 }
 
 Widget _card() {
@@ -288,3 +375,19 @@ Widget _poiImage(image, width, height) {
     ),
   );
 }
+
+
+
+BoxDecoration _boxShadow() {
+  return new BoxDecoration(
+    borderRadius: new BorderRadius.circular(10.0),
+    color: Colors.white,
+    boxShadow: [          
+      new BoxShadow(
+        color: shadowColor,
+        blurRadius: 8.0,
+        offset: new Offset(0.0, 0.0)
+      )
+    ]
+  );
+} 
