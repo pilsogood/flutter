@@ -26,10 +26,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         brightness: Brightness.light,
+         backgroundColor: Colors.white,
+         elevation: 0.5,
          title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -60,3 +64,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

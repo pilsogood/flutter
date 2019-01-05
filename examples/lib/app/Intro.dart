@@ -435,15 +435,6 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new RecipeAppUi())),
                   ),
 
-                  new FlatButton(
-                    child: new Text('Recipe App',
-                    style: new TextStyle(
-                      color: Colors.white
-                    )
-                    ),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Profile())),
-                  ),
-
                 ],
               )
 
