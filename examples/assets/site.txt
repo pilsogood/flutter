@@ -1,0 +1,5 @@
+https://qiita.com/Dreamwalker/items/3af2b70c0acfcee2e8f8
+
+
+packages
+https://pub.dartlang.org/packages/polygon_clipper

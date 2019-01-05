@@ -13,6 +13,11 @@ import 'package:examples/app/ChatPage.dart';
 import 'package:examples/app/TimelinePage.dart';
 import 'package:examples/app/PlannerPage.dart';
 
+import 'package:examples/ui/PaymentUiPage.dart';
+import 'package:examples/ui/RecipeAppUi.dart';
+import 'package:examples/ui/Profile.dart';
+import 'package:examples/ui/InstaFeed.dart';
+
 class Intro extends StatefulWidget {
   @override
   _AppStatus createState() => _AppStatus();
@@ -375,11 +380,76 @@ class AfterSplash extends StatelessWidget {
                   ),
 
                 ],
+              ),
+              new Row(
+                children: <Widget>[
+                  
+                  new FlatButton(
+                    child: new Text('Payment',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new PaymentUiPage())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('Recipe App',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new RecipeAppUi())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('Profile App',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Profile())),
+                  ),
+
+
+                ],
+              ),
+              new Row(
+                children: <Widget>[
+                  
+                  new FlatButton(
+                    child: new Text('Instagram',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new InstaFeed())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('Recipe App',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new RecipeAppUi())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('Recipe App',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Profile())),
+                  ),
+
+                ],
               )
+
             ],
-          )
-          
-      ),
+          ),
+        ),
       )
     );
   }
