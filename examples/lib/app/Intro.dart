@@ -18,6 +18,8 @@ import 'package:examples/ui/RecipeAppUi.dart';
 import 'package:examples/ui/Profile.dart';
 import 'package:examples/ui/InstaFeed.dart';
 
+import 'package:examples/ui/DismissibleList.dart';
+
 import 'package:examples/ui/movie/main.dart';
 
 class Intro extends StatefulWidget {
@@ -429,21 +431,22 @@ class AfterSplash extends StatelessWidget {
                   ),
 
                   new FlatButton(
-                    child: new Text('Recipe App',
-                    style: new TextStyle(
-                      color: Colors.white
-                    )
-                    ),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new RecipeAppUi())),
-                  ),
-
-                  new FlatButton(
                     child: new Text('Movies App',
                     style: new TextStyle(
                       color: Colors.white
                     )
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Movies())),
+                  ),
+
+
+                  new FlatButton(
+                    child: new Text('Dismissible',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new DismissibleList())),
                   ),
 
 
