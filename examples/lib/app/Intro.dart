@@ -18,6 +18,8 @@ import 'package:examples/ui/RecipeAppUi.dart';
 import 'package:examples/ui/Profile.dart';
 import 'package:examples/ui/InstaFeed.dart';
 
+import 'package:examples/ui/movie/main.dart';
+
 class Intro extends StatefulWidget {
   @override
   _AppStatus createState() => _AppStatus();
@@ -434,6 +436,16 @@ class AfterSplash extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new RecipeAppUi())),
                   ),
+
+                  new FlatButton(
+                    child: new Text('Movies App',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Movies())),
+                  ),
+
 
                 ],
               )
