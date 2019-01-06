@@ -1,8 +1,9 @@
 import "package:flutter/material.dart";
+import 'package:qr_flutter/qr_flutter.dart';
 
-void main() => runApp(InstaFeed());
+void main() => runApp(QrcodeImage());
 
-class InstaFeed extends StatelessWidget {
+class QrcodeImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,10 +31,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: new Container(
+        margin: EdgeInsets.only(top:100.0),
         child: new Center(
           child: new Column(
             children: <Widget>[
-
+              new QrImage(
+                data: "1234567890",
+                size: 200.0,
+              ),
             ],
           ),
         )

@@ -20,6 +20,15 @@ import 'package:examples/ui/InstaFeed.dart';
 
 import 'package:examples/ui/DismissibleList.dart';
 
+import 'package:examples/ui/QrcodeScan.dart';
+import 'package:examples/ui/QrcodeScan2.dart';
+
+import 'package:examples/ui/QrcodeImage.dart';
+
+
+import 'package:examples/ui/PermissionCheck.dart';
+import 'package:examples/app/Tr.dart';
+
 import 'package:examples/ui/movie/main.dart';
 
 class Intro extends StatefulWidget {
@@ -447,6 +456,65 @@ class AfterSplash extends StatelessWidget {
                     )
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new DismissibleList())),
+                  ),
+
+
+                ],
+              ),
+
+              new Row(
+                children: <Widget>[
+                  
+                  new FlatButton(
+                    child: new Text('QR Reader',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new QrcodeImage())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('QR Scanner',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new QrcodeScan())),
+                  ),
+
+
+                  new FlatButton(
+                    child: new Text('QR Scanner2',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new QrcodeScan2())),
+                  ),
+
+                ],
+              ),
+
+              new Row(
+                children: <Widget>[
+                  
+                  new FlatButton(
+                    child: new Text('Permission',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new PermissionCheck())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('TR',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Tr())),
                   ),
 
 
