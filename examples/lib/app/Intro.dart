@@ -28,6 +28,8 @@ import 'package:examples/ui/QrcodeImage.dart';
 
 import 'package:examples/ui/PermissionCheck.dart';
 import 'package:examples/app/Tr.dart';
+import 'package:examples/ui/OcrPage.dart';
+import 'package:examples/ui/swipe/swipe.dart';
 
 import 'package:examples/ui/movie/main.dart';
 
@@ -276,7 +278,7 @@ class AfterSplash extends StatelessWidget {
               new Row(
                 children: <Widget>[
                   new FlatButton(
-                    child: new Text('Profile Page',
+                    child: new Text('Profile',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -284,7 +286,7 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ProfilePage())),
                   ),
                   new FlatButton(
-                    child: new Text('Contents Page',
+                    child: new Text('Contents',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -292,7 +294,7 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ContentsPage())),
                   ),
                   new FlatButton(
-                    child: new Text('Slider Page',
+                    child: new Text('Slider',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -305,7 +307,7 @@ class AfterSplash extends StatelessWidget {
                 children: <Widget>[
                   
                   new FlatButton(
-                    child: new Text('StickyList Page',
+                    child: new Text('StickyList',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -314,7 +316,7 @@ class AfterSplash extends StatelessWidget {
                   ),
 
                   new FlatButton(
-                    child: new Text('Settings Page',
+                    child: new Text('Settings',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -323,7 +325,7 @@ class AfterSplash extends StatelessWidget {
                   ),
 
                   new FlatButton(
-                    child: new Text('Carousel Page',
+                    child: new Text('Carousel',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -337,7 +339,7 @@ class AfterSplash extends StatelessWidget {
                 children: <Widget>[
                   
                   new FlatButton(
-                    child: new Text('Tab Page',
+                    child: new Text('Tab',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -345,7 +347,7 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new TabPage())),
                   ),
                   new FlatButton(
-                    child: new Text('Map Page',
+                    child: new Text('Map',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -353,7 +355,7 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new MapPage())),
                   ),
                   new FlatButton(
-                    child: new Text('Pulse Page',
+                    child: new Text('Pulse',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -375,7 +377,7 @@ class AfterSplash extends StatelessWidget {
                   ),
 
                   new FlatButton(
-                    child: new Text('Chat Page',
+                    child: new Text('Chat',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -384,7 +386,7 @@ class AfterSplash extends StatelessWidget {
                   ),
               
                   new FlatButton(
-                    child: new Text('Plan Page',
+                    child: new Text('Planner',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -407,7 +409,7 @@ class AfterSplash extends StatelessWidget {
                   ),
 
                   new FlatButton(
-                    child: new Text('Recipe App',
+                    child: new Text('Recipe',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -416,7 +418,7 @@ class AfterSplash extends StatelessWidget {
                   ),
 
                   new FlatButton(
-                    child: new Text('Profile App',
+                    child: new Text('Dynamic Profile',
                     style: new TextStyle(
                       color: Colors.white
                     )
@@ -517,6 +519,32 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Tr())),
                   ),
 
+                  new FlatButton(
+                    child: new Text('OCR',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new OcrPage())),
+                  ),
+
+
+                ],
+              ),
+
+              new Row(
+                children: <Widget>[
+                  
+                  new FlatButton(
+                    child: new Text('Swipe',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Swipe())),
+                  ),
+
+ 
 
                 ],
               )
