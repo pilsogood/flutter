@@ -236,9 +236,7 @@ class _HomePageState extends State<HomePage>
       image1 = image[0];
       if(image.length == 1) {
         image2 = image[1];
-      } else {
-        image1 = "tripgrida-logo.png";
-      }
+      } 
      } else {
       image1 = "tripgrida-logo.png";
      }
