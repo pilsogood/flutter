@@ -30,6 +30,7 @@ import 'package:examples/ui/PermissionCheck.dart';
 import 'package:examples/app/Tr.dart';
 import 'package:examples/ui/OcrPage.dart';
 import 'package:examples/ui/swipe/swipe.dart';
+import 'package:examples/ui/ethereum/Web3.dart';
 
 import 'package:examples/ui/movie/main.dart';
 
@@ -542,6 +543,15 @@ class AfterSplash extends StatelessWidget {
                     )
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Swipe())),
+                  ),
+
+                   new FlatButton(
+                    child: new Text('Web3',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Web3())),
                   ),
 
  

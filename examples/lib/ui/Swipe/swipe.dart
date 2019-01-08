@@ -1,81 +1,385 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
-void main() => runApp(new Swipe());
-
-class Swipe extends StatelessWidget
-{
+class Swipe extends StatelessWidget {
   @override
-  Widget build(BuildContext context)
-  {
-    return new MaterialApp
-    (
-      title: 'Tinder cards demo',
-      // theme: new ThemeData(primarySwatch: Colors.blue),
-      home: new SwipeFeedPage(),
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Drag app"),
+        ),
+        body: HomePage(),
+      ),
     );
   }
 }
 
-class SwipeFeedPage extends StatefulWidget
-{
+
+String _status = "";
+
+class HomePage extends StatefulWidget {
   @override
-  _SwipeFeedPageState createState() => new _SwipeFeedPageState();
+  State<StatefulWidget> createState() {
+    return _HomePageState();
+  }
 }
 
-class _SwipeFeedPageState extends State<SwipeFeedPage>
-{
-  bool showAlignmentCards = false;
+class _HomePageState extends State<HomePage>  
+  with SingleTickerProviderStateMixin {
   
-  @override
-  Widget build(BuildContext context)
-  {
-    return new Scaffold
-    (
-      // appBar: new AppBar
-      // (
-      //   elevation: 0.0,
-      //   centerTitle: true,
-      //   backgroundColor: Colors.white,
-      //   leading: new IconButton
-      //   (
-      //     onPressed: () {},
-      //     icon: new Icon(Icons.settings, color: Colors.grey)
-      //   ),
-      //   title: new Switch
-      //   (
-      //     onChanged: (bool newValue) => setState(() => showAlignmentCards = newValue),
-      //     value: showAlignmentCards,
-      //     activeColor: Colors.red,
-      //   ),
-      //   actions: <Widget>
-      //   [
-      //     new IconButton
-      //     (
-      //       onPressed: () {},
-      //       icon: new Icon(Icons.question_answer, color: Colors.grey)
-      //     ),
-      //   ],
-      // ),
-      backgroundColor: Colors.white,
-      body: new Column
-      (
-        children: <Widget>
-        [
-          // showAlignmentCards ? new CardsSectionDraggable() : new CardsSectionAlignment(context),
-          new CardsSectionAlignment(context),
-          buttonsRow(),
+  AnimationController _buttonController;
+  Animation<double> _animation;
 
-        ],
+  Animation<double> rotate;
+  Animation<double> right;
+  Animation<double> bottom;
+  Animation<double> width;
+  int flag = 0;
+
+  double topd = 0.0;
+  double leftd = 0.0;
+  double rotated = 0.0;
+
+  // List data = imageData;
+  List selectedData = [];
+
+  Offset position ;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _buttonController = new AnimationController(
+        duration: new Duration(milliseconds: 1000), vsync: this);
+    
+    _animation = new CurvedAnimation(
+      parent: _buttonController,
+      curve: new Interval(0.0, 1.0, curve: Curves.linear),
+    );
+
+    rotate = new Tween<double>(
+      begin: -0.0,
+      end: -40.0,
+    ).animate(
+      new CurvedAnimation(
+        parent: _buttonController,
+        curve: Curves.ease,
+      ),
+    );
+    rotate.addListener(() {
+      setState(() {
+        if (rotate.isCompleted) {
+          // var i = data.removeLast();
+          // data.insert(0, i);
+
+          _buttonController.reset();
+        }
+      });
+    });
+
+    right = new Tween<double>(
+      begin: 0.0,
+      end: 400.0,
+    ).animate(
+      new CurvedAnimation(
+        parent: _buttonController,
+        curve: Curves.ease,
+      ),
+    );
+    bottom = new Tween<double>(
+      begin: 15.0,
+      end: 100.0,
+    ).animate(
+      new CurvedAnimation(
+        parent: _buttonController,
+        curve: Curves.ease,
+      ),
+    );
+    width = new Tween<double>(
+      begin: 20.0,
+      end: 25.0,
+    ).animate(
+      new CurvedAnimation(
+        parent: _buttonController,
+        curve: Curves.bounceOut,
       ),
     );
   }
 
+  @override
+  void dispose() {
+    _buttonController.dispose();
+    super.dispose();
+  }
+
+  Future<Null> _swipeAnimation() async {
+    try {
+      await _buttonController.forward();
+    } on TickerCanceled {}
+  }
+
+  dismissImg(DecorationImage img) {
+    setState(() {
+      // data.remove(img);
+    });
+  }
+
+  addImg(DecorationImage img) {
+    setState(() {
+      // data.remove(img);
+      // selectedData.add(img);
+    });
+  }
+
+  swipeRight() {
+    if (flag == 0)
+      setState(() {
+        flag = 1;
+      });
+    _swipeAnimation();
+  }
+
+  swipeLeft() {
+    if (flag == 1)
+      setState(() {
+        flag = 0;
+      });
+    _swipeAnimation();
+  }
+
+    _onDragStart(BuildContext context, DragStartDetails start) {
+      RenderBox getBox = context.findRenderObject();
+      var local = getBox.globalToLocal(start.globalPosition);
+      print(local.dx.toString() + "|" + local.dy.toString());
+    }
+
+    _onDragUpdate(BuildContext context, DragUpdateDetails update) {
+      RenderBox getBox = context.findRenderObject();
+      var local = getBox.globalToLocal(update.globalPosition);
+      setState(() {
+        topd = local.dy - 180;
+        leftd = local.dx - 180;
+        rotated = 220.0;
+      });
+    }
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    final double width = MediaQuery.of(context).size.width;
+    final double left = (width - (width * 0.9)) / 2;
+    final double top = 20;
+    final double height = MediaQuery.of(context).size.height;
+
+    final double resetTop = 20;
+    final double resetLeft = (width - (width * 0.9)) / 2;
+
+    String acceptedData = "";
+
+    topd = (topd == 0) ? top : topd ;
+    leftd = (leftd == 0) ? left : leftd;
+
+    return Column(
+      children: <Widget>[
+        Flexible(
+          flex: 5,
+            child: Container(
+              child: Stack(
+                children: <Widget>[
+                    Positioned(
+                    top: topd,
+                    left: leftd,
+
+                    child: 
+                    
+                    // Draggable(
+                    //   child: _card(context, false, 0),
+                    //   feedback: _card(context, true, 0),
+                    //   onDraggableCanceled: (Velocity velocity, Offset offset){
+                    //     // setState(() => position = offset);
+                    //     print(offset.toString());
+                    //   },
+                    //   childWhenDragging:  _card(context, false ,1),
+                    //   data: "1"
+                    // ),
+
+                  GestureDetector(
+                      onTap: () {
+                        print("onTap");
+                      },
+                      onPanUpdate: (DragUpdateDetails details) {
+                        print("onPanUpdate");
+                      },
+                      onPanEnd: (_) {
+                        print("onPanEnd");
+                      },
+                      onHorizontalDragStart: (DragStartDetails start) {
+                         print("onHorizontalDragStart");
+                        _onDragStart(context, start);
+                      },
+                      onHorizontalDragUpdate: 
+                      // _move,
+
+                      (DragUpdateDetails update) {
+                        print("onHorizontalDragUpdate");
+                        _onDragUpdate(context, update);
+
+                        // setState(() {
+                        //   rotated = 220.0;
+                        // });
+
+                      },
+
+                      onHorizontalDragEnd: (DragEndDetails end) {
+                        setState(() {
+                          topd = resetTop;
+                          leftd = resetLeft;
+                          rotated = 0.0;
+                        });
+                      },
+                      child: _card(context, rotated, 0),
+                    ),
+
+
+                  ),
+                    
+                  // Positioned(
+                  //   left:0,
+                  //   child: DragTarget(
+                  //       builder: (context, accepted, rejected) => Container(
+                  //         height: height,
+                  //         width: 85.0,
+                  //         color: Color.fromRGBO(255, 255, 255, 0),
+                  //       ),
+                  //       onLeave: (String data) {
+                  //         setState(() => _status = "OOOO");
+                  //         print(acceptedData + ": LEFT");
+                  //       },
+                  //       onWillAccept: (String data) {
+                  //         setState(() => _status = "OOOO");
+                  //         return true;
+                  //       },
+                  //       onAccept: (String data) {
+                  //         acceptedData = data;  
+                  //         setState(() => _status = "OOOO");
+                  //         print(acceptedData + ": LEFT");
+                  //         swipeLeft();
+                  //       }
+                  //     )
+                  // ),
+                  // Positioned(
+                  //   right:0,
+                  //   child: DragTarget(
+                  //       builder: (context, accepted, rejected) => Container(
+                  //         height: height,
+                  //         width: 85.0,
+                  //         color:  Color.fromRGBO(255, 255, 255, 0),
+                  //       ),
+                  //       onLeave: (String data) {
+                  //         setState(() => _status = "LIKE");
+                  //         print(acceptedData + ": RIGHT");
+                  //         swipeRight();
+                  //       },
+                  //       onWillAccept: (String data) {
+                  //         setState(() => _status = "LIKE");
+                  //         swipeRight();
+                  //         return true;
+                  //       },
+                  //       onAccept: (String data) {
+                  //         acceptedData = data;  
+                  //         setState(() => _status = "LIKE");
+                  //         print(acceptedData + ": RIGHT");
+                  //         swipeRight();
+                  //       }
+                  //     )
+                  // ),
+                ],
+              ),
+            ),
+          ),
+        Flexible(
+          flex: 1,
+          // child: buttonsRow()
+        )
+      ],
+    );
+  }
+
+  Widget _card(BuildContext context, rotated, image) {
+    
+    final double width = MediaQuery.of(context).size.width * 0.9;
+    final double height = MediaQuery.of(context).size.height * 0.65;
+
+    return new 
+      Transform.rotate(
+        angle: rotated,
+        child: Container(
+          height: height,
+          width:  width,
+          decoration: new BoxDecoration(
+              color: Colors.black.withOpacity(0.2) ,
+              // Colors.transparent,
+              shape: BoxShape.rectangle,
+              borderRadius: new BorderRadius.circular(20.0),
+              boxShadow: <BoxShadow>[
+                new BoxShadow(
+                  color: new Color.fromRGBO(60, 64, 67, 0.5),
+                  blurRadius: 10.0,
+                  offset: new Offset(0.0, 5.0),
+                ),
+              ],
+          ),
+          
+          child: new Stack
+          (
+            children: <Widget>
+            [
+              new SizedBox.expand
+              (
+                child: new Material
+                (
+                  borderRadius: new BorderRadius.circular(8.0),
+                  clipBehavior: Clip.antiAlias,
+                  child:  new Image.asset(
+                    (image == 0) ? 'assets/images/dog.jpeg' : 'assets/images/profile.jpg' , 
+                    fit: BoxFit.cover) ,
+                ),
+              ),
+              new Align
+              (
+                alignment: Alignment.bottomLeft,
+                child: new Container
+                (
+                  
+                  padding: new EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  child: new Column
+                  (
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>
+                    [
+                      new Text(_status),
+                      new Text('Card number 0', style: new TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w700)),
+                      new Padding(padding: new EdgeInsets.only(bottom: 8.0)),
+                      new Text('A short description.', textAlign: TextAlign.start, style: new TextStyle(color: Colors.white)),
+                    ],
+                  )
+                ),
+              )
+            ],
+          ),
+        )
+    );
+  }
+
+
   Widget buttonsRow()
   {
-    return new Container
+    return new Center
     (
-      margin: new EdgeInsets.symmetric(vertical: 48.0),
+      // height: 100.0,
+      // margin: new EdgeInsets.symmetric(vertical: 15.0),
       child: new Row
       (
         mainAxisAlignment: MainAxisAlignment.center,
@@ -115,506 +419,6 @@ class _SwipeFeedPageState extends State<SwipeFeedPage>
       ),
     );
   }
+
 }
 
-
-
-class ProfileCardAlignment extends StatelessWidget
-{
-  final int cardNum;
-  ProfileCardAlignment(this.cardNum);
-
-  @override
-  Widget build(BuildContext context)
-  {
-    return new Card
-    (
-      child: new Stack
-      (
-        children: <Widget>
-        [
-          new SizedBox.expand
-          (
-            child: new Material
-            (
-              borderRadius: new BorderRadius.circular(12.0),
-              child: new Image.asset('assets/images/profile.jpg', fit: BoxFit.cover),
-            ),
-          ),
-          new SizedBox.expand
-          (
-            child: new Container
-            (
-              decoration: new BoxDecoration
-              (
-                gradient: new LinearGradient
-                (
-                  colors: [ Colors.transparent, Colors.black54 ],
-                  begin: Alignment.center,
-                  end: Alignment.bottomCenter
-                )
-              ),
-            ),
-          ),
-          new Align
-          (
-            alignment: Alignment.bottomLeft,
-            child: new Container
-            (
-              padding: new EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              child: new Column
-              (
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>
-                [
-                  new Text('Card number $cardNum', style: new TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w700)),
-                  new Padding(padding: new EdgeInsets.only(bottom: 8.0)),
-                  new Text('A short description.', textAlign: TextAlign.start, style: new TextStyle(color: Colors.white)),
-                ],
-              )
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-
-
-List<Alignment> cardsAlign = [ new Alignment(0.0, 1.0), new Alignment(0.0, 0.8), new Alignment(0.0, 0.0) ];
-List<Size> cardsSize = new List(3);
-
-class CardsSectionAlignment extends StatefulWidget
-{
-  CardsSectionAlignment(BuildContext context)
-  {
-    cardsSize[0] = new Size(MediaQuery.of(context).size.width * 0.9, MediaQuery.of(context).size.height * 0.6);
-    cardsSize[1] = new Size(MediaQuery.of(context).size.width * 0.85, MediaQuery.of(context).size.height * 0.55);
-    cardsSize[2] = new Size(MediaQuery.of(context).size.width * 0.8, MediaQuery.of(context).size.height * 0.5);
-  }
-
-  @override
-  _CardsSectionState createState() => new _CardsSectionState();
-}
-
-class _CardsSectionState extends State<CardsSectionAlignment> with SingleTickerProviderStateMixin
-{
-  int cardsCounter = 0;
-
-  List<ProfileCardAlignment> cards = new List();
-  AnimationController _controller;
-
-  final Alignment defaultFrontCardAlign = new Alignment(0.0, 0.0);
-  Alignment frontCardAlign;
-  double frontCardRot = 0.0;
-
-  @override
-  void initState()
-  {
-    super.initState();
-
-    // Init cards
-    for (cardsCounter = 0; cardsCounter < 3; cardsCounter++)
-    {
-      cards.add(new ProfileCardAlignment(cardsCounter));
-    }
-
-    frontCardAlign = cardsAlign[2];
-
-    // Init the animation controller
-    _controller = new AnimationController(duration: new Duration(milliseconds: 700), vsync: this);
-    _controller.addListener(() => setState(() {}));
-    _controller.addStatusListener((AnimationStatus status)
-    {
-      if(status == AnimationStatus.completed) changeCardsOrder();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context)
-  {
-    return new Expanded
-    (
-      child: new Stack
-      (
-        children: <Widget>
-        [
-          backCard(),
-          middleCard(),
-          frontCard(),
-
-          // Prevent swiping if the cards are animating
-          _controller.status == AnimationStatus.forward ? new SizedBox.expand
-          (
-            child: new GestureDetector
-            (
-              // While dragging the first card
-              onPanUpdate: (DragUpdateDetails details)
-              {
-                // Add what the user swiped in the last frame to the alignment of the card
-                setState(()
-                {
-                  // 20 is the "speed" at which moves the card
-                  frontCardAlign = new Alignment
-                  (
-                    frontCardAlign.x + 20 * details.delta.dx / MediaQuery.of(context).size.width,
-                    frontCardAlign.y + 40 * details.delta.dy / MediaQuery.of(context).size.height
-                  );
-                  
-                  frontCardRot = frontCardAlign.x; // * rotation speed;
-                });
-              },
-              // When releasing the first card
-              onPanEnd: (_)
-              {
-                // If the front card was swiped far enough to count as swiped
-                if(frontCardAlign.x > 3.0 || frontCardAlign.x < -3.0)
-                {
-                  animateCards();
-                }
-                else
-                {
-                  // Return to the initial rotation and alignment
-                  setState(()
-                  {
-                    frontCardAlign = defaultFrontCardAlign;
-                    frontCardRot = 0.0;
-                  });
-                }
-              },
-            )
-          ) : new Container(),
-        ],
-      )
-    );
-  }
-
-  Widget backCard()
-  {
-    return new Align
-    (
-      alignment: _controller.status == AnimationStatus.forward ? CardsAnimation.backCardAlignmentAnim(_controller).value : cardsAlign[0],
-      child: new SizedBox.fromSize
-      (
-        size: _controller.status == AnimationStatus.forward ? CardsAnimation.backCardSizeAnim(_controller).value : cardsSize[2],
-        child: cards[2]
-      ),
-    );
-  }
-
-  Widget middleCard()
-  {
-    return new Align
-    (
-      alignment: _controller.status == AnimationStatus.forward ? CardsAnimation.middleCardAlignmentAnim(_controller).value : cardsAlign[1],
-      child: new SizedBox.fromSize
-      (
-        size: _controller.status == AnimationStatus.forward ? CardsAnimation.middleCardSizeAnim(_controller).value : cardsSize[1],
-        child: cards[1]
-      ),
-    );
-  }
-
-  Widget frontCard()
-  {
-    return new Align
-    (
-      alignment: _controller.status == AnimationStatus.forward ? CardsAnimation.frontCardDisappearAlignmentAnim(_controller, frontCardAlign).value : frontCardAlign,
-      child: new Transform.rotate
-      (
-        angle: (pi / 180.0) * frontCardRot,
-        child: new SizedBox.fromSize
-        (
-          size: cardsSize[0],
-          child: cards[0]
-        ),
-      )
-    );
-  }
-
-  void changeCardsOrder()
-  {
-    setState(()
-    {
-      // Swap cards (back card becomes the middle card; middle card becomes the front card, front card becomes a new bottom card)
-      var temp = cards[0];
-      cards[0] = cards[1];
-      cards[1] = cards[2];
-      cards[2] = temp;
-
-      cards[2] = new ProfileCardAlignment(cardsCounter);
-      cardsCounter++;
-
-      frontCardAlign = defaultFrontCardAlign;
-      frontCardRot = 0.0;
-    });
-  }
-
-  void animateCards()
-  {
-    _controller.stop();
-    _controller.value = 0.0;
-    _controller.forward();
-  }
-}
-
-class CardsAnimation
-{
-  static Animation<Alignment> backCardAlignmentAnim(AnimationController parent)
-  {
-    return new AlignmentTween
-    (
-      begin: cardsAlign[0],
-      end: cardsAlign[1]
-    ).animate
-    (
-      new CurvedAnimation
-      (
-        parent: parent,
-        curve: new Interval(0.4, 0.7, curve: Curves.easeIn)
-      )
-    );
-  }
-
-  static Animation<Size> backCardSizeAnim(AnimationController parent)
-  {
-    return new SizeTween
-    (
-      begin: cardsSize[2],
-      end: cardsSize[1]
-    ).animate
-    (
-      new CurvedAnimation
-      (
-        parent: parent,
-        curve: new Interval(0.4, 0.7, curve: Curves.easeIn)
-      )
-    );
-  }
-
-  static Animation<Alignment> middleCardAlignmentAnim(AnimationController parent)
-  {
-    return new AlignmentTween
-    (
-      begin: cardsAlign[1],
-      end: cardsAlign[2]
-    ).animate
-    (
-      new CurvedAnimation
-      (
-        parent: parent,
-        curve: new Interval(0.2, 0.5, curve: Curves.easeIn)
-      )
-    );
-  }
-
-  static Animation<Size> middleCardSizeAnim(AnimationController parent)
-  {
-    return new SizeTween
-    (
-      begin: cardsSize[1],
-      end: cardsSize[0]
-    ).animate
-    (
-      new CurvedAnimation
-      (
-        parent: parent,
-        curve: new Interval(0.2, 0.5, curve: Curves.easeIn)
-      )
-    );
-  }
-
-  static Animation<Alignment> frontCardDisappearAlignmentAnim(AnimationController parent, Alignment beginAlign)
-  {
-    return new AlignmentTween
-    (
-      begin: beginAlign,
-      end: new Alignment(beginAlign.x > 0 ? beginAlign.x + 30.0 : beginAlign.x - 30.0, 0.0) // Has swiped to the left or right?
-    ).animate
-    (
-      new CurvedAnimation
-      (
-        parent: parent,
-        curve: new Interval(0.0, 0.5, curve: Curves.easeIn)
-      )
-    );
-  }
-}
-
-
-
-class ProfileCardDraggable extends StatelessWidget
-{
-  final int cardNum;
-  ProfileCardDraggable(this.cardNum);
-
-  @override
-  Widget build(BuildContext context)
-  {
-    return new Card
-    (
-      child: new Column
-      (
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>
-        [
-          new Expanded
-          (
-            child: new Image.asset('assets/images/dog.jpeg', fit: BoxFit.cover),
-          ),
-          new Container
-          (
-            padding: new EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
-            child: new Column
-            (
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>
-              [
-                new Text('Card number $cardNum', style: new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700)),
-                new Padding(padding: new EdgeInsets.only(bottom: 8.0)),
-                new Text('A short description.', textAlign: TextAlign.start),
-              ],
-            )
-          )
-        ],
-      ),
-    );
-  }
-}
-
-
-class CardsSectionDraggable extends StatefulWidget
-{
-  @override
-  _CardsSectionState2 createState() => new _CardsSectionState2();
-}
-
-class _CardsSectionState2 extends State<CardsSectionDraggable>
-{
-  bool dragOverTarget = true;
-  List<ProfileCardDraggable> cards = new List();
-  int cardsCounter = 0;
-
-  @override
-  void initState()
-  {
-    super.initState();
-
-    for (cardsCounter = 0; cardsCounter < 3; cardsCounter++)
-    {
-      cards.add(new ProfileCardDraggable(cardsCounter));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context)
-  {
-    return new Expanded
-    (
-      child: new Stack
-      (
-        children: <Widget>
-        [
-          // Drag target row
-          new Row
-          (
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>
-            [
-              dragTarget(),
-              new Flexible
-              (
-                flex: 2,
-                child: new Container()
-              ),
-              dragTarget()
-            ],
-          ),
-          // Back card
-          new Align
-          (
-            alignment: new Alignment(0.0, 1.0),
-            child: new IgnorePointer(child: new SizedBox.fromSize
-            (
-              size: new Size(MediaQuery.of(context).size.width * 0.8, MediaQuery.of(context).size.height * 0.5),
-              child: cards[2],
-            )),
-          ),
-          // Middle card
-          new Align
-          (
-            alignment: new Alignment(0.0, 0.8),
-            child: new IgnorePointer(child: new SizedBox.fromSize
-            (
-              size: new Size(MediaQuery.of(context).size.width * 0.85, MediaQuery.of(context).size.height * 0.55),
-              child: cards[1],
-            )),
-          ),
-          // Front card
-          new Align
-          (
-            alignment: new Alignment(0.0, 0.0),
-            child: new Draggable
-            (
-              feedback: new SizedBox.fromSize
-              (
-                size: new Size(MediaQuery.of(context).size.width * 0.9, MediaQuery.of(context).size.height * 0.6),
-                child: cards[0],
-              ),
-              child: new SizedBox.fromSize
-              (
-                size: new Size(MediaQuery.of(context).size.width * 0.9, MediaQuery.of(context).size.height * 0.6),
-                child: cards[0],
-              ),
-              childWhenDragging: new Container(),
-            ),
-          ),
-        ],
-      )
-    );
-  }
-
-  void changeCardsOrder()
-  {
-    setState(()
-    {
-      // Swap cards
-      var temp = cards[0];
-      cards[0] = cards[1];
-      cards[1] = cards[2];
-      cards[2] = temp;
-
-      cards[2] = new ProfileCardDraggable(cardsCounter);
-      cardsCounter++;
-    });
-  }
-
-  Widget dragTarget()
-  {
-    return new Flexible
-    (
-      flex: 1,
-      child: new DragTarget
-      (
-        builder: (_, __, ___)
-        {
-          return new Container(color: dragOverTarget ? Colors.red : Colors.transparent);
-        },
-        onWillAccept: (_)
-        {
-          setState(() => dragOverTarget = true);
-          return true;
-        },
-        onAccept: (_)
-        {
-          changeCardsOrder();
-          setState(() => dragOverTarget = false);
-        },
-        onLeave: (_) => setState(() => dragOverTarget = false)
-      ),
-    );
-  }
-}
