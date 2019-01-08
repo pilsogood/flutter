@@ -16,6 +16,10 @@ class Swipe extends StatelessWidget {
 
 
 String _status = "";
+List image = ['profile.jpg','dog.jpeg','intro-bg-2.jpg','intro-bg-3.jpg','intro-bg-3.jpg','intro-bg-4.jpg','intro-bg-5.jpg','intro-bg-6.jpg'];
+String image1 = image[0];
+String image2 = image[1];
+    
 
 class HomePage extends StatefulWidget {
   @override
@@ -25,23 +29,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>  
-  with SingleTickerProviderStateMixin {
+  with TickerProviderStateMixin {  
   
-  AnimationController _buttonController;
-  Animation<double> _animation;
-
-  Animation<double> rotate;
-  Animation<double> right;
-  Animation<double> bottom;
-  Animation<double> width;
-  int flag = 0;
+  AnimationController _controller;
+  Animation _animation;
 
   double topd = 0.0;
   double leftd = 0.0;
   double rotated = 0.0;
 
   // List data = imageData;
-  List selectedData = [];
+
 
   Offset position ;
 
@@ -49,120 +47,38 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
-    _buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 1000), vsync: this);
+    // _controller = new AnimationController(
+    //     duration: new Duration(milliseconds: 1000), vsync: this);
     
-    _animation = new CurvedAnimation(
-      parent: _buttonController,
-      curve: new Interval(0.0, 1.0, curve: Curves.linear),
-    );
+    // _animation = new CurvedAnimation(
+    //   parent: _controller,
+    //   curve: new Interval(0.0, 1.0, curve: Curves.linear),
+    // );
 
-    rotate = new Tween<double>(
-      begin: -0.0,
-      end: -40.0,
-    ).animate(
-      new CurvedAnimation(
-        parent: _buttonController,
-        curve: Curves.ease,
-      ),
-    );
-    rotate.addListener(() {
-      setState(() {
-        if (rotate.isCompleted) {
-          // var i = data.removeLast();
-          // data.insert(0, i);
-
-          _buttonController.reset();
-        }
-      });
-    });
-
-    right = new Tween<double>(
-      begin: 0.0,
-      end: 400.0,
-    ).animate(
-      new CurvedAnimation(
-        parent: _buttonController,
-        curve: Curves.ease,
-      ),
-    );
-    bottom = new Tween<double>(
-      begin: 15.0,
-      end: 100.0,
-    ).animate(
-      new CurvedAnimation(
-        parent: _buttonController,
-        curve: Curves.ease,
-      ),
-    );
-    width = new Tween<double>(
-      begin: 20.0,
-      end: 25.0,
-    ).animate(
-      new CurvedAnimation(
-        parent: _buttonController,
-        curve: Curves.bounceOut,
-      ),
-    );
   }
 
   @override
   void dispose() {
-    _buttonController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  Future<Null> _swipeAnimation() async {
-    try {
-      await _buttonController.forward();
-    } on TickerCanceled {}
+
+  _onDragStart(BuildContext context, DragStartDetails start) {
+    RenderBox getBox = context.findRenderObject();
+    var local = getBox.globalToLocal(start.globalPosition);
+    print(local.dx.toString() + "|" + local.dy.toString());
   }
 
-  dismissImg(DecorationImage img) {
+  _onDragUpdate(BuildContext context, DragUpdateDetails update) {
+    RenderBox getBox = context.findRenderObject();
+    var local = getBox.globalToLocal(update.globalPosition);
     setState(() {
-      // data.remove(img);
+      topd = local.dy - 180;
+      leftd = local.dx - 180;
+      rotated = 220.0;
     });
   }
-
-  addImg(DecorationImage img) {
-    setState(() {
-      // data.remove(img);
-      // selectedData.add(img);
-    });
-  }
-
-  swipeRight() {
-    if (flag == 0)
-      setState(() {
-        flag = 1;
-      });
-    _swipeAnimation();
-  }
-
-  swipeLeft() {
-    if (flag == 1)
-      setState(() {
-        flag = 0;
-      });
-    _swipeAnimation();
-  }
-
-    _onDragStart(BuildContext context, DragStartDetails start) {
-      RenderBox getBox = context.findRenderObject();
-      var local = getBox.globalToLocal(start.globalPosition);
-      print(local.dx.toString() + "|" + local.dy.toString());
-    }
-
-    _onDragUpdate(BuildContext context, DragUpdateDetails update) {
-      RenderBox getBox = context.findRenderObject();
-      var local = getBox.globalToLocal(update.globalPosition);
-      setState(() {
-        topd = local.dy - 180;
-        leftd = local.dx - 180;
-        rotated = 220.0;
-      });
-    }
-
 
   @override
   Widget build(BuildContext context) {
@@ -175,136 +91,183 @@ class _HomePageState extends State<HomePage>
     final double resetTop = 20;
     final double resetLeft = (width - (width * 0.9)) / 2;
 
-    String acceptedData = "";
+
+    double x;
+    double y;
 
     topd = (topd == 0) ? top : topd ;
     leftd = (leftd == 0) ? left : leftd;
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Flexible(
-          flex: 5,
-            child: Container(
-              child: Stack(
-                children: <Widget>[
+
+          Flexible(
+            flex: 4,
+              child: Container(
+                color: Colors.white,
+                child: Stack(
+                  children: <Widget>[
                     Positioned(
-                    top: topd,
-                    left: leftd,
-
-                    child: 
-                    
-                    // Draggable(
-                    //   child: _card(context, false, 0),
-                    //   feedback: _card(context, true, 0),
-                    //   onDraggableCanceled: (Velocity velocity, Offset offset){
-                    //     // setState(() => position = offset);
-                    //     print(offset.toString());
-                    //   },
-                    //   childWhenDragging:  _card(context, false ,1),
-                    //   data: "1"
-                    // ),
-
-                  GestureDetector(
-                      onTap: () {
-                        print("onTap");
-                      },
-                      onPanUpdate: (DragUpdateDetails details) {
-                        print("onPanUpdate");
-                      },
-                      onPanEnd: (_) {
-                        print("onPanEnd");
-                      },
-                      onHorizontalDragStart: (DragStartDetails start) {
-                         print("onHorizontalDragStart");
-                        _onDragStart(context, start);
-                      },
-                      onHorizontalDragUpdate: 
-                      // _move,
-
-                      (DragUpdateDetails update) {
-                        print("onHorizontalDragUpdate");
-                        _onDragUpdate(context, update);
-
-                        // setState(() {
-                        //   rotated = 220.0;
-                        // });
-
-                      },
-
-                      onHorizontalDragEnd: (DragEndDetails end) {
-                        setState(() {
-                          topd = resetTop;
-                          leftd = resetLeft;
-                          rotated = 0.0;
-                        });
-                      },
-                      child: _card(context, rotated, 0),
+                      bottom: 0,
+                      // child: buttonsRow()
                     ),
+                    Positioned( top: 20, left: left, 
+                    child: (image.length > 0) ? _card(context, 0.0, image2) : _dummyCard(context) 
+                    ),
+                    Positioned(
+                      top: topd,
+                      left: leftd,
+                      child: 
+                      GestureDetector(
+                          onTap: () {
+                            print("onTap");
+                          },
+                          onPanUpdate: (DragUpdateDetails details) {
+                            print("onPanUpdate");
+                          },
+                          onPanEnd: (_) {
+                            print("onPanEnd");
+                                topd = resetTop;
+                                leftd = resetLeft;
+                                rotated = 0.0;
+                                x = 0;
+                                y = 0;
+                          },
+                          onHorizontalDragStart: (DragStartDetails start) {
+                            print("onHorizontalDragStart");
+                            _onDragStart(context, start);
+                          },
+                          onHorizontalDragUpdate: 
+                          // _move,
 
+                          (DragUpdateDetails update) {
+                            // print("onHorizontalDragUpdate");
+                                RenderBox getBox = context.findRenderObject();
+                                var local = getBox.globalToLocal(update.globalPosition);
 
-                  ),
+                                setState(() {
+                                  x = local.dx;
+                                  y = local.dy;
+
+                                  if(150 > x) {
+                                    print('LEFT');
+                                    _status = 'LEFT';
+                                  } else if(150 < x) {
+                                    print('RIGHT');
+                                    _status = 'RIGHT';
+                                  } else {
+                                  }
+
+                                  topd = local.dy - 180;
+                                  leftd = local.dx - 180;
+                                  rotated = 220.0;
+                                });
+
+                            // setState(() {
+                            //   rotated = 220.0;
+                            // });
+
+                          },
+
+                          onHorizontalDragEnd: (DragEndDetails end) {
+
+                            print("$x / $y");
+
+                            setState(() {
+
+                              if(x == null) {
+                                topd = resetTop;
+                                leftd = resetLeft;
+                                rotated = 0.0;
+                                x = 0;
+                                y = 0;
+                              }
+
+                              if(150 > x) {
+                                print('LEFT');
+                                _status = 'LEFT';
+                                _setcards();
+                              } else if(150 < x) {
+                                print('RIGHT');
+                                _status = 'RIGHT';
+                                _setcards();
+                              } else {
+                              }
+                              
+                              topd = resetTop;
+                              leftd = resetLeft;
+                              rotated = 0.0;
+                              x = 0;
+                              y = 0;
                     
-                  // Positioned(
-                  //   left:0,
-                  //   child: DragTarget(
-                  //       builder: (context, accepted, rejected) => Container(
-                  //         height: height,
-                  //         width: 85.0,
-                  //         color: Color.fromRGBO(255, 255, 255, 0),
-                  //       ),
-                  //       onLeave: (String data) {
-                  //         setState(() => _status = "OOOO");
-                  //         print(acceptedData + ": LEFT");
-                  //       },
-                  //       onWillAccept: (String data) {
-                  //         setState(() => _status = "OOOO");
-                  //         return true;
-                  //       },
-                  //       onAccept: (String data) {
-                  //         acceptedData = data;  
-                  //         setState(() => _status = "OOOO");
-                  //         print(acceptedData + ": LEFT");
-                  //         swipeLeft();
-                  //       }
-                  //     )
-                  // ),
-                  // Positioned(
-                  //   right:0,
-                  //   child: DragTarget(
-                  //       builder: (context, accepted, rejected) => Container(
-                  //         height: height,
-                  //         width: 85.0,
-                  //         color:  Color.fromRGBO(255, 255, 255, 0),
-                  //       ),
-                  //       onLeave: (String data) {
-                  //         setState(() => _status = "LIKE");
-                  //         print(acceptedData + ": RIGHT");
-                  //         swipeRight();
-                  //       },
-                  //       onWillAccept: (String data) {
-                  //         setState(() => _status = "LIKE");
-                  //         swipeRight();
-                  //         return true;
-                  //       },
-                  //       onAccept: (String data) {
-                  //         acceptedData = data;  
-                  //         setState(() => _status = "LIKE");
-                  //         print(acceptedData + ": RIGHT");
-                  //         swipeRight();
-                  //       }
-                  //     )
-                  // ),
-                ],
+                              // print("onHorizontalDragEnd");
+                              
+                              // print("LEFT");
+                              // if(end.velocity.pixelsPerSecond.dx > -1000.0) {
+                              //   print("RIGHT");
+                              // } 
+
+                            });
+                          },
+                          child: _card(context, rotated, image1),
+                        ),
+
+                      ),
+
+                    // Positioned(
+                    //   bottom: 0,
+                      // child: buttonsRow()
+                    // )
+      
+                  ],
+                ),
               ),
-            ),
           ),
-        Flexible(
-          flex: 1,
-          // child: buttonsRow()
-        )
+            
       ],
     );
   }
+
+  void _setcards() {
+     if(image.length > 0) {
+      image.removeAt(0);
+      image1 = image[0];
+      if(image.length == 1) {
+        image2 = image[1];
+      } else {
+        image1 = "tripgrida-logo.png";
+      }
+     } else {
+      image1 = "tripgrida-logo.png";
+     }
+  }
+
+  Widget _dummyCard(BuildContext context) {
+    
+    final double width = MediaQuery.of(context).size.width * 0.9;
+    final double height = MediaQuery.of(context).size.height * 0.65;
+    
+    return Container(
+      height: height,
+      width:  width,
+      decoration: new BoxDecoration(
+        color: Colors.black.withOpacity(0.2) ,
+        // Colors.transparent,
+        shape: BoxShape.rectangle,
+        borderRadius: new BorderRadius.circular(20.0),
+        boxShadow: <BoxShadow>[
+          new BoxShadow(
+            color: new Color.fromRGBO(60, 64, 67, 0.5),
+            blurRadius: 10.0,
+            offset: new Offset(0.0, 5.0),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget _card(BuildContext context, rotated, image) {
     
@@ -341,8 +304,8 @@ class _HomePageState extends State<HomePage>
                 (
                   borderRadius: new BorderRadius.circular(8.0),
                   clipBehavior: Clip.antiAlias,
-                  child:  new Image.asset(
-                    (image == 0) ? 'assets/images/dog.jpeg' : 'assets/images/profile.jpg' , 
+                  child:  new Image.asset("assets/images/$image",
+                    // (image == 0) ? 'assets/images/dog.jpeg' : 'assets/images/profile.jpg' , 
                     fit: BoxFit.cover) ,
                 ),
               ),
@@ -351,7 +314,6 @@ class _HomePageState extends State<HomePage>
                 alignment: Alignment.bottomLeft,
                 child: new Container
                 (
-                  
                   padding: new EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                   child: new Column
                   (
@@ -359,7 +321,7 @@ class _HomePageState extends State<HomePage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>
                     [
-                      new Text(_status),
+                      new Center(child:Text(_status)),
                       new Text('Card number 0', style: new TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w700)),
                       new Padding(padding: new EdgeInsets.only(bottom: 8.0)),
                       new Text('A short description.', textAlign: TextAlign.start, style: new TextStyle(color: Colors.white)),
@@ -376,49 +338,83 @@ class _HomePageState extends State<HomePage>
 
   Widget buttonsRow()
   {
-    return new Center
+    return new Container
     (
-      // height: 100.0,
+      height: 100.0,
       // margin: new EdgeInsets.symmetric(vertical: 15.0),
-      child: new Row
-      (
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>
-        [
-          new FloatingActionButton
-          (
-            mini: true,
-            onPressed: () {},
-            backgroundColor: Colors.white,
-            child: new Icon(Icons.loop, color: Colors.yellow),
-          ),
-          new Padding(padding: new EdgeInsets.only(right: 8.0)),
-          new FloatingActionButton
-          (
-            onPressed: () {},
-            backgroundColor: Colors.white,
-            child: new Icon(Icons.close, color: Colors.red),
-          ),
-          new Padding(padding: new EdgeInsets.only(right: 8.0)),
-          new FloatingActionButton
-          (
-            onPressed: () {},
-            backgroundColor: Colors.white,
-            child: new Icon(Icons.favorite, color: Colors.green),
-          ),
-          new Padding(padding: new EdgeInsets.only(right: 8.0)),
-          new FloatingActionButton
-          (
-            mini: true,
-            onPressed: () {},
-            backgroundColor: Colors.white,
-            child: new Icon(Icons.star, color: Colors.blue),
-          ),
-        ],
-      ),
+      child: 
+      Container(
+        child: new Row
+        (
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>
+          [
+            _buttons(Icons.loop, Colors.yellow, true),
+            _buttons(Icons.close, Colors.red, false),
+            _buttons(Icons.favorite, Colors.green, true),
+            _buttons(Icons.star, Colors.blue, false),
+            _buttons(Icons.access_alarm, Colors.teal, true),
+          ],
+        ),
+      )
     );
   }
+}
+
+Widget _buttons(icon, color, mini) {
+  return 
+    Container(
+    width: 70,
+    child:
+      FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          icon,
+          color: color,
+          size: 25.0
+        ),
+        mini: mini ? true : false,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        elevation: 8.0, 
+      ),
+    );
+}
+
+Widget _circle(icon, color, size) {
+  // return new MaterialButton(
+  //   // splashColor: Colors.redAccent,
+  //   minWidth: 70.0,
+  //   onPressed: () {},
+  //   child: Icon(
+  //     icon,
+  //     color: color,
+  //     size: size
+  //   ),
+  //   shape: new CircleBorder(),
+  //   elevation: 1.0,
+  //   padding: const EdgeInsets.all(10.0),
+  // );
+  return 
+  new 
+  Container(
+    width: 70,
+
+    child: RawMaterialButton(
+        splashColor: Colors.purpleAccent,
+        shape: new CircleBorder(),
+        elevation: 1.0,
+        fillColor: Colors.white,
+        padding: const EdgeInsets.all(10.0),
+        onPressed: (){},
+        child: Icon(
+                  icon,
+                  color: color,
+                  size: size
+        )
+      )
+  );
 
 }
 
