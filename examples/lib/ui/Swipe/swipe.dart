@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'dart:math';
-import 'model.dart';
+import 'package:examples/ui/Swipe/model.dart';
+import 'package:examples/ui/Swipe/matching.dart';
+import 'package:examples/ui/Swipe/drag.dart';
+
+final MatchEngine matchEngine = MatchEngine(
+  matches: demoProfiles.map((Profile profile) {
+    return Matching(profile: profile);
+  }).toList(),
+);
 
 class Swipe extends StatelessWidget {
   @override
@@ -14,37 +21,17 @@ class Swipe extends StatelessWidget {
         primaryColorBrightness: Brightness.light,
         primarySwatch: Colors.blue,
       ),
-      home: new HomePage(),
+      home: new Main(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+class Main extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _HomePageState();
-  }
+  _MainState createState() => _MainState();
 }
 
-
-class _HomePageState extends State<HomePage>  
-  with TickerProviderStateMixin {  
-  
-  AnimationController _controller;
-  Animation _animation;
-
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class _MainState extends State<Main> {  
   Widget _buildAppbar() {
     return AppBar(
       backgroundColor: Colors.transparent,
@@ -83,22 +70,30 @@ class _HomePageState extends State<HomePage>
             RoundIconButton.small(
               icon: Icons.refresh,
               iconColor: Colors.orange,
-              onPressed: () {},
+              onPressed: () {
+               
+              },
             ),
             RoundIconButton.large(
               icon: Icons.clear,
               iconColor: Colors.red,
-              onPressed: () {},
+              onPressed: () { 
+                 matchEngine.currentMatch.nope();
+              },
             ),
             RoundIconButton.small(
               icon: Icons.star,
               iconColor: Colors.green,
-              onPressed: () {},
+              onPressed: () {
+                 matchEngine.currentMatch.superlike();
+              },
             ),
             RoundIconButton.large(
               icon: Icons.favorite,
               iconColor: Colors.purple,
-              onPressed: () {},
+              onPressed: () {
+                 matchEngine.currentMatch.like();
+              },
             ),
             RoundIconButton.small(
               icon: Icons.lock,
@@ -111,122 +106,18 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
      return Scaffold(
       appBar: _buildAppbar(),
-      bottomNavigationBar: _buildBottombar(),
-      body: ProfileCard()
-    );
-  }
-
-}
-
-// 카드 
-class ProfileCard extends StatefulWidget {
-
-  final Profile profile;
-  ProfileCard({
-    Key key,
-    this.profile
-  }) : super(key: key);
-
-  @override
-  _ProfileCardState createState() => new _ProfileCardState();
-}
-
-class _ProfileCardState extends State<ProfileCard> {
-
-  Widget _buildBackground() {
-    return new Image.asset(
-      'assest/images/intro-bg-1.png',
-      fit: BoxFit.cover
-    );
-  }
-
-  Widget _buildProfile() {
-    return Positioned(
-      left: 0.0,
-      right: 0.0,
-      bottom: 0.0,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent,
-              Colors.black.withOpacity(0.8)
-            ]
-          )
-        ),
-        padding: EdgeInsets.all(24.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    // widget.profile.name,
-                    'Name',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.0
-                    )
-                  ),
-                  Text(
-                    // widget.profile.bio,
-                    'Bio',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0
-                    )
-                  ),
-                ],
-              )
-            ),
-            Icon(
-              Icons.info,
-              color: Colors.white
-            )
-          ],
-        )
-      )
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0x11000000),
-            blurRadius: 5.0,
-            spreadRadius: 2.0,
-          ),
-        ],
+      body: new CardStack(
+        matchEngine: matchEngine
       ),
-      child: ClipRRect(
-        borderRadius: new BorderRadius.circular(10.0),
-        child: new Material(
-          child: new Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              _buildBackground(),
-              _buildProfile(),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: _buildBottombar(),      
     );
   }
 }
+
 
 
 class RoundIconButton extends StatelessWidget {
