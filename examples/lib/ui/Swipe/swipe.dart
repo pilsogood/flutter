@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import 'package:examples/ui/Swipe/model.dart';
+import 'package:examples/ui/Swipe/cards.dart';
 import 'package:examples/ui/Swipe/matching.dart';
-import 'package:examples/ui/Swipe/drag.dart';
+import 'package:examples/ui/Swipe/model.dart';
 
 final MatchEngine matchEngine = MatchEngine(
   matches: demoProfiles.map((Profile profile) {

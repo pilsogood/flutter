@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttery_dart2/layout.dart';
 import 'package:examples/ui/Swipe/matching.dart';
+import 'package:examples/ui/Swipe/photos.dart';
 import 'package:examples/ui/Swipe/model.dart';
+
 
 class CardStack extends StatefulWidget {
  final MatchEngine matchEngine;
@@ -12,9 +14,7 @@ class CardStack extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() {
-    return _CardStackState();
-  }
+  _CardStackState createState() => _CardStackState(); 
 }
 
 class _CardStackState extends State<CardStack> {  
@@ -34,17 +34,7 @@ class _CardStackState extends State<CardStack> {
     _frontCard = Key(_currentMatch.profile.name);
   }
 
-  @override
-  void dispose() {
-    if(_currentMatch != null) {
-      _currentMatch.removeListener(_onMatchChange);
-    }
-
-    widget.matchEngine.removeListener(_onMatchChange);
-    super.dispose();
-  }
-
-
+ 
   @override
   void didUpdateWidget(CardStack oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -64,8 +54,18 @@ class _CardStackState extends State<CardStack> {
     }
   }
 
+ @override
+  void dispose() {
+    if(_currentMatch != null) {
+      _currentMatch.removeListener(_onMatchChange);
+    }
+
+    widget.matchEngine.removeListener(_onMatchEngineChange);
+    super.dispose();
+  }
 
   void _onMatchEngineChange() {
+
       if(_currentMatch != null) {
         _currentMatch.removeListener(_onMatchChange);
       }
@@ -76,10 +76,8 @@ class _CardStackState extends State<CardStack> {
       }
 
       _frontCard = new Key(_currentMatch.profile.name);
-      
-
+    
     setState((){ 
-
     });
   }
 
@@ -102,7 +100,7 @@ class _CardStackState extends State<CardStack> {
   Widget _buildFrontCard() {
     return ProfileCard(
       key: _frontCard,
-      profile: widget.matchEngine.nextMatch.profile
+      profile: widget.matchEngine.currentMatch.profile
     ); 
   }
 
@@ -137,8 +135,6 @@ class _CardStackState extends State<CardStack> {
       case SlideDirection.up:
           currentMatch.superlike();
         break;
-      default:
-        break;
     }
 
     widget.matchEngine.cycleMatch();
@@ -146,8 +142,8 @@ class _CardStackState extends State<CardStack> {
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
-      body: Stack(
+    print('Desire slide direction ${_desiredSlideOutDirection()}');
+     return Stack(
         children: <Widget>[
           DraggableCard(
             card: _buildBackCard(),
@@ -160,7 +156,6 @@ class _CardStackState extends State<CardStack> {
             onSlideUpdate: _onSlideUpdate,
           )
         ],
-      ), 
     );
   }
 }
@@ -252,7 +247,6 @@ class _DraggableCardState extends State<DraggableCard>
           dragStart = null;
           slideOutTween = null;
           dragPosition = null;
-          // cardOffset = Offset(0.0, 0.0);    
 
           if(widget.onSlideOutComplete != null) {
             widget.onSlideOutComplete(slideOutDirection);
@@ -265,8 +259,12 @@ class _DraggableCardState extends State<DraggableCard>
   }
 
   @override 
-  void didupdateWidget(DraggableCard oldWidget) {
+  void didUpdateWidget(DraggableCard oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    if(widget.card.key != oldWidget.card.key) {
+      cardOffset = Offset(0.0, 0.0);
+    }
 
     if(oldWidget.slideTo == null && widget.slideTo != null ) {
       switch(widget.slideTo) {
@@ -278,8 +276,6 @@ class _DraggableCardState extends State<DraggableCard>
           break;
         case SlideDirection.up :
           _slideUp();
-          break;
-        default:
           break;
       }
     }
@@ -333,17 +329,17 @@ class _DraggableCardState extends State<DraggableCard>
     setState((){
       dragPosition = details.globalPosition;
       cardOffset = dragPosition - dragStart;
-    });
 
-    if(null != widget.onSlideUpdate) {
-      widget.onSlideUpdate(cardOffset.distance);
-    }
+      if(null != widget.onSlideUpdate) {
+        widget.onSlideUpdate(cardOffset.distance);
+      }
+    });
   }
 
   void _onPanEnd(DragEndDetails details) {
     final dragVector = cardOffset / cardOffset.distance;
     final isInLeftRegion = (cardOffset.dx / context.size.width) < 0.45;
-    final isInRightRegion = (cardOffset.dx / context.size.width).abs() > 0.45;
+    final isInRightRegion = (cardOffset.dx / context.size.width) > 0.45;
     final isInTopRegion = (cardOffset.dy / context.size.height) < -0.40;
 
     print('isInNopeRegion: $isInLeftRegion');
@@ -407,7 +403,7 @@ class _DraggableCardState extends State<DraggableCard>
                 onPanStart: _onPanStart,
                 onPanUpdate: _onPanUpdate,
                 onPanEnd: _onPanEnd,
-                child:  ProfileCard(),
+                child:  widget.card,
                 )
               )
             )
@@ -416,7 +412,6 @@ class _DraggableCardState extends State<DraggableCard>
     );  
   }
 }
-
 
 
 // 카드 
@@ -434,190 +429,12 @@ class ProfileCard extends StatefulWidget {
 }
 
 
-class PhotoBrowser extends StatefulWidget {
-
-  final List<String> photoAssetPaths;
-  final int visiblePhotoIndex;
-
-  PhotoBrowser({
-    this.photoAssetPaths,
-    this.visiblePhotoIndex
-  });
-
-  @override
-  _PhotoBrowserState createState() => new _PhotoBrowserState();
-}
-
-class _PhotoBrowserState extends State<PhotoBrowser>  {
-  int visiblePhotoIndex;
-
-  @override
-  void initState(){
-    super.initState();
-    visiblePhotoIndex = widget.visiblePhotoIndex;
-  }
-
-  @override 
-  void didUpdateWidget(PhotoBrowser oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if(widget.visiblePhotoIndex != oldWidget.visiblePhotoIndex){
-      setState((){
-        visiblePhotoIndex = widget.visiblePhotoIndex;
-      });
-    }
-  }
-
-  void _prevImage() {
-      setState((){
-        visiblePhotoIndex = visiblePhotoIndex > 0 ? visiblePhotoIndex - 1 : 0;
-      });
-  }
-
-  void _nextImage() {
-      setState((){
-        visiblePhotoIndex = visiblePhotoIndex < widget.photoAssetPaths.length - 1  
-        ? visiblePhotoIndex + 1 
-        : visiblePhotoIndex;
-      });
-  }
-
-  Widget _buildImageControls() {
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        GestureDetector(
-          onTap: _prevImage,
-          child: FractionallySizedBox(
-            widthFactor: 0.5,
-            heightFactor: 1.0,
-            alignment: Alignment.topLeft,
-            child: Container(
-              color: Colors.transparent
-            )
-          )
-        ),
-        GestureDetector(
-          onTap: _nextImage,
-          child: FractionallySizedBox(
-            widthFactor: 0.5,
-            heightFactor: 1.0,
-            alignment: Alignment.topRight,
-            child: Container(
-              color: Colors.transparent
-            )
-          )
-        )
-      ],
-    );
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Image.asset(
-          widget.photoAssetPaths[visiblePhotoIndex],
-          fit: BoxFit.cover
-        ),
-        new Positioned(
-          top: 0.0,
-          left: 0.0,
-          right: 0.0,
-          child: SelectedPhotoIndicator(
-             photoCount: widget.photoAssetPaths.length,
-             visiblePhotoIndex: visiblePhotoIndex,
-          )
-        ),
-        _buildImageControls(),
-      ],
-    );
-  }
-}
-
-class SelectedPhotoIndicator extends StatelessWidget {
-  final int photoCount;
-  final int visiblePhotoIndex;
-
-  SelectedPhotoIndicator({
-    this.photoCount,
-    this.visiblePhotoIndex
-  });
-
-  Widget _buildInactiveIndicator() {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.only(left: 2.0, right: 2.0),
-        child: Container(
-          height: 3.0,
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(2.5)
-          ),
-        )
-      ),
-    );
-  }
-
-  Widget _buildActiveIndicator() {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.only(left: 2.0, right: 2.0),
-        child: Container(
-          height: 3.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(2.5),
-            boxShadow: [ 
-              BoxShadow(
-                color: Color(0x11000000),
-                spreadRadius: 0.0,
-                blurRadius: 2.0,
-                offset: Offset(0.0, 0.1)
-              )
-            ]
-          ),
-        )
-      ),
-    ); 
-  }
-
-  List<Widget> _buildIndicators() {
-    List<Widget> indicators = [];
-    for(int i = 0; i < photoCount; ++i) {
-      indicators.add(
-        i == visiblePhotoIndex ? _buildActiveIndicator() : _buildInactiveIndicator()
-      );
-    }
-    return indicators;
-  }
-      
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: new Row(
-        children: _buildIndicators(),
-        )
-    );
-  }
-
-}
-
 class _ProfileCardState extends State<ProfileCard> {
 
   Widget _buildBackground() {
     return 
       PhotoBrowser(
-        photoAssetPaths: 
-          [
-            'assets/images/profile/profile-6.jpg',
-            'assets/images/profile/profile-6.jpg',
-            'assets/images/profile/profile-6.jpg',
-          ],
-        // widget.profile.photos,
+        photoAssetPaths: widget.profile.photos,
         visiblePhotoIndex: 0,
       );
   }
@@ -640,7 +457,7 @@ class _ProfileCardState extends State<ProfileCard> {
         ),
         padding: EdgeInsets.all(24.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Expanded(
               child: Column(
@@ -648,14 +465,16 @@ class _ProfileCardState extends State<ProfileCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    widget.profile.name,
+                    // widget.profile.name,
+                    '이름이다',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24.0
                     )
                   ),
                   Text(
-                    widget.profile.bio,
+                    // widget.profile.bio,
+                    '설명이다',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0
@@ -702,3 +521,4 @@ class _ProfileCardState extends State<ProfileCard> {
     );
   }
 }
+
