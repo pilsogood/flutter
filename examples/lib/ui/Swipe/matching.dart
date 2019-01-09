@@ -18,7 +18,7 @@ class MatchEngine extends ChangeNotifier {
   Matching get nextMatch => _matches[_nextMatchIndex];
 
   void cycleMatch() {
-    if(currentMatch.decision != Decision.undecied) {
+    if(currentMatch.decision != Decision.undecided) {
       currentMatch.reset();
 
       _currentMatchIndex = _nextMatchIndex;
@@ -32,33 +32,33 @@ class MatchEngine extends ChangeNotifier {
 class Matching extends ChangeNotifier { 
 
   final Profile profile;
-  Decision decision = Decision.undecied;
+  Decision decision = Decision.undecided;
   Matching({this.profile});
 
   void like() {
-    if(decision == Decision.undecied) {
+    if(decision == Decision.undecided) {
       decision = Decision.like;
       notifyListeners();
     }
   }
   
   void nope() {
-    if(decision == Decision.undecied) {
+    if(decision == Decision.undecided) {
       decision = Decision.nope;
       notifyListeners();
     }
   }
 
   void superlike() {
-    if(decision == Decision.undecied) {
+    if(decision == Decision.undecided) {
       decision = Decision.superlike;
       notifyListeners();
     }
   }
 
   void reset() {
-    if(decision != Decision.undecied) {
-      decision = Decision.undecied;
+    if(decision != Decision.undecided) {
+      decision = Decision.undecided;
       notifyListeners();
     }
   }
@@ -66,7 +66,7 @@ class Matching extends ChangeNotifier {
 }
 
 enum Decision {
-  undecied,
+  undecided,
   nope,
   like,
   superlike,

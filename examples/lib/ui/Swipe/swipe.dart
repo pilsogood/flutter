@@ -90,7 +90,10 @@ class _MainState extends State<Main> {
               icon: Icons.favorite,
               iconColor: Colors.purple,
               onPressed: () {
-                 matchEngine.currentMatch.like();
+                setState(() {
+                  matchEngine.currentMatch.like();                
+                });
+                //  matchEngine.currentMatch.like();
               },
             ),
             RoundIconButton.small(

@@ -1,5 +1,6 @@
-
 import 'dart:math';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fluttery_dart2/layout.dart';
 import 'package:examples/ui/Swipe/matching.dart';
@@ -33,7 +34,6 @@ class _CardStackState extends State<CardStack> {
 
     _frontCard = Key(_currentMatch.profile.name);
   }
-
  
   @override
   void didUpdateWidget(CardStack oldWidget) {
@@ -48,6 +48,7 @@ class _CardStackState extends State<CardStack> {
       }
 
       _currentMatch = widget.matchEngine.currentMatch;
+
       if(_currentMatch != null) {
         _currentMatch.addListener(_onMatchChange);
       }
@@ -71,6 +72,7 @@ class _CardStackState extends State<CardStack> {
       }
 
       _currentMatch = widget.matchEngine.currentMatch;
+
       if(_currentMatch != null) {
         _currentMatch.addListener(_onMatchChange);
       }
