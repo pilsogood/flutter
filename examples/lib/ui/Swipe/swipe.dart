@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+import 'dart:math';
+import 'model.dart';
 
 class Swipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Drag app"),
-        ),
-        body: HomePage(),
+    return new MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: new ThemeData(
+        primaryColorBrightness: Brightness.light,
+        primarySwatch: Colors.blue,
       ),
+      home: new HomePage(),
     );
   }
 }
-
-
-String _status = "";
-List image = ['profile.jpg','dog.jpeg','intro-bg-2.jpg','intro-bg-3.jpg','intro-bg-3.jpg','intro-bg-4.jpg','intro-bg-5.jpg','intro-bg-6.jpg'];
-String image1 = image[0];
-String image2 = image[1];
-    
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,33 +26,17 @@ class HomePage extends StatefulWidget {
   }
 }
 
+
 class _HomePageState extends State<HomePage>  
   with TickerProviderStateMixin {  
   
   AnimationController _controller;
   Animation _animation;
 
-  double topd = 0.0;
-  double leftd = 0.0;
-  double rotated = 0.0;
-
-  // List data = imageData;
-
-
-  Offset position ;
 
   @override
   void initState() {
     super.initState();
-
-    // _controller = new AnimationController(
-    //     duration: new Duration(milliseconds: 1000), vsync: this);
-    
-    // _animation = new CurvedAnimation(
-    //   parent: _controller,
-    //   curve: new Interval(0.0, 1.0, curve: Curves.linear),
-    // );
-
   }
 
   @override
@@ -63,356 +45,239 @@ class _HomePageState extends State<HomePage>
     super.dispose();
   }
 
-
-  _onDragStart(BuildContext context, DragStartDetails start) {
-    RenderBox getBox = context.findRenderObject();
-    var local = getBox.globalToLocal(start.globalPosition);
-    print(local.dx.toString() + "|" + local.dy.toString());
+  Widget _buildAppbar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
+      leading: IconButton(
+        icon: Icon(
+          Icons.home,
+          color : Colors.grey,
+          size: 40.0
+        ),
+        onPressed: () {},
+      ),
+      title: Text("TINDER"),
+      actions: <Widget> [
+        IconButton(
+          icon: Icon(
+            Icons.chat_bubble,
+            color : Colors.grey,
+            size: 40.0
+          ),
+          onPressed: () {},
+        )
+      ]
+    );
   }
 
-  _onDragUpdate(BuildContext context, DragUpdateDetails update) {
-    RenderBox getBox = context.findRenderObject();
-    var local = getBox.globalToLocal(update.globalPosition);
-    setState(() {
-      topd = local.dy - 180;
-      leftd = local.dx - 180;
-      rotated = 220.0;
-    });
+  Widget _buildBottombar() {
+    return BottomAppBar(
+      color: Colors.transparent,
+      elevation: 0.0,
+      child: new Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Row (
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            RoundIconButton.small(
+              icon: Icons.refresh,
+              iconColor: Colors.orange,
+              onPressed: () {},
+            ),
+            RoundIconButton.large(
+              icon: Icons.clear,
+              iconColor: Colors.red,
+              onPressed: () {},
+            ),
+            RoundIconButton.small(
+              icon: Icons.star,
+              iconColor: Colors.green,
+              onPressed: () {},
+            ),
+            RoundIconButton.large(
+              icon: Icons.favorite,
+              iconColor: Colors.purple,
+              onPressed: () {},
+            ),
+            RoundIconButton.small(
+              icon: Icons.lock,
+              iconColor: Colors.teal,
+              onPressed: () {},
+            ),
+          ],
+        )
+      )
+    );
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+     return Scaffold(
+      appBar: _buildAppbar(),
+      bottomNavigationBar: _buildBottombar(),
+      body: ProfileCard()
+    );
+  }
+
+}
+
+// 카드 
+class ProfileCard extends StatefulWidget {
+
+  final Profile profile;
+  ProfileCard({
+    Key key,
+    this.profile
+  }) : super(key: key);
+
+  @override
+  _ProfileCardState createState() => new _ProfileCardState();
+}
+
+class _ProfileCardState extends State<ProfileCard> {
+
+  Widget _buildBackground() {
+    return new Image.asset(
+      'assest/images/intro-bg-1.png',
+      fit: BoxFit.cover
+    );
+  }
+
+  Widget _buildProfile() {
+    return Positioned(
+      left: 0.0,
+      right: 0.0,
+      bottom: 0.0,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.transparent,
+              Colors.black.withOpacity(0.8)
+            ]
+          )
+        ),
+        padding: EdgeInsets.all(24.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    // widget.profile.name,
+                    'Name',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24.0
+                    )
+                  ),
+                  Text(
+                    // widget.profile.bio,
+                    'Bio',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0
+                    )
+                  ),
+                ],
+              )
+            ),
+            Icon(
+              Icons.info,
+              color: Colors.white
+            )
+          ],
+        )
+      )
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final double width = MediaQuery.of(context).size.width;
-    final double left = (width - (width * 0.9)) / 2;
-    final double top = 20;
-    final double height = MediaQuery.of(context).size.height;
-
-    final double resetTop = 20;
-    final double resetLeft = (width - (width * 0.9)) / 2;
-
-
-    double x;
-    double y;
-
-    topd = (topd == 0) ? top : topd ;
-    leftd = (leftd == 0) ? left : leftd;
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-
-          Flexible(
-            flex: 4,
-              child: Container(
-                color: Colors.white,
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      bottom: 0,
-                      // child: buttonsRow()
-                    ),
-                    Positioned( top: 20, left: left, 
-                    child: (image.length > 0) ? _card(context, 0.0, image2) : _dummyCard(context) 
-                    ),
-                    Positioned(
-                      top: topd,
-                      left: leftd,
-                      child: 
-                      GestureDetector(
-                          onTap: () {
-                            print("onTap");
-                          },
-                          onPanUpdate: (DragUpdateDetails details) {
-                            print("onPanUpdate");
-                          },
-                          onPanEnd: (_) {
-                            print("onPanEnd");
-                                topd = resetTop;
-                                leftd = resetLeft;
-                                rotated = 0.0;
-                                x = 0;
-                                y = 0;
-                          },
-                          onHorizontalDragStart: (DragStartDetails start) {
-                            print("onHorizontalDragStart");
-                            _onDragStart(context, start);
-                          },
-                          onHorizontalDragUpdate: 
-                          // _move,
-
-                          (DragUpdateDetails update) {
-                            // print("onHorizontalDragUpdate");
-                                RenderBox getBox = context.findRenderObject();
-                                var local = getBox.globalToLocal(update.globalPosition);
-
-                                setState(() {
-                                  x = local.dx;
-                                  y = local.dy;
-
-                                  if(150 > x) {
-                                    print('LEFT');
-                                    _status = 'LEFT';
-                                  } else if(150 < x) {
-                                    print('RIGHT');
-                                    _status = 'RIGHT';
-                                  } else {
-                                  }
-
-                                  topd = local.dy - 180;
-                                  leftd = local.dx - 180;
-                                  rotated = 220.0;
-                                });
-
-                            // setState(() {
-                            //   rotated = 220.0;
-                            // });
-
-                          },
-
-                          onHorizontalDragEnd: (DragEndDetails end) {
-
-                            print("$x / $y");
-
-                            setState(() {
-
-                              if(x == null) {
-                                topd = resetTop;
-                                leftd = resetLeft;
-                                rotated = 0.0;
-                                x = 0;
-                                y = 0;
-                              }
-
-                              if(150 > x) {
-                                print('LEFT');
-                                _status = 'LEFT';
-                                _setcards();
-                              } else if(150 < x) {
-                                print('RIGHT');
-                                _status = 'RIGHT';
-                                _setcards();
-                              } else {
-                              }
-                              
-                              topd = resetTop;
-                              leftd = resetLeft;
-                              rotated = 0.0;
-                              x = 0;
-                              y = 0;
-                    
-                              // print("onHorizontalDragEnd");
-                              
-                              // print("LEFT");
-                              // if(end.velocity.pixelsPerSecond.dx > -1000.0) {
-                              //   print("RIGHT");
-                              // } 
-
-                            });
-                          },
-                          child: _card(context, rotated, image1),
-                        ),
-
-                      ),
-
-                    // Positioned(
-                    //   bottom: 0,
-                      // child: buttonsRow()
-                    // )
-      
-                  ],
-                ),
-              ),
-          ),
-            
-      ],
-    );
-  }
-
-  void _setcards() {
-     if(image.length > 0) {
-      image.removeAt(0);
-      image1 = image[0];
-      if(image.length == 1) {
-        image2 = image[1];
-      } 
-     } else {
-      image1 = "tripgrida-logo.png";
-     }
-  }
-
-  Widget _dummyCard(BuildContext context) {
-    
-    final double width = MediaQuery.of(context).size.width * 0.9;
-    final double height = MediaQuery.of(context).size.height * 0.65;
-    
     return Container(
-      height: height,
-      width:  width,
-      decoration: new BoxDecoration(
-        color: Colors.black.withOpacity(0.2) ,
-        // Colors.transparent,
-        shape: BoxShape.rectangle,
-        borderRadius: new BorderRadius.circular(20.0),
-        boxShadow: <BoxShadow>[
-          new BoxShadow(
-            color: new Color.fromRGBO(60, 64, 67, 0.5),
-            blurRadius: 10.0,
-            offset: new Offset(0.0, 5.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x11000000),
+            blurRadius: 5.0,
+            spreadRadius: 2.0,
           ),
         ],
       ),
-    );
-  }
-
-
-  Widget _card(BuildContext context, rotated, image) {
-    
-    final double width = MediaQuery.of(context).size.width * 0.9;
-    final double height = MediaQuery.of(context).size.height * 0.65;
-
-    return new 
-      Transform.rotate(
-        angle: rotated,
-        child: Container(
-          height: height,
-          width:  width,
-          decoration: new BoxDecoration(
-              color: Colors.black.withOpacity(0.2) ,
-              // Colors.transparent,
-              shape: BoxShape.rectangle,
-              borderRadius: new BorderRadius.circular(20.0),
-              boxShadow: <BoxShadow>[
-                new BoxShadow(
-                  color: new Color.fromRGBO(60, 64, 67, 0.5),
-                  blurRadius: 10.0,
-                  offset: new Offset(0.0, 5.0),
-                ),
-              ],
-          ),
-          
-          child: new Stack
-          (
-            children: <Widget>
-            [
-              new SizedBox.expand
-              (
-                child: new Material
-                (
-                  borderRadius: new BorderRadius.circular(8.0),
-                  clipBehavior: Clip.antiAlias,
-                  child:  new Image.asset("assets/images/$image",
-                    // (image == 0) ? 'assets/images/dog.jpeg' : 'assets/images/profile.jpg' , 
-                    fit: BoxFit.cover) ,
-                ),
-              ),
-              new Align
-              (
-                alignment: Alignment.bottomLeft,
-                child: new Container
-                (
-                  padding: new EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                  child: new Column
-                  (
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>
-                    [
-                      new Center(child:Text(_status)),
-                      new Text('Card number 0', style: new TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w700)),
-                      new Padding(padding: new EdgeInsets.only(bottom: 8.0)),
-                      new Text('A short description.', textAlign: TextAlign.start, style: new TextStyle(color: Colors.white)),
-                    ],
-                  )
-                ),
-              )
+      child: ClipRRect(
+        borderRadius: new BorderRadius.circular(10.0),
+        child: new Material(
+          child: new Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              _buildBackground(),
+              _buildProfile(),
             ],
           ),
-        )
-    );
-  }
-
-
-  Widget buttonsRow()
-  {
-    return new Container
-    (
-      height: 100.0,
-      // margin: new EdgeInsets.symmetric(vertical: 15.0),
-      child: 
-      Container(
-        child: new Row
-        (
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>
-          [
-            _buttons(Icons.loop, Colors.yellow, true),
-            _buttons(Icons.close, Colors.red, false),
-            _buttons(Icons.favorite, Colors.green, true),
-            _buttons(Icons.star, Colors.blue, false),
-            _buttons(Icons.access_alarm, Colors.teal, true),
-          ],
         ),
-      )
-    );
-  }
-}
-
-Widget _buttons(icon, color, mini) {
-  return 
-    Container(
-    width: 70,
-    child:
-      FloatingActionButton(
-        onPressed: () {},
-        child: Icon(
-          icon,
-          color: color,
-          size: 25.0
-        ),
-        mini: mini ? true : false,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.white,
-        elevation: 8.0, 
       ),
     );
+  }
 }
 
-Widget _circle(icon, color, size) {
-  // return new MaterialButton(
-  //   // splashColor: Colors.redAccent,
-  //   minWidth: 70.0,
-  //   onPressed: () {},
-  //   child: Icon(
-  //     icon,
-  //     color: color,
-  //     size: size
-  //   ),
-  //   shape: new CircleBorder(),
-  //   elevation: 1.0,
-  //   padding: const EdgeInsets.all(10.0),
-  // );
-  return 
-  new 
-  Container(
-    width: 70,
 
-    child: RawMaterialButton(
-        splashColor: Colors.purpleAccent,
-        shape: new CircleBorder(),
-        elevation: 1.0,
-        fillColor: Colors.white,
-        padding: const EdgeInsets.all(10.0),
-        onPressed: (){},
-        child: Icon(
-                  icon,
-                  color: color,
-                  size: size
+class RoundIconButton extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final double size;
+  final VoidCallback onPressed;
+
+  RoundIconButton.large({
+    this.icon,
+    this.iconColor,
+    this.onPressed
+  }) : size = 60.0;
+
+  RoundIconButton.small({
+    this.icon,
+    this.iconColor,
+    this.onPressed
+  }) : size = 50.0;
+
+  RoundIconButton({
+    this.icon,
+    this.iconColor,
+    this.size,
+    this.onPressed
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x11000000),
+            blurRadius: 10.0
+          )
+        ]
+      ),
+      child: new RawMaterialButton(
+        shape: CircleBorder(),
+        elevation: 0.0,
+        child: new Icon(
+          icon,
+          color: iconColor
+        ),
+        onPressed: onPressed,
         )
-      )
-  );
-
+    );
+  }
 }
-
