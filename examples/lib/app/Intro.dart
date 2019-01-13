@@ -32,6 +32,9 @@ import 'package:examples/ui/OcrPage.dart';
 import 'package:examples/ui/swipe/swipe.dart';
 import 'package:examples/ui/ethereum/Web3.dart';
 
+import 'package:examples/app/Https.dart';
+import 'package:examples/app/Session.dart';
+
 import 'package:examples/ui/movie/main.dart';
 
 class Intro extends StatefulWidget {
@@ -545,16 +548,32 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Swipe())),
                   ),
 
-                   new FlatButton(
-                    child: new Text('Web3',
+                  //  new FlatButton(
+                  //   child: new Text('Web3',
+                  //   style: new TextStyle(
+                  //     color: Colors.white
+                  //   )
+                  //   ),
+                  //   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Web3())),
+                  // ),
+
+                    new FlatButton(
+                    child: new Text('Https',
                     style: new TextStyle(
                       color: Colors.white
                     )
                     ),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Web3())),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Https())),
                   ),
 
- 
+                    new FlatButton(
+                    child: new Text('Session',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Session())),
+                  ),
 
                 ],
               )

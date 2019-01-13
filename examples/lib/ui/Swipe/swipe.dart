@@ -93,7 +93,6 @@ class _MainState extends State<Main> {
                 setState(() {
                   matchEngine.currentMatch.like();                
                 });
-                //  matchEngine.currentMatch.like();
               },
             ),
             RoundIconButton.small(

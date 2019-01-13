@@ -8,6 +8,9 @@ import 'package:examples/ui/Swipe/photos.dart';
 import 'package:examples/ui/Swipe/model.dart';
 
 
+double width;
+double height;
+
 class CardStack extends StatefulWidget {
  final MatchEngine matchEngine;
   CardStack({
@@ -144,7 +147,7 @@ class _CardStackState extends State<CardStack> {
 
   @override
   Widget build(BuildContext context) {
-    print('Desire slide direction ${_desiredSlideOutDirection()}');
+    print('Desired slide direction ${_desiredSlideOutDirection()}');
      return Stack(
         children: <Widget>[
           DraggableCard(
@@ -154,8 +157,8 @@ class _CardStackState extends State<CardStack> {
           DraggableCard(
             card: _buildFrontCard(),
             slideTo: _desiredSlideOutDirection(),
-            onSlideOutComplete: _onSlideOutComplete,
             onSlideUpdate: _onSlideUpdate,
+            onSlideOutComplete: _onSlideOutComplete,
           )
         ],
     );
@@ -300,6 +303,8 @@ class _DraggableCardState extends State<DraggableCard>
   
   void _slideLeft() async {
     final screenWidth = context.size.width;
+    // final screenWidth = width;
+    // print(screenWidth);
     dragStart = _chooseRandomDragStart();
     slideOutTween = Tween(begin: Offset(0.0,0.0), end: Offset(-2 * screenWidth, 0.0));
     slideOutAnimation.forward(from:0.0);
@@ -307,6 +312,8 @@ class _DraggableCardState extends State<DraggableCard>
 
   void _slideRight() async  {
     final screenWidth = context.size.width;
+    // final screenWidth = width;
+    print(screenWidth);
     dragStart = _chooseRandomDragStart();
     slideOutTween = Tween(begin: Offset(0.0,0.0), end: Offset(2 * screenWidth, 0.0));
     slideOutAnimation.forward(from:0.0);
@@ -314,6 +321,7 @@ class _DraggableCardState extends State<DraggableCard>
 
   void _slideUp() async {
     final screenHeight = context.size.height;
+    // final screenHeight = height;
     dragStart = _chooseRandomDragStart();
     slideOutTween = Tween(begin: Offset(0.0,0.0), end: Offset(0.0, -2 * screenHeight));
     slideOutAnimation.forward(from:0.0);
@@ -386,6 +394,8 @@ class _DraggableCardState extends State<DraggableCard>
 
   @override
   Widget build(BuildContext context) {
+    width  = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     return new  AnchoredOverlay(
         showOverlay: true,
         child: Center(),
