@@ -120,7 +120,7 @@ class _AppStatus extends State<Https> {
         responseBody = response.body;
 
         if(responseBody["status"] == "TOKEN") {
-          await mid.setMo
+          // await mid.setMo
         }
 
       }
