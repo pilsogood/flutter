@@ -62,6 +62,7 @@ class _AppStatus extends State<Intro> {
     double logoWidth = MediaQuery.of(context).size.width; 
 
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: new Container(
       padding: const EdgeInsets.all(0.0),
       alignment: Alignment.center,

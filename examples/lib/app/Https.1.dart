@@ -10,13 +10,20 @@ import 'package:http/http.dart' as http;
 
 
 class Https extends StatefulWidget {
+
+  List<User> users;
+  Https({Key key, this.users}) : super(key: key);
+
   @override
   _AppStatus createState() => _AppStatus();
 }
 
 class _AppStatus extends State<Https> {
 
+
+
   String debugText = '';
+
   String _deviceIdentity = "";
   final DeviceInfoPlugin _deviceInfoPlugin = new DeviceInfoPlugin();
 
@@ -82,10 +89,16 @@ class _AppStatus extends State<Https> {
   String postHost = "https://api.tripgrida.com/api/test/p";
   String _applicationId = "my_application_id";
 
+  // var postData = {
+  //   "homeTeam": {"team": "Team A"},
+  //   "awayTeam": {"team": "Team B"}
+  // };
+
   var postData = {"test":"tes"};
 
   Future<String> ajaxGet() async {
-    var responseBody = '';
+    var responseBody = '{"data":"", "status":"NOK"}';
+    
     try {
       var response = await http.get(getHost,
         headers: {
@@ -147,12 +160,32 @@ class _AppStatus extends State<Https> {
 
 
 
-List result;
+var data;
+Future getImageUrl() async {
+  // This is how http calls are done in flutter:
+  HttpClient http = HttpClient();
+  try {
+    // Use darts Uri builder
+    var uri = Uri.http('api.tripgrida.com', '/api/test/p');
+    var request = await http.getUrl(uri);
+    var response = await request.close();
+    var responseBody = await response.transform(utf8.decoder).join();
+    // The dog.ceo API returns a JSON object with a property
+    // called 'message', which actually is the URL.
+    data = json.decode(responseBody);
+    print(data);
+    return data;
+  } catch (exception) {
+    print(exception);
+  }
+}
+
+
 Future _postData() async {
 
   var responseBody;
   var body = json.encode(postData);
-  // List usersList;
+  var users = [];
   
   try {
    await http.post(
@@ -184,18 +217,15 @@ Future _postData() async {
 
       responseBody = json.decode(response.body);
 
+      
       var _list = responseBody['data'] as List;
       List<User> users = _list.map((f) => User.fromJson(f)).toList();
 
-      this.setState((){
-        // for(int i = 0; i < users.length; i++){
-        //   usersList.add(users[i]);
-        // }
+      for(int i = 0; i < users.length; i++){
+         users.add(users[i]);
+      }
 
-        result = _list;
-      });
-
-      return result;
+      return users;
     }
   });
   } catch(e) {
@@ -219,13 +249,6 @@ Future _postData() async {
    }
 
   final _users_add = [];
-
-
-
-  @override
-  void initState() {
-    this._postData();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -330,13 +353,7 @@ Future _postData() async {
               //   ),
               //   onPressed: jsonS,
               // )
-              // futureBuilder
-              ListView.builder(
-                itemCount: result == null ? 0 : result.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(child: Text(result[index]['name']),);  
-                },
-              )
+              futureBuilder
               ],
             ),
         )
