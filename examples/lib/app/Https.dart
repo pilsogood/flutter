@@ -1,427 +1,177 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
-
-import "package:flutter/material.dart";
-import 'package:flutter/services.dart';
-import 'package:device_info/device_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+
+void main() => runApp(new Https());
+
 class Https extends StatefulWidget {
   @override
-  _AppStatus createState() => _AppStatus();
-}
-
-class _AppStatus extends State<Https> {
-
-  String debugText = '';
-  String _deviceIdentity = "";
-  final DeviceInfoPlugin _deviceInfoPlugin = new DeviceInfoPlugin();
-
-  // check device identity
-  Future<String> _getDeviceIdentity() async {
-    if(_deviceIdentity == '') {
-      try {
-        if(Platform.isAndroid) {
-          AndroidDeviceInfo info = await _deviceInfoPlugin.androidInfo;
-          _deviceIdentity = "DEVICE: ${info.device}, ID: ${info.id}";
-        } else if(Platform.isIOS) {
-          IosDeviceInfo info = await _deviceInfoPlugin.iosInfo;
-          _deviceIdentity = "MODEL: ${info.model}, ID: ${info.identifierForVendor}";
-        }
-      } on PlatformException {
-        _deviceIdentity = "unknown";
-      }
-    }
-  
-    setDebugMessage(_deviceIdentity);
-
-    return _deviceIdentity;
-  }
-
-  // Shared Preferences get storage data
-  String _storageMobileToken ="token";
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  Future<String> _getMobileToken() async {
-    final SharedPreferences prefs = await _prefs;
-    String re = prefs.getString(_storageMobileToken) ?? '';
-    setDebugMessage(re);
-    return re;
-  }
-
-  // Shared Preferences gset storage data
-  Future<bool> _setMobileToken(String token) async {
-    final SharedPreferences prefs = await _prefs;
-    return prefs.setString(_storageMobileToken, token);
-  }
-
-  // handshake 
-  Future<String> handshake() async {
-    String _status = "ERROR";
-
-    return ajaxGet().then((String responseBody) async {
-      Map response = json.decode(responseBody);
-      _status = response['status'];
-      switch (_status) {
-        case "REQUIRES_AUTHENTICATION":
-          await _setMobileToken(response["data"]);
-        break;
-        case "INVALID":
-          await _setMobileToken("");
-        break;
-      }
-      return _status;
-    }).catchError(() {
-      return "ERROR";
-    });
-  }
-
-  String getHost = "https://api.tripgrida.com/api/test/m";
-  String postHost = "https://api.tripgrida.com/api/test/p";
-  String _applicationId = "my_application_id";
-
-  var postData = {"test":"tes"};
-
-  Future<String> ajaxGet() async {
-    var responseBody = '';
-    try {
-      var response = await http.get(getHost,
-        headers: {
-          'X-DEVICE-ID': await _getDeviceIdentity(),
-          'X-TOKEN': await _getMobileToken(),
-          'X-APP-ID': _applicationId
-        }
-      );
-
-      if(response.statusCode == 200) {
-        responseBody = response.body;
-        setDebugMessage(responseBody);
-      }
-    } catch (e) {
-      throw new Exception("AJAX ERROR");
-    }
-
-    return responseBody;
-  }
-
-  Future<dynamic> ajaxPost(String postHost, var data) async {
-    var responseBody =  json.decode('{"data":"", "status":"NOK"}');
-    var body = utf8.encode(json.encode(data));
-
-    try {
-      var response = await http.post(Uri.encodeFull(postHost),
-        body: body,
-        headers: {
-          'X-DEVICE-ID': await _getDeviceIdentity(),
-          'X-TOKEN': await _getMobileToken(),
-          'X-APP-ID': _applicationId,
-          // 'Content-Type' : 'application/json; charset=utf-8'
-        },
-        //  encoding: Encoding.getByName("utf-8")
-      );
-    
-      if(response.statusCode == 200) {
-        responseBody = json.decode(response.body);
-         print('json: ' + response.body);
-          print('X-DEVICE-ID: ' + await _getDeviceIdentity());
-          print('X-TOKEN: ' + await _getMobileToken() );
-          print('X-APP-ID: ' + _applicationId );
-          print('Status: ' + responseBody["status"] );
-          
-          Map<String, dynamic>  data = json.decode(response.body);
-          print('data: ' + data["data"]["test"] );
-
-          // if(responseBody["status"] == "TOKEN") {
-          //   setDebugMessage(data["test"]);
-          //   await _setMobileToken(data["test"]);
-          // }
-      }
-    } catch(e) {
-      throw new Exception("AJAX ERROR");
-    }
-
-    return responseBody;
-  }
-
-
-
-List result;
-Future _postData() async {
-
-  var responseBody;
-  var body = json.encode(postData);
-  // List usersList;
-  
-  try {
-   await http.post(
-      Uri.encodeFull(postHost), 
-      body: body,
-      headers: {
-          'X-DEVICE-ID': await _getDeviceIdentity(),
-          'X-TOKEN': await _getMobileToken(),
-          'X-APP-ID': _applicationId,
-          'Content-Type' : 'application/json; charset=utf-8'
-      },
-     ).then((response) {
-
-    print("Response status: ${response.statusCode}");
-    print("Response body: ${response.body}");
-
-    if(response.statusCode == 200) {
-      // responseBody = json.decode(response.body);
-      // Map<String, dynamic> data = json.decode(response.body);
-      // List _list = data['data'];
-      
-      // if(data['status'] == 'TOKEN') {
-      //   int total = _list.length;
-      //   for(int s=0; s < total; s++) {
-      //     print(_list[s]['name']);
-      //   }
-        // setDebugMessage(data['data']['test']);
-      // }
-
-      responseBody = json.decode(response.body);
-
-      var _list = responseBody['data'] as List;
-      List<User> users = _list.map((f) => User.fromJson(f)).toList();
-
-      this.setState((){
-        // for(int i = 0; i < users.length; i++){
-        //   usersList.add(users[i]);
-        // }
-
-        result = _list;
-      });
-
-      return result;
-    }
-  });
-  } catch(e) {
-    throw new Exception("AJAX ERROR");
-  }
+  AppStatus createState() => AppStatus();
 }
 
 
-  void jsonS() {
-    var jsonString = '{"status":"TOKEN","data":{"test":"tes"}}';
-    Map<String, dynamic> data = jsonDecode(jsonString);
-    print("${data['data']['test']}");
-  }
+class AppStatus extends State<Https> {
 
+  int perPage  = 10;
+  int present = 0;
 
+  List<User> _user = new List<User>();
 
-   void  setDebugMessage(data) {
-     setState(() {
-         debugText = data;
-    });
-   }
-
-  final _users_add = [];
-
-
+  ScrollController _scrollController = new ScrollController();
+  bool isPerformingRequest = false;
 
   @override
   void initState() {
-    this._postData();
+    _getMoreData();
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        _getMoreData();
+      }
+    });
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
 
-    var futureBuilder = new FutureBuilder(
-      future: _postData(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return new Text('loading...');
-          default:
-            if (snapshot.hasError)
-              return new Text('Error: ${snapshot.error}');
-            else
-              return createListView(context, snapshot);
+  _getMoreData() async {
+    if (!isPerformingRequest) {
+      this.setState(() => isPerformingRequest = true);
+      List<User> newEntries = await _getUsers();
+
+      if (newEntries.isEmpty) {
+        double edge = 50.0;
+        double offsetFromBottom = _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
+        if (offsetFromBottom < edge) {
+          _scrollController.animateTo(
+              _scrollController.offset - (edge -offsetFromBottom),
+              duration: new Duration(milliseconds: 500),
+              curve: Curves.easeOut);
         }
-      },
-    );
+      } else {
+        this.setState(() {
+          _user.addAll(newEntries);
+          isPerformingRequest = false;
+        });
+      }
+    }
+  }
 
+  @override
+  Future<List<User>> _getUsers() async {
+    
+   List<User> users = new List<User>();
+
+   var host = "https://api.tripgrida.com/api/test/p";
+   var postData = {'page':'${present}'};
+
+   var body = json.encode(postData);
+   await http.post(
+      Uri.encodeFull(host), 
+      body: body,
+      headers: {
+          'Content-Type' : 'application/json; charset=utf-8'
+      },
+     ).then((response) {
+       var jsonData = json.decode(response.body);
+       var usersData = jsonData["data"];
+       for (var user in usersData) {
+        User newUser = User(user["num"],user["profile"],user['name'],user["age"],user["country"]);
+        print(user["name"]);
+        users.add(newUser);
+       }
+     });
+
+    print(present);
+    present++;
+    return users;
+  }
+
+  Future<List<int>> fakeRequest(int from, int to) async {
+    return Future.delayed(Duration(seconds: 2), () {
+      return List.generate(to - from, (i) => i + from);
+    });
+  }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isPerformingRequest ? 1.0 : 0.0,
+          child: new CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+ @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text("DatePicker Example"),
+        title: Text("Infinite ListView"),
       ),
-      body: new Container(
-        child: new Center(
-          child: new Column(
-            children: <Widget>[
-              SizedBox(height:10.0),
-              // Text(debugText,
-              //   style: TextStyle(
-              //     color:Colors.deepOrange,
-              //     fontStyle: FontStyle.italic,
-              //     fontSize: 20.0
-              // )),
-              // RaisedButton(
-              //   child: Text(
-              //     "SharedPreferences",
-              //     style: TextStyle(
-              //       color:Colors.deepOrange,
-              //       fontStyle: FontStyle.italic,
-              //       fontSize: 18.0
-              //     ),
-              //   ),
-              //   onPressed: _getMobileToken,
-              // ),
-              // RaisedButton(
-              //   child: Text(
-              //     "GET",
-              //     style: TextStyle(
-              //       color:Colors.deepOrange,
-              //       fontStyle: FontStyle.italic,
-              //       fontSize: 18.0
-              //     ),
-              //   ),
-              //   onPressed: ajaxGet,
-              // ),
-              // RaisedButton(
-              //   child: Text(
-              //     "POST1",
-              //     style: TextStyle(
-              //       color:Colors.deepOrange,
-              //       fontStyle: FontStyle.italic,
-              //       fontSize: 18.0
-              //     ),
-              //   ),
-              //   // onPressed: () => ajaxPost(postHost, postData),
-              //   onPressed: () => ajaxPost(postHost, postData),
-              // ),
-              RaisedButton(
-                child: Text(
-                  "POST2",
-                  style: TextStyle(
-                    color:Colors.deepOrange,
-                    fontStyle: FontStyle.italic,
-                    fontSize: 18.0
-                  ),
-                ),
-                // onPressed: () => ajaxPost(postHost, postData),
-                onPressed:  _postData,
-              ),
-              // RaisedButton(
-              //   child: Text(
-              //     "Handshake",
-              //     style: TextStyle(
-              //       color:Colors.deepOrange,
-              //       fontStyle: FontStyle.italic,
-              //       fontSize: 18.0
-              //     ),
-              //   ),
-              //   onPressed: handshake,
-              // ),
-              // RaisedButton(
-              //   child: Text(
-              //     "JSON",
-              //     style: TextStyle(
-              //       color:Colors.deepOrange,
-              //       fontStyle: FontStyle.italic,
-              //       fontSize: 18.0
-              //     ),
-              //   ),
-              //   onPressed: jsonS,
-              // )
-              // futureBuilder
-              ListView.builder(
-                itemCount: result == null ? 0 : result.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(child: Text(result[index]['name']),);  
-                },
-              )
-              ],
+      body: Column(
+        children: <Widget>[
+          // FlatButton(
+          //   child: Text('ok'),
+          //   onPressed: _getMoreData,
+          // ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _user.length + 1,
+              itemBuilder: (context, index) {
+                if (index == _user.length) {
+                  return _buildProgressIndicator();
+                } else {
+                  return 
+                  ListTile(
+                     onTap: () {
+                       // Navigator.push(
+                       //     context,
+                       //     new MaterialPageRoute(
+                       //         builder: (context) =>
+                       //             UserDetailPage(snapshot.data[index])));
+                     },
+                     title: Text("${_user[index].name}"),
+                     subtitle: Text("${_user[index].country}"),
+                     leading: 
+                     CircleAvatar(
+                         backgroundImage:
+                             NetworkImage("${_user[index].profile}")),
+                );
+                }
+              },
+              controller: _scrollController,
             ),
-        )
+          ),
+        ],
       )
     );
   }
 }
 
-
-    Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
-      List<String> values = snapshot.data;
-      return new ListView.builder(
-          itemCount: values.length,
-          itemBuilder: (BuildContext context, int index) {
-            return new Column(
-              children: <Widget>[
-                new ListTile(
-                  title: new Text(values[index]),
-                ),
-                new Divider(height: 2.0,),
-              ],
-            );
-          },
-      );
-
-    }
-
-
-class JsonData {
-  final String status;
-  List<User> data;
-
-  JsonData({
-    this.status,
-    this.data
-  });
-
-  Map<String, dynamic> toJson() => {
-    'status' : status,
-    'data': data
-  };
-
-  factory JsonData.fromJson(Map<String, dynamic> json ){
-    var _list = json['data'] as List;
-    List<User> users = _list.map((f) => User.fromJson(f)).toList();
- 
-    return new JsonData(
-      status: json['status'],
-      data: users
-    );
-  }
-}
-
-Widget _buildRow(User data) {
-    return new ListTile(
-      title: new Text(data.name),
-    );
-  }
-
 class User {
   final int num;
+  final String profile;
   final String name;
   final int age;
   final String country;
 
-  User({
+  User(
     this.num,
+    this.profile,
     this.name,
     this.age,
     this.country
-  });
-
-  Map<String, dynamic> toJson() => {
-      'num': num,
-      'name': name,
-      'age': age,
-      'country': country
-  };
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return new User(
-      num: json['num'],
-      name: json['name'],
-      age: json['age'],
-      country: json['country'],
-    );
-  }
+  );
 }

@@ -45,7 +45,7 @@ class _AppStatus extends State<PoiDetailPage> {
   }
 
   onScroll() {
-    setState(() {
+    this.setState(() {
      cWidth = controller.offset * screenWidth / (itemHeight * itemsCount);
     });
   }
