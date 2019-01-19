@@ -23,6 +23,7 @@ class AppStatus extends State<Https> {
   List<User> _user = new List<User>();
 
   ScrollController _scrollController = new ScrollController();
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
   bool isPerformingRequest = false;
 
   @override
@@ -42,6 +43,16 @@ class AppStatus extends State<Https> {
     super.dispose();
   }
 
+  Future<Null> _refeshList() async {
+    refreshKey.currentState?.show(atTop: false);
+    this.setState(() {
+      present = 0;
+      _user = [];
+      _getMoreData();
+    });
+
+    return null;
+  }  
 
   _getMoreData() async {
     if (!isPerformingRequest) {
@@ -57,6 +68,10 @@ class AppStatus extends State<Https> {
               duration: new Duration(milliseconds: 500),
               curve: Curves.easeOut);
         }
+
+        this.setState(() {
+          isPerformingRequest = false;
+        });
       } else {
         this.setState(() {
           _user.addAll(newEntries);
@@ -82,13 +97,20 @@ class AppStatus extends State<Https> {
           'Content-Type' : 'application/json; charset=utf-8'
       },
      ).then((response) {
+
+      if (response.statusCode < 200 || response.statusCode > 400 || json == null || response.body.isEmpty) {
+        // throw new Exception("Error while fetching data");
+        return;
+      }
+      print(response.body);
        var jsonData = json.decode(response.body);
        var usersData = jsonData["data"];
        for (var user in usersData) {
-        User newUser = User(user["num"],user["profile"],user['name'],user["age"],user["country"]);
-        print(user["name"]);
-        users.add(newUser);
-       }
+         User newUser = User(user["num"],user["profile"],user['name'],user["age"],user["country"]);
+         print(user["name"]);
+         users.add(newUser);
+      }
+
      });
 
     print(present);
@@ -127,32 +149,49 @@ class AppStatus extends State<Https> {
           //   onPressed: _getMoreData,
           // ),
           Expanded(
-            child: ListView.builder(
-              itemCount: _user.length + 1,
-              itemBuilder: (context, index) {
-                if (index == _user.length) {
-                  return _buildProgressIndicator();
-                } else {
-                  return 
-                  ListTile(
-                     onTap: () {
-                       // Navigator.push(
-                       //     context,
-                       //     new MaterialPageRoute(
-                       //         builder: (context) =>
-                       //             UserDetailPage(snapshot.data[index])));
-                     },
-                     title: Text("${_user[index].name}"),
-                     subtitle: Text("${_user[index].country}"),
-                     leading: 
-                     CircleAvatar(
-                         backgroundImage:
-                             NetworkImage("${_user[index].profile}")),
-                );
-                }
-              },
-              controller: _scrollController,
-            ),
+            child: RefreshIndicator(
+               key: refreshKey,
+               onRefresh: () => _refeshList(),
+               child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: _user.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == _user.length) {
+                    return _buildProgressIndicator();
+                  } else {
+                    return 
+                    ListTile(
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     new MaterialPageRoute(
+                        //         builder: (context) =>
+                        //             UserDetailPage(snapshot.data[index])));
+                      },
+                      title: Text("${_user[index].name}"),
+                      subtitle: Text("${_user[index].country}"),
+                      leading: 
+                      new Container(
+                          width: 50.0,
+                          height: 50.0,
+                          decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: new CachedNetworkImageProvider("${_user[index].profile}"),
+                                  ),
+                                ),
+                              ),
+
+                      //  CircleAvatar(
+                      //      backgroundImage:
+                      //          NetworkImage("${_user[index].profile}")),
+                  );
+                  }
+                },
+                controller: _scrollController,
+              ),
+            )
           ),
         ],
       )
