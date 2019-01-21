@@ -34,6 +34,7 @@ import 'package:examples/ui/ethereum/Web3.dart';
 
 import 'package:examples/app/Https.dart';
 import 'package:examples/app/Session.dart';
+// import 'package:examples/app/Phoneauth.dart';
 
 import 'package:examples/ui/movie/main.dart';
 
@@ -575,6 +576,15 @@ class AfterSplash extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Session())),
                   ),
+
+                  //   new FlatButton(
+                  //   child: new Text('Phone Auth',
+                  //   style: new TextStyle(
+                  //     color: Colors.white
+                  //   )
+                  //   ),
+                  //   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Phoneauth())),
+                  // ),
 
                 ],
               )

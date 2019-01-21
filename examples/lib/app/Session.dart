@@ -14,6 +14,90 @@ class Session extends StatefulWidget {
 }
 
 class _AppStatus extends State<Session> {
+
+  final JsonDecoder _decoder = new JsonDecoder();
+  final JsonEncoder _encoder = new JsonEncoder();
+
+  Map<String, String> headers = {"content-type": "text/json"};
+  Map<String, String> cookies = {};
+
+  void _updateCookie(http.Response response) {
+    String allSetCookie = response.headers['set-cookie'];
+
+    if (allSetCookie != null) {
+
+      var setCookies = allSetCookie.split(',');
+
+      for (var setCookie in setCookies) {
+        var cookies = setCookie.split(';');
+
+        for (var cookie in cookies) {
+          _setCookie(cookie);
+        }
+      }
+
+      headers['cookie'] = _generateCookieHeader();
+    }
+  }
+
+  void _setCookie(String rawCookie) {
+    if (rawCookie.length > 0) {
+      var keyValue = rawCookie.split('=');
+      if (keyValue.length == 2) {
+        var key = keyValue[0].trim();
+        var value = keyValue[1];
+
+        // ignore keys that aren't cookies
+        if (key == 'path' || key == 'expires')
+          return;
+
+        this.cookies[key] = value;
+      }
+    }
+  }
+
+  String _generateCookieHeader() {
+    String cookie = "";
+
+    for (var key in cookies.keys) {
+      if (cookie.length > 0)
+        cookie += ";";
+      cookie += key + "=" + cookies[key];
+    }
+
+    return cookie;
+  }
+
+  Future<dynamic> get(String url) {
+    return http.get(url, headers: headers).then((http.Response response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+
+      _updateCookie(response);
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return _decoder.convert(res);
+    });
+  }
+
+  Future<dynamic> post(String url, {body, encoding}) {
+    return http
+        .post(url, body: _encoder.convert(body), headers: headers, encoding: encoding)
+        .then((http.Response response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+
+      _updateCookie(response);
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return _decoder.convert(res);
+    });
+  }
+  
   String debugText = '';
   String _deviceIdentity = "";
   final DeviceInfoPlugin _deviceInfoPlugin = new DeviceInfoPlugin();
@@ -40,11 +124,10 @@ class _AppStatus extends State<Session> {
   // Shared Preferences get storage data
   String _storageMobileToken ="token";
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   Future<String> _getMobileToken() async {
     final SharedPreferences prefs = await _prefs;
-    String re = prefs.getString(_storageMobileToken) ?? '';
-    setDebugMessage(re);
-    return re;
+    return prefs.getString(_storageMobileToken) ?? 'token';
   }
 
   // Shared Preferences gset storage data
@@ -62,8 +145,8 @@ class _AppStatus extends State<Session> {
       _status = response['status'];
       switch (_status) {
         case "TOKEN":
-          await _setMobileToken(response["data"]["X-Device-Id"]);
-          setDebugMessage(response["data"]);
+          await _setMobileToken(response["data"]["Cookie"]);
+          setDebugMessage(response["data"]["Cookie"]);
         break;
         case "REQUIRES_AUTHENTICATION":
           await _setMobileToken(response["data"]);
@@ -84,9 +167,11 @@ class _AppStatus extends State<Session> {
 
   var postData = {"id":"root", "password":"1234"};
 
+
   Future<String> ajaxPost() async {
     var responseBody = '{"data":"", "status":"NOK"}';
-    
+    var headers;
+
     var body = json.encode(postData);
     await http.post(
       Uri.encodeFull(host), 
@@ -96,19 +181,69 @@ class _AppStatus extends State<Session> {
           'X-TOKEN': await _getMobileToken(),
           'X-APP-ID': _applicationId,
           'Content-Type' : 'application/json; charset=utf-8'
-      },
-     ).then((response) {
+        },
+      ).then((response) {
 
       if (response.statusCode < 200 || response.statusCode > 400 || json == null || response.body.isEmpty) {
         return;
       }
 
-       print(response.body);
-       var jsonData = json.decode(response.body);
-       var usersData = jsonData["data"];
+      // print(response.body);
+      var jsonData = json.decode(response.body);
+      var usersData = jsonData["data"];
 
-       responseBody = response.body;
-       setDebugMessage(responseBody);
+      responseBody = response.body;
+      headers = response.headers;
+      setState(() {
+      _setMobileToken(headers['set-cookie']);
+      });
+      print(headers['set-cookie']);
+      // setDebugMessage(headers);
+
+     });
+
+    return responseBody;
+  }
+
+  String sessionHost = "https://api.tripgrida.com/api/test/sessionGet";
+  Future<String> ajaxGet() async {
+    var responseBody = '{"data":"", "status":"NOK"}';
+    var headers;
+
+    var postData = {"id":"root", "password":"1234"};
+    var body = json.encode(postData);
+    String cookie = await _getMobileToken();
+     print(cookie);
+
+    await http.post(
+      Uri.encodeFull(sessionHost), 
+      body: body,
+      headers: {
+          // 'X-DEVICE-ID': await _getDeviceIdentity(),
+          // 'X-TOKEN': await _getMobileToken(),
+          // 'X-APP-ID': _applicationId,
+          'Cookie' : cookie,
+          'Content-Type' : 'application/json; charset=utf-8'
+        },
+      ).then((response) {
+
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode < 200 || response.statusCode > 400 || json == null || response.body.isEmpty) {
+        return;
+      }
+
+      // var jsonData = json.decode(response.body);
+      // var status = jsonData["status"];
+
+      // responseBody = response.body;
+      // headers = response.headers;
+      // print("================");
+      // print(headers);
+      // print(cookie);
+      // print(status);
+      // setDebugMessage(headers);
 
      });
 
@@ -118,7 +253,7 @@ class _AppStatus extends State<Session> {
 
   void  setDebugMessage(data) {
     setState(() {
-      debugText = data;
+      // debugText = data;
     });
   }
 
@@ -162,6 +297,17 @@ class _AppStatus extends State<Session> {
                   ),
                 ),
                 onPressed: () => ajaxPost(),
+              ),
+              RaisedButton(
+                child: Text(
+                  "Session Check",
+                  style: TextStyle(
+                    color:Colors.deepOrange,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 18.0
+                  ),
+                ),
+                onPressed: () => ajaxGet(),
               ),
               RaisedButton(
                 child: Text(
