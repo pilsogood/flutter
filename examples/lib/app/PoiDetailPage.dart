@@ -36,24 +36,24 @@ class _AppStatus extends State<PoiDetailPage> {
   double itemsCount = 20;
   double screenWidth;
   
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(onScroll);
-    print(widget.getDb.title);
-    print(widget.getDb.image);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   controller.addListener(onScroll);
+  //   print(widget.getDb.title);
+  //   print(widget.getDb.image);
+  // }
 
-  onScroll() {
-    this.setState(() {
-     cWidth = controller.offset * screenWidth / (itemHeight * itemsCount);
-    });
-  }
+  // onScroll() {
+  //   this.setState(() {
+  //    cWidth = controller.offset * screenWidth / (itemHeight * itemsCount);
+  //   });
+  // }
 
-  @override
-  void dispose() {
-    controller.removeListener(onScroll);
-  }
+  // @override
+  // void dispose() {
+  //   controller.removeListener(onScroll);
+  // }
 
   @override
   Widget build(BuildContext context) {

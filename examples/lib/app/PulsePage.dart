@@ -41,7 +41,9 @@ class PulsePage extends StatefulWidget {
 
 class SpriteDemoState extends State<PulsePage>
     with SingleTickerProviderStateMixin {
+
   AnimationController _controller;
+  String profileImage = r"https://www.tripgrida.com/img/profile/1_1448624008.jpg";
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class SpriteDemoState extends State<PulsePage>
     _controller = new AnimationController(
       vsync: this,
     );
-    //_startAnimation();
+    _startAnimation();
   }
 
   @override
@@ -72,9 +74,16 @@ class SpriteDemoState extends State<PulsePage>
       appBar: new AppBar(title: const Text('Pulse')),
       body: new CustomPaint(
         painter: new SpritePainter(_controller),
-        child: new SizedBox(
-          width: 200.0,
-          height: 200.0,
+        child: Center(
+          child: Container(
+            width: 100.0,
+            height: 100.0,
+            child: SizedBox(
+              width: 100.0,
+              height: 100.0,
+              child: _profileImage(profileImage, 200.0, 200.0)
+            ),
+          ),
         ),
       ),
       floatingActionButton: new FloatingActionButton(
@@ -83,6 +92,32 @@ class SpriteDemoState extends State<PulsePage>
       ),
     );
   }
+
+
+// 라운드 프로필 사진 
+Widget _profileImage(image, width, height) {
+  return new Center(
+    child: new Container(
+      width: width,
+      height: height,
+      decoration: new BoxDecoration(
+        shape: BoxShape.circle,
+        image: new DecorationImage(
+          fit: BoxFit.cover,
+          image: new NetworkImage(image)
+        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Color.fromRGBO(47, 92, 182, 0.2),
+            offset: Offset(0.0, 0.0),
+            blurRadius: 10.0,
+            ),
+        ],
+      )
+    ),
+  );
+}
+
 }
 
 void main() {
