@@ -43,27 +43,30 @@ class _AppStatus extends State<Session> {
   }
 
   Future<dynamic> _logIn() async {
-    final res = await network.post(_logInHost, body: _postData, encoding: _encode);
+    var res = await network.post(_logInHost, body: _postData, encoding: _encode);
     print(res);
     setDebugMessage(res['data']['id']);
     return res;
   }
 
-  Future<Null>  _logInfo() async {
-    final res = await network.get(_logInfoHost);
-    if(res.isNotEmpty) {
-      var result = json.decode(res);
-      print(result['data']);
-      setDebugMessage(result['data']['id']);
+  Future<dynamic>  _logInfo() async {
+    var res = await network.get(_logInfoHost);
+    if(res != null) {
+      print(res['data']);
+      setDebugMessage("info: ${res['data']['id']}");
+    } else {
+      setDebugMessage("empty");
     }
-    // return res;
   }
 
   Future<dynamic> _logOut() async {
-    final res = await network.get(_logOutHost);
+    var res = await network.logOut(_logOutHost);
+    // var res = await network.get(_logOutHost);
     // print(res);
-    setDebugMessage(res['data']);
-    return res;
+    if(res != null) {
+      setDebugMessage(res['data']);
+      return res;
+    }
   }
 
 

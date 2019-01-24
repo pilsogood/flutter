@@ -24,24 +24,23 @@ class _AppStatus extends State<Session_page> {
   void _getStorage() {
     network.getMobileToken();
   }
-  
+
   void  setDebugMessage(data) {
     setState(() {
       debugText = data;
     });
   }
 
-
   Future<dynamic>  _logInfo() async {
-    String res = await network.get(_logInfoHost);
-    
-    if(res.isNotEmpty) {
-      var result = json.decode(res);
-      print(result['data']);
-      setDebugMessage(result['data']['id']);
+    var res = await network.get(_logInfoHost);
+    if(res != null) {
+      print(res['data']);
+      setDebugMessage("info: ${res['data']['id']}");
+    } else {
+      setDebugMessage("empty");
     }
-    // return res;
   }
+
 
   @override
   Widget build(BuildContext context) {

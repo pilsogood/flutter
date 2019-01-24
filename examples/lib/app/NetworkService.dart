@@ -22,14 +22,16 @@ class NetworkService {
   Map<String, String> cookies = {};
 
   String _storageMobileToken ="token";
+  String _storagePhpsessid ="sessid";
+
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<String> _getMobileToken() async {
     final SharedPreferences prefs = await _prefs;
     // _tokenValue = prefs.getString(_storageMobileToken) ?? '';
-      await Cookie.init();
+    await Cookie.init();
     _tokenValue = Cookie.localStorage.getString(_storageMobileToken) ?? '';
-    print(_tokenValue);
+    print("Get Token: $_tokenValue");
     return _tokenValue;
   }
 
@@ -42,9 +44,16 @@ class NetworkService {
     // return prefs.setString(_storageMobileToken, token);
   }
 
+   // Shared Preferences gset storage data
+  Future<bool> _delMobileToken() async {
+    await Cookie.init();
+    Cookie.localStorage.setString(_storageMobileToken, '');
+  }
+
   getMobileToken() {
-    print(_tokenValue);
-    return _tokenValue;
+    _getMobileToken().then((value){
+      print("getMobileToken: $value");
+    });
   }
 
   setMobileToken(String token) {
@@ -58,6 +67,7 @@ class NetworkService {
 
       var setCookies = allSetCookie.split(',');
 
+      print("============================================================");
       for (var setCookie in setCookies) {
         var cookies = setCookie.split(';');
 
@@ -65,9 +75,14 @@ class NetworkService {
           _setCookie(cookie);
         }
       }
+      print("============================================================");
 
-     _setMobileToken(_generateCookieHeader());
-      headers['cookie'] = _generateCookieHeader();
+      var _haeder = _generateCookieHeader();
+      
+      print("END SESSION: $_haeder");
+
+      _setMobileToken(_haeder);
+      headers['cookie'] = _haeder;
     }
   }
 
@@ -101,42 +116,49 @@ class NetworkService {
     return cookie;
   }
 
+  logOut(String host) {
+    var result = this.get(host);
+    if(result != null) {
+      this._delMobileToken();
+      return result;
+    }
+  }
+
   Future<dynamic> get(String url) {
     
-    _getMobileToken();
-    
-    if(_tokenValue.isNotEmpty) {
-      print("header begin get: $_tokenValue");
-      headers['cookie'] = _tokenValue;
-    }
+    var result = null;
+
+    _getMobileToken().then((value){
+      print("header begin get: $value");
+      headers['cookie'] = value;
+    });
 
     return http.get(url, headers: headers).then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
 
-      print("result get : $res");
-      _updateCookie(response);
+      // print("result get : $res");
+      // _updateCookie(response);
 
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
+      if (statusCode < 200 || statusCode > 400 || json == null || res.isEmpty || res == null) {
+        // throw new Exception("Error while fetching data");
+        print("Error while fetching data");
+      } else {
+        result = _decoder.convert(res);
       }
 
-      if(res == null){
-        throw new Exception("Unexpected end of input");
-      }
-
-      return _decoder.convert(res);
+      return result;
     });
   }
-
+ 
   Future<dynamic> post(String url, {body, encoding}) {
      
-    _getMobileToken();
-    
-    if(_tokenValue.isNotEmpty) {
-      print("header begin post: $_tokenValue");
-      headers['cookie'] = _tokenValue;
-    }
+     var result = null;
+
+    _getMobileToken().then((value){
+      print("header begin get: $value");
+      headers['cookie'] = value;
+    });
 
     return http
         .post(url, body: _encoder.convert(body), headers: headers, encoding: encoding)
@@ -146,11 +168,15 @@ class NetworkService {
       
       _updateCookie(response);
 
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
+      if (statusCode < 200 || statusCode > 400 || json == null || res.isEmpty || res == null) {
+        // throw new Exception("Error while fetching data");
+        print("Error while fetching data");
+      } else {
+        result = _decoder.convert(res);
       }
-    
-      return _decoder.convert(res);
+
+      return result;
+
     });
   }
 
