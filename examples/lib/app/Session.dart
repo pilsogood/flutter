@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 // import 'dart:async';
 // import 'dart:io';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:flutter/services.dart';
 // import 'package:device_info/device_info.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,7 @@ import 'dart:convert';
 
 import 'NetworkService.dart';
 
+import 'Session_page.dart';
 
 class Session extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class Session extends StatefulWidget {
 
 class _AppStatus extends State<Session> {
 
+
   String debugText = '';
 
   String _logInHost = "https://api.tripgrida.com/api/test/logIn";
@@ -24,10 +27,15 @@ class _AppStatus extends State<Session> {
   String _logInfoHost = "https://api.tripgrida.com/api/test/logInfo";
 
   NetworkService network = new NetworkService();
+  Cookie cookie = new Cookie();
 
   var _postData = {"id":"root", "password":"1234"};
   var _encode = Encoding.getByName("utf-8");
   
+  void _getStorage() {
+    network.getMobileToken();
+  }
+
   void  setDebugMessage(data) {
     setState(() {
       debugText = data;
@@ -37,18 +45,24 @@ class _AppStatus extends State<Session> {
   Future<dynamic> _logIn() async {
     final res = await network.post(_logInHost, body: _postData, encoding: _encode);
     print(res);
+    setDebugMessage(res['data']['id']);
     return res;
   }
 
-  Future<dynamic>  _logInfo() async {
-    final res = network.get(_logInfoHost);
-    print(res);
-    return res;
+  Future<Null>  _logInfo() async {
+    final res = await network.get(_logInfoHost);
+    if(res.isNotEmpty) {
+      var result = json.decode(res);
+      print(result['data']);
+      setDebugMessage(result['data']['id']);
+    }
+    // return res;
   }
 
-  Future<dynamic>  _logOut() async {
-    final res = network.get(_logOutHost);
-    print(res);
+  Future<dynamic> _logOut() async {
+    final res = await network.get(_logOutHost);
+    // print(res);
+    setDebugMessage(res['data']);
     return res;
   }
 
@@ -98,6 +112,28 @@ class _AppStatus extends State<Session> {
                   ),
                 ),
                 onPressed: () => _logOut(),
+              ),
+              RaisedButton(
+                child: Text(
+                  "Get Storage",
+                  style: TextStyle(
+                    color:Colors.deepOrange,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 18.0
+                  ),
+                ),
+                onPressed: () => _getStorage(),
+              ),
+              RaisedButton(
+                child: Text(
+                  "Move page",
+                  style: TextStyle(
+                    color:Colors.deepOrange,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 18.0
+                  ),
+                ),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Session_page())),
               ),
             ],
           ),
