@@ -21,8 +21,15 @@ class _AppStatus extends State<Session_page> {
   NetworkService network = new NetworkService();
   Cookie cookie = new Cookie();
 
-  void _getStorage() {
-    network.getMobileToken();
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   network.getMobileToken();
+  //   _logInfo();
+  // }
+
+  void _getStorage() async {
+    await network.getMobileToken();
   }
 
   void  setDebugMessage(data) {
@@ -32,6 +39,7 @@ class _AppStatus extends State<Session_page> {
   }
 
   Future<dynamic>  _logInfo() async {
+    
     var res = await network.get(_logInfoHost);
     if(res != null) {
       print(res['data']);
@@ -46,7 +54,7 @@ class _AppStatus extends State<Session_page> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text("DatePicker Example"),
+        title: new Text("Session other Page Example"),
       ),
       body: new Container(
         child: new Center(

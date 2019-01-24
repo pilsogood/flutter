@@ -32,8 +32,8 @@ class _AppStatus extends State<Session> {
   var _postData = {"id":"root", "password":"1234"};
   var _encode = Encoding.getByName("utf-8");
   
-  void _getStorage() {
-    network.getMobileToken();
+  void _getStorage() async {
+    await network.getMobileToken();
   }
 
   void  setDebugMessage(data) {
@@ -74,7 +74,7 @@ class _AppStatus extends State<Session> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: new Text("DatePicker Example"),
+        title: new Text("Session Example"),
       ),
       body: new Container(
         child: new Center(

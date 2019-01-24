@@ -124,11 +124,11 @@ class NetworkService {
     }
   }
 
-  Future<dynamic> get(String url) {
+  Future<dynamic> get(String url) async {
     
     var result = null;
 
-    _getMobileToken().then((value){
+    await _getMobileToken().then((value){
       print("header begin get: $value");
       headers['cookie'] = value;
     });
@@ -137,7 +137,7 @@ class NetworkService {
       final String res = response.body;
       final int statusCode = response.statusCode;
 
-      // print("result get : $res");
+      print("result get : $res");
       // _updateCookie(response);
 
       if (statusCode < 200 || statusCode > 400 || json == null || res.isEmpty || res == null) {
