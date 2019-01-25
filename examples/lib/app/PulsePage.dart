@@ -11,7 +11,7 @@ class SpritePainter extends CustomPainter {
     double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
     Color color = new Color.fromRGBO(0, 117, 194, opacity);
 
-    double size = rect.width / 2;
+    double size = rect.width / 2.5;
     double area = size * size;
     double radius = sqrt(area * value / 4);
 
@@ -75,15 +75,9 @@ class SpriteDemoState extends State<PulsePage>
       body: new CustomPaint(
         painter: new SpritePainter(_controller),
         child: Center(
-          child: Container(
-            width: 100.0,
-            height: 100.0,
-            child: SizedBox(
-              width: 100.0,
-              height: 100.0,
-              child: _profileImage(profileImage, 200.0, 200.0)
-            ),
-          ),
+          child: SizedBox.expand(
+            child: _profileImage(profileImage, 100.0, 100.0)
+          )
         ),
       ),
       floatingActionButton: new FloatingActionButton(

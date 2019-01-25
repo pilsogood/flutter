@@ -1,8 +1,14 @@
 import "package:flutter/material.dart";
+// import 'dart:async';
+// import 'dart:io';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter/services.dart';
+// import 'package:device_info/device_info.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:http/http.dart' as http;
 
-import 'utils/NetworkService.dart';
-import 'utils/SessionService.dart';
+import 'NetworkService.dart';
 
 import 'Session_page.dart';
 
@@ -13,15 +19,21 @@ class Session extends StatefulWidget {
 
 class _AppStatus extends State<Session> {
 
+
+  String debugText = '';
+
+  String _logInHost = "https://api.tripgrida.com/api/test/logIn";
+  String _logOutHost = "https://api.tripgrida.com/api/test/logOut";
+  String _logInfoHost = "https://api.tripgrida.com/api/test/logInfo";
+
   NetworkService network = new NetworkService();
-  SessionService session = new SessionService();
-  
-  var debugText = '';
-  var _sessionId = 'cookie';
+  Cookie cookie = new Cookie();
+
   var _postData = {"id":"root", "password":"1234"};
+  var _encode = Encoding.getByName("utf-8");
   
   void _getStorage() async {
-    await session.getToken(_sessionId);
+    await network.getMobileToken();
   }
 
   void  setDebugMessage(data) {
@@ -30,15 +42,15 @@ class _AppStatus extends State<Session> {
     });
   }
 
-  _logIn() async {
-    var res = await network.logIn(_postData);
+  Future<dynamic> _logIn() async {
+    var res = await network.post(_logInHost, body: _postData, encoding: _encode);
     print(res);
     setDebugMessage(res['data']['id']);
     return res;
   }
 
-  _logInfo() async {
-    var res = await network.logInfo();
+  Future<dynamic>  _logInfo() async {
+    var res = await network.get(_logInfoHost);
     if(res != null) {
       print(res['data']);
       setDebugMessage("info: ${res['data']['id']}");
@@ -47,8 +59,10 @@ class _AppStatus extends State<Session> {
     }
   }
 
-  _logOut() async {
-    var res = await network.logOut();
+  Future<dynamic> _logOut() async {
+    var res = await network.logOut(_logOutHost);
+    // var res = await network.get(_logOutHost);
+    // print(res);
     if(res != null) {
       setDebugMessage(res['data']);
       return res;
