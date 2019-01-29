@@ -31,6 +31,7 @@ import 'package:examples/app/Tr.dart';
 import 'package:examples/ui/OcrPage.dart';
 import 'package:examples/ui/swipe/swipe.dart';
 import 'package:examples/ui/ethereum/Web3.dart';
+import 'package:examples/ui/UiDesign.dart';
 
 import 'package:examples/app/Https.dart';
 import 'package:examples/app/Session.dart';
@@ -575,6 +576,15 @@ class AfterSplash extends StatelessWidget {
                     )
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Session())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('UI Design',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new UiDesign())),
                   ),
 
                   //   new FlatButton(
