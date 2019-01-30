@@ -14,6 +14,13 @@ class _MyHomePageState extends State<UiDesign> {
   // https://www.grabient.com/
   // https://webkul.github.io/coolhue/
 
+  /*
+  보라 : 250,178,255 / 25,4,229
+  
+  
+  
+   */
+
   // Color gradient1 = Color.fromRGBO(255, 197, 134, 1.0);
   // Color gradient2 = Color.fromRGBO(255, 197, 134, 1.0);
   // Color gradient3 = Color.fromRGBO(255, 89, 135, 0.9);

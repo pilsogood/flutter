@@ -33,6 +33,8 @@ import 'package:examples/ui/swipe/swipe.dart';
 import 'package:examples/ui/ethereum/Web3.dart';
 import 'package:examples/ui/UiDesign.dart';
 
+import 'package:examples/app/TextInput.dart';
+
 import 'package:examples/app/Https.dart';
 import 'package:examples/app/Session.dart';
 // import 'package:examples/app/Phoneauth.dart';
@@ -578,14 +580,6 @@ class AfterSplash extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new Session())),
                   ),
 
-                  new FlatButton(
-                    child: new Text('UI Design',
-                    style: new TextStyle(
-                      color: Colors.white
-                    )
-                    ),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new UiDesign())),
-                  ),
 
                   //   new FlatButton(
                   //   child: new Text('Phone Auth',
@@ -597,7 +591,29 @@ class AfterSplash extends StatelessWidget {
                   // ),
 
                 ],
-              )
+              ),
+              new Row(
+                children: <Widget>[
+                  new FlatButton(
+                    child: new Text('UI Design',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new UiDesign())),
+                  ),
+
+                  new FlatButton(
+                    child: new Text('TextField',
+                    style: new TextStyle(
+                      color: Colors.white
+                    )
+                    ),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new TextInput())),
+                  ),
+
+                ]
+              ),
 
             ],
           ),

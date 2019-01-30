@@ -1,8 +1,6 @@
 import "package:flutter/material.dart";
-import 'dart:convert';
-import 'NetworkService.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+import 'utils/NetworkService.dart';
+import 'utils/SessionService.dart';
 
 
 class Session_page extends StatefulWidget {
@@ -12,14 +10,11 @@ class Session_page extends StatefulWidget {
 
 class _AppStatus extends State<Session_page> {
 
-  String debugText = '';
-
-  String _logInHost = "https://api.tripgrida.com/api/test/logIn";
-  String _logOutHost = "https://api.tripgrida.com/api/test/logOut";
-  String _logInfoHost = "https://api.tripgrida.com/api/test/logInfo";
-
   NetworkService network = new NetworkService();
-  Cookie cookie = new Cookie();
+  SessionService session = new SessionService();
+  
+  var debugText = '';
+  var _sessionId = 'cookie';
 
   // @override
   // void initState(){
@@ -28,8 +23,8 @@ class _AppStatus extends State<Session_page> {
   //   _logInfo();
   // }
 
-  void _getStorage() async {
-    await network.getMobileToken();
+ void _getStorage() async {
+    await session.getToken(_sessionId);
   }
 
   void  setDebugMessage(data) {
@@ -37,10 +32,8 @@ class _AppStatus extends State<Session_page> {
       debugText = data;
     });
   }
-
-  Future<dynamic>  _logInfo() async {
-    
-    var res = await network.get(_logInfoHost);
+  _logInfo() async {
+    var res = await network.logInfo();
     if(res != null) {
       print(res['data']);
       setDebugMessage("info: ${res['data']['id']}");
@@ -48,7 +41,6 @@ class _AppStatus extends State<Session_page> {
       setDebugMessage("empty");
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
