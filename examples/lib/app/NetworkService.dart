@@ -12,7 +12,7 @@ class NetworkService {
   Future<bool> start() async {
     await Cookie.init();
     Cookie.localStorage.setString('userName','Bob');
-    print('User name is: ${Cookie.localStorage.getString('userName')}');  //prints 'Bob'
+    print('User name is: ${Cookie.localStorage.getString('userName')}');
   }
 
   final JsonDecoder _decoder = new JsonDecoder();
