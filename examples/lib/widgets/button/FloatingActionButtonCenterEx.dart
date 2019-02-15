@@ -16,7 +16,7 @@ class _AppStatus extends State<FloatingActionButtonCenterEx> {
         bottomNavigationBar: new BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 4.0,
-          hasNotch:true,
+          // hasNotch:true,
           color: Colors.red,
           child: new Row(
             mainAxisSize: MainAxisSize.max,
